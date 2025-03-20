@@ -47,7 +47,7 @@ namespace VibeCRM.Application.Features.QuoteStatus.Commands.CreateQuoteStatus
 
                 // Map command to entity
                 var quoteStatusEntity = _mapper.Map<Domain.Entities.TypeStatusEntities.QuoteStatus>(request);
-                
+
                 // Set audit fields
                 quoteStatusEntity.CreatedDate = DateTime.UtcNow;
                 quoteStatusEntity.ModifiedDate = DateTime.UtcNow;
@@ -55,7 +55,7 @@ namespace VibeCRM.Application.Features.QuoteStatus.Commands.CreateQuoteStatus
 
                 // Create quote status
                 var createdQuoteStatus = await _quoteStatusRepository.AddAsync(quoteStatusEntity, cancellationToken);
-                
+
                 // Map to DTO
                 var quoteStatusDto = _mapper.Map<QuoteStatusDto>(createdQuoteStatus);
 

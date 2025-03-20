@@ -1,5 +1,4 @@
 using MediatR;
-using System.Collections.Generic;
 using VibeCRM.Application.Features.PersonType.DTOs;
 
 namespace VibeCRM.Application.Features.PersonType.Queries.GetPersonTypeByOrdinalPosition

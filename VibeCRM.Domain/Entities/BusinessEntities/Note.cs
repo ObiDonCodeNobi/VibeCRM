@@ -13,7 +13,8 @@ namespace VibeCRM.Domain.Entities.BusinessEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Note"/> class.
         /// </summary>
-        public Note() { Companies = new HashSet<Company_Note>(); Persons = new HashSet<Person_Note>(); Id = Guid.NewGuid(); Subject = string.Empty; NoteText = string.Empty; }
+        public Note()
+        { Companies = new HashSet<Company_Note>(); Persons = new HashSet<Person_Note>(); Id = Guid.NewGuid(); Subject = string.Empty; NoteText = string.Empty; }
 
         /// <summary>
         /// Gets or sets the note identifier that directly maps to the NoteId database column

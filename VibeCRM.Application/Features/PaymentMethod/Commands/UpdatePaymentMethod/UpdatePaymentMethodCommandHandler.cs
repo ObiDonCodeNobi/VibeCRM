@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -59,7 +56,7 @@ namespace VibeCRM.Application.Features.PaymentMethod.Commands.UpdatePaymentMetho
                 existingEntity.Description = request.Description;
                 existingEntity.OrdinalPosition = request.OrdinalPosition;
                 existingEntity.ModifiedBy = request.ModifiedBy;
-                
+
                 await _paymentMethodRepository.UpdateAsync(existingEntity, cancellationToken);
                 _logger.LogInformation("Successfully updated payment method with ID: {Id}", request.Id);
 

@@ -36,6 +36,7 @@ namespace VibeCRM.Application.Features.Call.DTOs
         /// </summary>
         public int Duration { get; set; }
 
-        public CallDto() { Description = string.Empty; }
+        public CallDto()
+        { Description = string.Empty; }
     }
 }

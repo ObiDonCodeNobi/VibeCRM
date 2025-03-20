@@ -1,4 +1,3 @@
-using System;
 using MediatR;
 using VibeCRM.Application.Features.ServiceType.DTOs;
 

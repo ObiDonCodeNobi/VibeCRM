@@ -198,7 +198,7 @@ namespace VibeCRM.Infrastructure.Repositories.TypeStatus
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error adding {EntityType} with ID {EntityId}: {ErrorMessage}", 
+                _logger.LogError(ex, "Error adding {EntityType} with ID {EntityId}: {ErrorMessage}",
                     nameof(QuoteStatus), entity.Id, ex.Message);
                 throw;
             }
@@ -259,7 +259,7 @@ namespace VibeCRM.Infrastructure.Repositories.TypeStatus
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating {EntityType} with ID {EntityId}: {ErrorMessage}", 
+                _logger.LogError(ex, "Error updating {EntityType} with ID {EntityId}: {ErrorMessage}",
                     nameof(QuoteStatus), entity.Id, ex.Message);
                 throw;
             }

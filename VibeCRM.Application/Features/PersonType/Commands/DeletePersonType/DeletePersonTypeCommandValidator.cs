@@ -1,7 +1,4 @@
 using FluentValidation;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
 namespace VibeCRM.Application.Features.PersonType.Commands.DeletePersonType

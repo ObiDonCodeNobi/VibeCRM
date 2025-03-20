@@ -1,5 +1,3 @@
-using System;
-
 namespace VibeCRM.Application.Features.QuoteStatus.DTOs
 {
     /// <summary>

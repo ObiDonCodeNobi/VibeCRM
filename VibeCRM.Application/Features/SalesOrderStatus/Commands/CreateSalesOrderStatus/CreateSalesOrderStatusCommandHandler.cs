@@ -47,7 +47,7 @@ namespace VibeCRM.Application.Features.SalesOrderStatus.Commands.CreateSalesOrde
 
                 // Map command to entity
                 var salesOrderStatusEntity = _mapper.Map<Domain.Entities.TypeStatusEntities.SalesOrderStatus>(request);
-                
+
                 // Set audit fields
                 salesOrderStatusEntity.CreatedDate = DateTime.UtcNow;
                 salesOrderStatusEntity.ModifiedDate = DateTime.UtcNow;

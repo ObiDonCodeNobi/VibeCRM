@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Company.Commands.CreateCompany;
 using VibeCRM.Application.Features.Company.Commands.DeleteCompany;
@@ -40,9 +38,9 @@ public class CompanyController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateCompanyCommand command)
     {
         _logger.LogInformation("Creating new Company with Name: {Name}", command.Name);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Company created successfully"));
     }
 
@@ -64,9 +62,9 @@ public class CompanyController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Company with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Company updated successfully"));
     }
 
@@ -81,14 +79,14 @@ public class CompanyController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Company with ID: {Id}", id);
-        
-        var command = new DeleteCompanyCommand 
-        { 
+
+        var command = new DeleteCompanyCommand
+        {
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Company deleted successfully"));
     }
 
@@ -103,15 +101,15 @@ public class CompanyController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Company with ID: {Id}", id);
-        
+
         var query = new GetCompanyByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<CompanyDto>($"Company with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -124,10 +122,10 @@ public class CompanyController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Companies");
-        
+
         var query = new GetAllCompaniesQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 }

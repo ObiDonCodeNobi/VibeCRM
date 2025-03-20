@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Team.Commands.CreateTeam;
 using VibeCRM.Application.Features.Team.Commands.DeleteTeam;
@@ -42,9 +40,9 @@ public class TeamController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateTeamCommand command)
     {
         _logger.LogInformation("Creating new Team with Name: {Name}", command.Name);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Team created successfully"));
     }
 
@@ -66,9 +64,9 @@ public class TeamController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Team with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Team updated successfully"));
     }
 
@@ -83,14 +81,14 @@ public class TeamController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Team with ID: {Id}", id);
-        
-        var command = new DeleteTeamCommand 
-        { 
+
+        var command = new DeleteTeamCommand
+        {
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Team deleted successfully"));
     }
 
@@ -105,15 +103,15 @@ public class TeamController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Team with ID: {Id}", id);
-        
+
         var query = new GetTeamByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<TeamDto>($"Team with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -126,10 +124,10 @@ public class TeamController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Teams");
-        
+
         var query = new GetAllTeamsQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -144,15 +142,15 @@ public class TeamController : ApiControllerBase
     public async Task<IActionResult> GetByName([FromQuery] string name)
     {
         _logger.LogInformation("Getting Team with Name: {Name}", name);
-        
+
         var query = new GetTeamByNameQuery { Name = name };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<TeamDto>($"Team with Name {name} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -166,10 +164,10 @@ public class TeamController : ApiControllerBase
     public async Task<IActionResult> GetByUserId(Guid userId)
     {
         _logger.LogInformation("Getting Teams for User ID: {UserId}", userId);
-        
+
         var query = new GetTeamsByUserIdQuery { UserId = userId };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 }

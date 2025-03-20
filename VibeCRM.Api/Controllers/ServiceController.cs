@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Service.Commands.CreateService;
 using VibeCRM.Application.Features.Service.Commands.DeleteService;
@@ -42,9 +40,9 @@ public class ServiceController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateServiceCommand command)
     {
         _logger.LogInformation("Creating new Service with Name: {Name}", command.Name);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Service created successfully"));
     }
 
@@ -66,9 +64,9 @@ public class ServiceController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Service with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Service updated successfully"));
     }
 
@@ -83,10 +81,10 @@ public class ServiceController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Service with ID: {Id}", id);
-        
+
         var command = new DeleteServiceCommand(id, Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString()));
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Service deleted successfully"));
     }
 
@@ -101,15 +99,15 @@ public class ServiceController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Service with ID: {Id}", id);
-        
+
         var query = new GetServiceByIdQuery(id);
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<ServiceDto>($"Service with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -124,15 +122,15 @@ public class ServiceController : ApiControllerBase
     public async Task<IActionResult> GetByIdWithRelations(Guid id)
     {
         _logger.LogInformation("Getting Service with related entities for ID: {Id}", id);
-        
+
         var query = new GetServiceByIdWithRelatedEntitiesQuery { Id = id };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<ServiceDetailsDto>($"Service with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -145,10 +143,10 @@ public class ServiceController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Services");
-        
+
         var query = new GetAllServicesQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -161,10 +159,10 @@ public class ServiceController : ApiControllerBase
     public async Task<IActionResult> GetAllWithRelations()
     {
         _logger.LogInformation("Getting all Services with related entities");
-        
+
         var query = new GetAllServicesWithRelatedEntitiesQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 }

@@ -1,10 +1,6 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.NoteType.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
 namespace VibeCRM.Application.Features.NoteType.Commands.UpdateNoteType
@@ -60,7 +56,7 @@ namespace VibeCRM.Application.Features.NoteType.Commands.UpdateNoteType
                 existingEntity.Description = request.Description;
                 existingEntity.OrdinalPosition = request.OrdinalPosition;
                 existingEntity.ModifiedBy = Guid.Parse(request.ModifiedBy);
-                
+
                 await _noteTypeRepository.UpdateAsync(existingEntity, cancellationToken);
                 _logger.LogInformation("Successfully updated note type with ID: {Id}", request.Id);
 

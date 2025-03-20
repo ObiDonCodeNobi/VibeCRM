@@ -6,8 +6,6 @@ using VibeCRM.Application.Features.SalesOrderLineItem_Service.DTOs;
 using VibeCRM.Application.Features.Service.Commands.CreateService;
 using VibeCRM.Application.Features.Service.Commands.UpdateService;
 using VibeCRM.Application.Features.Service.DTOs;
-using VibeCRM.Domain.Entities.BusinessEntities;
-using VibeCRM.Domain.Entities.JunctionEntities;
 
 namespace VibeCRM.Application.Features.Service.Mappings
 {

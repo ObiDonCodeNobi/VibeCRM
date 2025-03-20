@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Role.Commands.CreateRole;
 using VibeCRM.Application.Features.Role.Commands.DeleteRole;
@@ -42,9 +40,9 @@ public class RoleController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateRoleCommand command)
     {
         _logger.LogInformation("Creating new Role with Name: {Name}", command.Name);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Role created successfully"));
     }
 
@@ -66,9 +64,9 @@ public class RoleController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Role with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Role updated successfully"));
     }
 
@@ -83,14 +81,14 @@ public class RoleController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Role with ID: {Id}", id);
-        
-        var command = new DeleteRoleCommand 
-        { 
+
+        var command = new DeleteRoleCommand
+        {
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Role deleted successfully"));
     }
 
@@ -105,15 +103,15 @@ public class RoleController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Role with ID: {Id}", id);
-        
+
         var query = new GetRoleByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<RoleDto>($"Role with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -126,10 +124,10 @@ public class RoleController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Roles");
-        
+
         var query = new GetAllRolesQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -144,15 +142,15 @@ public class RoleController : ApiControllerBase
     public async Task<IActionResult> GetByName([FromQuery] string name)
     {
         _logger.LogInformation("Getting Role with Name: {Name}", name);
-        
+
         var query = new GetRoleByNameQuery { Name = name };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<RoleDto>($"Role with Name {name} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -166,10 +164,10 @@ public class RoleController : ApiControllerBase
     public async Task<IActionResult> GetByUserId(Guid userId)
     {
         _logger.LogInformation("Getting Roles for User ID: {UserId}", userId);
-        
+
         var query = new GetRolesByUserIdQuery { UserId = userId };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 }

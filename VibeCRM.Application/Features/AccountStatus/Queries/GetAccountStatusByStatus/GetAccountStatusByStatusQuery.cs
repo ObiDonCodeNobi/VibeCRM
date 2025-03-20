@@ -14,6 +14,7 @@ namespace VibeCRM.Application.Features.AccountStatus.Queries.GetAccountStatusByS
         /// </summary>
         public string Status { get; set; }
 
-        public GetAccountStatusByStatusQuery() { Status = string.Empty; }
+        public GetAccountStatusByStatusQuery()
+        { Status = string.Empty; }
     }
 }

@@ -56,7 +56,7 @@ namespace VibeCRM.Application.Features.Quote.Queries.GetQuotesByCompany
                     {
                         await _quoteRepository.LoadQuoteStatusAsync(quote, cancellationToken);
                     }
-                    
+
                     // Load the line items for calculating the total amount and line item count
                     await _quoteRepository.LoadLineItemsAsync(quote, cancellationToken);
                 }

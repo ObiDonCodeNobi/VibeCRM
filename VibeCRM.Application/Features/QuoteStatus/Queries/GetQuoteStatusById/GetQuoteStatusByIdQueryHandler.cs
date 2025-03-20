@@ -48,7 +48,7 @@ namespace VibeCRM.Application.Features.QuoteStatus.Queries.GetQuoteStatusById
 
                 // Get quote status by ID
                 var quoteStatus = await _quoteStatusRepository.GetByIdAsync(request.Id, cancellationToken);
-                
+
                 if (quoteStatus == null)
                 {
                     _logger.LogError("Quote status with ID {QuoteStatusId} not found", request.Id);

@@ -48,7 +48,7 @@ namespace VibeCRM.Application.Features.ProductType.Queries.GetDefaultProductType
 
                 // Get default product type
                 var defaultProductType = await _productTypeRepository.GetDefaultAsync(cancellationToken);
-                
+
                 if (defaultProductType == null)
                 {
                     _logger.LogError("Default product type not found");

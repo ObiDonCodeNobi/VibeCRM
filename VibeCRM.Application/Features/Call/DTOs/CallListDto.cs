@@ -31,11 +31,11 @@ namespace VibeCRM.Application.Features.Call.DTOs
         /// </summary>
         public DateTime CreatedDate { get; set; }
 
-        public CallListDto() 
-        { 
-            TypeName = string.Empty; 
-            StatusName = string.Empty; 
-            DirectionName = string.Empty; 
+        public CallListDto()
+        {
+            TypeName = string.Empty;
+            StatusName = string.Empty;
+            DirectionName = string.Empty;
         }
     }
 }

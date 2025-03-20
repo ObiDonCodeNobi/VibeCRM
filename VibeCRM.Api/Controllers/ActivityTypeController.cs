@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.ActivityType.Commands.CreateActivityType;
 using VibeCRM.Application.Features.ActivityType.Commands.DeleteActivityType;
@@ -43,9 +41,9 @@ public class ActivityTypeController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateActivityTypeCommand command)
     {
         _logger.LogInformation("Creating new Activity Type with Type: {Type}", command.Type);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Activity Type created successfully"));
     }
 
@@ -67,9 +65,9 @@ public class ActivityTypeController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Activity Type with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Activity Type updated successfully"));
     }
 
@@ -84,10 +82,10 @@ public class ActivityTypeController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Activity Type with ID: {Id}", id);
-        
+
         var command = new DeleteActivityTypeCommand { Id = id };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Activity Type deleted successfully"));
     }
 
@@ -102,15 +100,15 @@ public class ActivityTypeController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Activity Type with ID: {Id}", id);
-        
+
         var query = new GetActivityTypeByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<ActivityTypeDto>($"Activity Type with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -123,10 +121,10 @@ public class ActivityTypeController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Activity Types");
-        
+
         var query = new GetAllActivityTypesQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -140,10 +138,10 @@ public class ActivityTypeController : ApiControllerBase
     public async Task<IActionResult> GetByType(string type)
     {
         _logger.LogInformation("Getting Activity Types with Type: {Type}", type);
-        
+
         var query = new GetActivityTypeByTypeQuery { Type = type };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -157,10 +155,10 @@ public class ActivityTypeController : ApiControllerBase
     public async Task<IActionResult> GetByOrdinalPosition(int position)
     {
         _logger.LogInformation("Getting Activity Types with Ordinal Position: {Position}", position);
-        
+
         var query = new GetActivityTypeByOrdinalPositionQuery { OrdinalPosition = position };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -174,15 +172,15 @@ public class ActivityTypeController : ApiControllerBase
     public async Task<IActionResult> GetDefault()
     {
         _logger.LogInformation("Getting default Activity Type");
-        
+
         var query = new GetDefaultActivityTypeQuery();
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<ActivityTypeDto>("Default Activity Type not found");
         }
-        
+
         return Ok(Success(result));
     }
 }

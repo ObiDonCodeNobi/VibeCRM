@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.SalesOrder.Commands.CreateSalesOrder;
 using VibeCRM.Application.Features.SalesOrder.Commands.DeleteSalesOrder;
@@ -45,9 +43,9 @@ public class SalesOrderController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateSalesOrderCommand command)
     {
         _logger.LogInformation("Creating new Sales Order with Number: {Number}", command.Number);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Sales Order created successfully"));
     }
 
@@ -69,9 +67,9 @@ public class SalesOrderController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Sales Order with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Sales Order updated successfully"));
     }
 
@@ -86,14 +84,14 @@ public class SalesOrderController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Sales Order with ID: {Id}", id);
-        
-        var command = new DeleteSalesOrderCommand 
-        { 
+
+        var command = new DeleteSalesOrderCommand
+        {
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Sales Order deleted successfully"));
     }
 
@@ -108,15 +106,15 @@ public class SalesOrderController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Sales Order with ID: {Id}", id);
-        
+
         var query = new GetSalesOrderByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<SalesOrderDetailsDto>($"Sales Order with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -129,10 +127,10 @@ public class SalesOrderController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Sales Orders");
-        
+
         var query = new GetAllSalesOrdersQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -146,10 +144,10 @@ public class SalesOrderController : ApiControllerBase
     public async Task<IActionResult> GetByCompany(Guid companyId)
     {
         _logger.LogInformation("Getting Sales Orders for Company ID: {CompanyId}", companyId);
-        
+
         var query = new GetSalesOrderByCompanyQuery { CompanyId = companyId };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -163,10 +161,10 @@ public class SalesOrderController : ApiControllerBase
     public async Task<IActionResult> GetByActivity(Guid activityId)
     {
         _logger.LogInformation("Getting Sales Orders for Activity ID: {ActivityId}", activityId);
-        
+
         var query = new GetSalesOrderByActivityQuery { ActivityId = activityId };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -180,10 +178,10 @@ public class SalesOrderController : ApiControllerBase
     public async Task<IActionResult> GetByQuote(Guid quoteId)
     {
         _logger.LogInformation("Getting Sales Orders for Quote ID: {QuoteId}", quoteId);
-        
+
         var query = new GetSalesOrderByQuoteQuery { QuoteId = quoteId };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -197,10 +195,10 @@ public class SalesOrderController : ApiControllerBase
     public async Task<IActionResult> GetByNumber(string number)
     {
         _logger.LogInformation("Getting Sales Orders with Number: {Number}", number);
-        
+
         var query = new GetSalesOrderByNumberQuery { Number = number };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -221,10 +219,10 @@ public class SalesOrderController : ApiControllerBase
         }
 
         _logger.LogInformation("Getting Sales Orders between {StartDate} and {EndDate}", startDate, endDate);
-        
+
         var query = new GetSalesOrderByOrderDateRangeQuery { StartDate = startDate, EndDate = endDate };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 }

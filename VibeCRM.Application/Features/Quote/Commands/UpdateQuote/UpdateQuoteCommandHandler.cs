@@ -68,7 +68,7 @@ namespace VibeCRM.Application.Features.Quote.Commands.UpdateQuote
                 {
                     await _quoteRepository.LoadQuoteStatusAsync(updatedQuote, cancellationToken);
                 }
-                
+
                 await _quoteRepository.LoadLineItemsAsync(updatedQuote, cancellationToken);
                 await _quoteRepository.LoadSalesOrdersAsync(updatedQuote, cancellationToken);
 

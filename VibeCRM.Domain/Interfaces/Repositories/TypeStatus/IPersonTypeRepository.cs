@@ -28,7 +28,7 @@ namespace VibeCRM.Domain.Interfaces.Repositories.TypeStatus
         /// <param name="cancellationToken">A token to cancel the operation if needed</param>
         /// <returns>The default person type or null if not found</returns>
         Task<PersonType?> GetDefaultAsync(CancellationToken cancellationToken = default);
-        
+
         /// <summary>
         /// Deletes a person type by its ID (soft delete) with the specified modifier
         /// </summary>

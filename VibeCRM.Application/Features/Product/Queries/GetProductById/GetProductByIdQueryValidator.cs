@@ -1,5 +1,4 @@
 using FluentValidation;
-using System;
 
 namespace VibeCRM.Application.Features.Product.Queries.GetProductById
 {

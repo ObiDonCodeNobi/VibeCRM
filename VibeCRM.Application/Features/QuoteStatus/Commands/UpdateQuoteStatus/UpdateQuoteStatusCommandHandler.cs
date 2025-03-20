@@ -48,7 +48,7 @@ namespace VibeCRM.Application.Features.QuoteStatus.Commands.UpdateQuoteStatus
 
                 // Get existing quote status
                 var existingQuoteStatus = await _quoteStatusRepository.GetByIdAsync(request.Id, cancellationToken);
-                
+
                 if (existingQuoteStatus == null)
                 {
                     _logger.LogError("Quote status with ID {QuoteStatusId} not found", request.Id);
@@ -57,13 +57,13 @@ namespace VibeCRM.Application.Features.QuoteStatus.Commands.UpdateQuoteStatus
 
                 // Update properties
                 _mapper.Map(request, existingQuoteStatus);
-                
+
                 // Update audit fields
                 existingQuoteStatus.ModifiedDate = DateTime.UtcNow;
 
                 // Update quote status
                 var updatedQuoteStatus = await _quoteStatusRepository.UpdateAsync(existingQuoteStatus, cancellationToken);
-                
+
                 // Map to DTO
                 var quoteStatusDto = _mapper.Map<QuoteStatusDto>(updatedQuoteStatus);
 

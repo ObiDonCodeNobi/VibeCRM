@@ -48,7 +48,7 @@ namespace VibeCRM.Application.Features.SalesOrderStatus.Queries.GetSalesOrderSta
 
                 // Get sales order status by ID
                 var salesOrderStatus = await _salesOrderStatusRepository.GetByIdAsync(request.Id, cancellationToken);
-                
+
                 if (salesOrderStatus == null)
                 {
                     _logger.LogError("Sales order status with ID {SalesOrderStatusId} not found", request.Id);

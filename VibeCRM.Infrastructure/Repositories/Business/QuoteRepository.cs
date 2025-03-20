@@ -123,7 +123,7 @@ namespace VibeCRM.Infrastructure.Repositories.Business
 
             const string sql = @"
                 SELECT
-                    QuoteStatusId, Status, Description, OrdinalPosition, 
+                    QuoteStatusId, Status, Description, OrdinalPosition,
                     CreatedBy, CreatedDate, ModifiedBy, ModifiedDate, Active
                 FROM QuoteStatus
                 WHERE QuoteStatusId = @StatusId AND Active = 1";

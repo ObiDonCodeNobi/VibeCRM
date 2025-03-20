@@ -1,5 +1,4 @@
 using FluentValidation;
-using VibeCRM.Application.Features.PaymentMethod.Queries.GetPaymentMethodByOrdinalPosition;
 
 namespace VibeCRM.Application.Features.PaymentMethod.Queries.GetPaymentMethodByOrdinalPosition
 {
