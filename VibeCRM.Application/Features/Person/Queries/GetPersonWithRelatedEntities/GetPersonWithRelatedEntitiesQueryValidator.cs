@@ -31,8 +31,8 @@ namespace VibeCRM.Application.Features.Person.Queries.GetPersonWithRelatedEntiti
                 query.LoadNotes,
                 query.LoadCalls
             })
-            .Must(x => x.LoadCompanies || x.LoadAddresses || x.LoadPhoneNumbers ||
-                       x.LoadEmailAddresses || x.LoadActivities || x.LoadAttachments ||
+            .Must(x => x.LoadCompanies || x.LoadAddresses || x.LoadPhoneNumbers || 
+                       x.LoadEmailAddresses || x.LoadActivities || x.LoadAttachments || 
                        x.LoadNotes || x.LoadCalls)
             .WithMessage("At least one related entity must be requested to load.");
         }

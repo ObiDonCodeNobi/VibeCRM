@@ -1,9 +1,9 @@
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using VibeCRM.Application.Common.Interfaces.Services;
 using VibeCRM.Application.Common.Models.Authentication;
 
@@ -25,11 +25,11 @@ public class JwtService : IJwtService
     public JwtService(IOptions<JwtSettings> jwtSettings)
     {
         _jwtSettings = jwtSettings.Value;
-
+        
         var key = Encoding.UTF8.GetBytes(_jwtSettings.SecretKey);
         var securityKey = new SymmetricSecurityKey(key);
         _signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+        
         _tokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -88,15 +88,15 @@ public class JwtService : IJwtService
             return null;
 
         var tokenHandler = new JwtSecurityTokenHandler();
-
+        
         try
         {
             var parameters = _tokenValidationParameters.Clone();
             parameters.ValidateLifetime = validateLifetime;
-
+            
             var principal = tokenHandler.ValidateToken(token, parameters, out var validatedToken);
-
-            if (validatedToken is not JwtSecurityToken jwtSecurityToken ||
+            
+            if (validatedToken is not JwtSecurityToken jwtSecurityToken || 
                 !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
             {
                 return null;

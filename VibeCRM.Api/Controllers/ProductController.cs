@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Product.Commands.CreateProduct;
 using VibeCRM.Application.Features.Product.Commands.DeleteProduct;
@@ -40,9 +42,9 @@ public class ProductController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
     {
         _logger.LogInformation("Creating new Product with Name: {Name}", command.Name);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Product created successfully"));
     }
 
@@ -64,9 +66,9 @@ public class ProductController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Product with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Product updated successfully"));
     }
 
@@ -81,14 +83,14 @@ public class ProductController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Product with ID: {Id}", id);
-
-        var command = new DeleteProductCommand
-        {
+        
+        var command = new DeleteProductCommand 
+        { 
             ProductId = id,
             DeletedBy = User.Identity?.Name ?? string.Empty
         };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Product deleted successfully"));
     }
 
@@ -103,15 +105,15 @@ public class ProductController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Product with ID: {Id}", id);
-
+        
         var query = new GetProductByIdQuery { ProductId = id };
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<ProductDetailsDto>($"Product with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -124,10 +126,10 @@ public class ProductController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Products");
-
+        
         var query = new GetAllProductsQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -141,10 +143,10 @@ public class ProductController : ApiControllerBase
     public async Task<IActionResult> GetByProductType(Guid productTypeId)
     {
         _logger.LogInformation("Getting Products by Product Type ID: {ProductTypeId}", productTypeId);
-
+        
         var query = new GetProductsByProductTypeQuery { ProductTypeId = productTypeId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -158,10 +160,10 @@ public class ProductController : ApiControllerBase
     public async Task<IActionResult> GetByProductGroup(Guid productGroupId)
     {
         _logger.LogInformation("Getting Products by Product Group ID: {ProductGroupId}", productGroupId);
-
+        
         var query = new GetProductsByProductGroupQuery { ProductGroupId = productGroupId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

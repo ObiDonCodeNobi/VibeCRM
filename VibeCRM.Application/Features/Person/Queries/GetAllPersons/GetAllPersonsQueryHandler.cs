@@ -82,13 +82,13 @@ namespace VibeCRM.Application.Features.Person.Queries.GetAllPersons
                 {
                     // Load companies to determine primary company
                     await _personRepository.LoadCompaniesAsync(person, cancellationToken);
-
+                    
                     // Load email addresses to determine primary email
                     await _personRepository.LoadEmailAddressesAsync(person, cancellationToken);
-
+                    
                     // Load phone numbers to determine primary phone
                     await _personRepository.LoadPhoneNumbersAsync(person, cancellationToken);
-
+                    
                     // Load addresses to determine primary address
                     await _personRepository.LoadAddressesAsync(person, cancellationToken);
                 }
@@ -101,13 +101,13 @@ namespace VibeCRM.Application.Features.Person.Queries.GetAllPersons
                 {
                     // Set primary company name
                     personDto.PrimaryCompanyName = person.Companies?.FirstOrDefault()?.Company?.Name ?? string.Empty;
-
+                    
                     // Set primary email
                     personDto.PrimaryEmail = person.EmailAddresses?.FirstOrDefault()?.EmailAddress?.Address ?? string.Empty;
-
+                    
                     // Set primary phone
                     personDto.PrimaryPhone = person.PhoneNumbers?.FirstOrDefault()?.Phone?.FormattedPhoneNumber ?? string.Empty;
-
+                    
                     // Set primary address
                     var primaryAddress = person.Addresses?.FirstOrDefault()?.Address;
                     if (primaryAddress != null)

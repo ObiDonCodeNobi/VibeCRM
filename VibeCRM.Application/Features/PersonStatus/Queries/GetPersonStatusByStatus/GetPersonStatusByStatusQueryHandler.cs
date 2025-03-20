@@ -1,6 +1,11 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using VibeCRM.Application.Features.PersonStatus.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
@@ -66,14 +71,14 @@ namespace VibeCRM.Application.Features.PersonStatus.Queries.GetPersonStatusBySta
                     dto.PeopleCount = 0;
                 }
 
-                _logger.LogInformation("Successfully retrieved {Count} person statuses with status name: {Status}",
+                _logger.LogInformation("Successfully retrieved {Count} person statuses with status name: {Status}", 
                     personStatusDtos.Count(), request.Status);
 
                 return personStatusDtos;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while retrieving person statuses with status name: {Status}. Error: {ErrorMessage}",
+                _logger.LogError(ex, "Error occurred while retrieving person statuses with status name: {Status}. Error: {ErrorMessage}", 
                     request.Status, ex.Message);
                 throw;
             }

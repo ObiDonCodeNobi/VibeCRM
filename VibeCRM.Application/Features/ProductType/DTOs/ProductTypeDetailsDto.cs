@@ -1,3 +1,5 @@
+using System;
+
 namespace VibeCRM.Application.Features.ProductType.DTOs
 {
     /// <summary>

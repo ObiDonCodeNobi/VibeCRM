@@ -48,7 +48,7 @@ namespace VibeCRM.Application.Features.PhoneType.Queries.GetDefaultPhoneType
 
                 // Get default phone type from repository
                 var defaultPhoneType = await _phoneTypeRepository.GetDefaultAsync(cancellationToken);
-
+                
                 if (defaultPhoneType == null)
                 {
                     _logger.LogError("No default phone type found in the system");

@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -53,10 +56,10 @@ namespace VibeCRM.Application.Features.PaymentMethod.Commands.DeletePaymentMetho
 
                 // Set the ModifiedBy before deleting
                 existingEntity.ModifiedBy = request.ModifiedBy;
-
+                
                 // This will perform a soft delete by setting Active = false
                 await _paymentMethodRepository.DeleteAsync(request.Id, cancellationToken);
-
+                
                 _logger.LogInformation("Successfully deleted payment method with ID: {Id}", request.Id);
                 return true;
             }

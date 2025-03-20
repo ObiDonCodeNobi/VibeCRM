@@ -48,10 +48,10 @@ namespace VibeCRM.Application.Features.ProductType.Queries.GetProductTypeByOrdin
 
                 // Get product types ordered by ordinal position
                 var productTypes = await _productTypeRepository.GetByOrdinalPositionAsync(cancellationToken);
-
+                
                 // Find the product type with the requested ordinal position
                 var productType = productTypes.FirstOrDefault(pt => pt.OrdinalPosition == request.OrdinalPosition);
-
+                
                 if (productType == null)
                 {
                     _logger.LogError("Product type with ordinal position: {OrdinalPosition} not found", request.OrdinalPosition);

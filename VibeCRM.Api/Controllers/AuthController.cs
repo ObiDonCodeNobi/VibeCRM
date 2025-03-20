@@ -1,6 +1,8 @@
+using System.Security.Claims;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Interfaces.Services;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Common.Models.Authentication;
@@ -41,7 +43,7 @@ public class AuthController : ControllerBase
     {
         // TODO: Implement actual user authentication against database
         // This is a placeholder implementation for demonstration purposes
-
+        
         // For demo purposes, accept any username with password "password"
         if (request.Password != "password")
         {
@@ -101,7 +103,7 @@ public class AuthController : ControllerBase
     {
         // Validate the JWT token without checking its expiration
         var principal = _jwtService.ValidateToken(request.Token, validateLifetime: false);
-
+        
         if (principal == null)
         {
             return Unauthorized(new ApiResponse<object>
@@ -113,7 +115,7 @@ public class AuthController : ControllerBase
 
         // TODO: Validate the refresh token against the database
         // This is a placeholder implementation
-
+        
         var username = principal.Identity?.Name;
         if (string.IsNullOrEmpty(username))
         {

@@ -48,10 +48,10 @@ namespace VibeCRM.Application.Features.ProductType.Queries.GetProductTypeByType
 
                 // Get product types by type name
                 var productTypes = await _productTypeRepository.GetByTypeAsync(request.Type, cancellationToken);
-
+                
                 // Get the first product type with the requested type name
                 var productType = productTypes.FirstOrDefault();
-
+                
                 if (productType == null)
                 {
                     _logger.LogError("Product type with type name: {TypeName} not found", request.Type);

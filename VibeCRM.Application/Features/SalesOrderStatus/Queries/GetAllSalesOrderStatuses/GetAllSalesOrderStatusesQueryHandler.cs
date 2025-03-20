@@ -47,7 +47,7 @@ namespace VibeCRM.Application.Features.SalesOrderStatus.Queries.GetAllSalesOrder
 
                 // Get all active sales order statuses
                 var salesOrderStatuses = await _salesOrderStatusRepository.GetAllAsync(cancellationToken);
-
+                
                 // Map to DTOs
                 var salesOrderStatusDtos = _mapper.Map<IEnumerable<SalesOrderStatusListDto>>(salesOrderStatuses);
 

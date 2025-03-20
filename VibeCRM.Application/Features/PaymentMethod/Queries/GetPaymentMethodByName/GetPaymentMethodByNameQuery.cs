@@ -1,4 +1,5 @@
 using MediatR;
+using System.Collections.Generic;
 using VibeCRM.Application.Features.PaymentMethod.DTOs;
 
 namespace VibeCRM.Application.Features.PaymentMethod.Queries.GetPaymentMethodByName

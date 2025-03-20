@@ -1,5 +1,8 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
 namespace VibeCRM.Application.Features.PersonStatus.Commands.DeletePersonStatus
@@ -62,7 +65,7 @@ namespace VibeCRM.Application.Features.PersonStatus.Commands.DeletePersonStatus
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while soft deleting person status with ID: {PersonStatusId}. Error: {ErrorMessage}",
+                _logger.LogError(ex, "Error occurred while soft deleting person status with ID: {PersonStatusId}. Error: {ErrorMessage}", 
                     request.Id, ex.Message);
                 throw;
             }

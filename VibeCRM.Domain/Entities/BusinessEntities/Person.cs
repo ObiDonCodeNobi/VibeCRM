@@ -12,21 +12,21 @@ namespace VibeCRM.Domain.Entities.BusinessEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Person"/> class.
         /// </summary>
-        public Person()
-        {
-            Companies = new HashSet<Company_Person>();
-            Addresses = new HashSet<Person_Address>();
-            PhoneNumbers = new HashSet<Person_Phone>();
-            EmailAddresses = new HashSet<Person_EmailAddress>();
-            Activities = new HashSet<Person_Activity>();
-            Attachments = new HashSet<Person_Attachment>();
-            PersonNotes = new HashSet<Person_Note>();
-            Calls = new HashSet<Person_Call>();
-            Id = Guid.NewGuid();
-            Firstname = string.Empty;
-            MiddleInitial = string.Empty;
-            Lastname = string.Empty;
-            Title = string.Empty;
+        public Person() 
+        { 
+            Companies = new HashSet<Company_Person>(); 
+            Addresses = new HashSet<Person_Address>(); 
+            PhoneNumbers = new HashSet<Person_Phone>(); 
+            EmailAddresses = new HashSet<Person_EmailAddress>(); 
+            Activities = new HashSet<Person_Activity>(); 
+            Attachments = new HashSet<Person_Attachment>(); 
+            PersonNotes = new HashSet<Person_Note>(); 
+            Calls = new HashSet<Person_Call>(); 
+            Id = Guid.NewGuid(); 
+            Firstname = string.Empty; 
+            MiddleInitial = string.Empty; 
+            Lastname = string.Empty; 
+            Title = string.Empty; 
         }
 
         /// <summary>

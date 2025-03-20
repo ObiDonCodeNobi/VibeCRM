@@ -1,4 +1,6 @@
 using MediatR;
+using System;
+using System.Collections.Generic;
 using VibeCRM.Application.Features.Product.DTOs;
 
 namespace VibeCRM.Application.Features.Product.Queries.GetProductsByProductGroup

@@ -1,6 +1,11 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using VibeCRM.Application.Features.Product.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
 
@@ -71,7 +76,7 @@ namespace VibeCRM.Application.Features.Product.Queries.GetProductsByProductGroup
                 await _productRepository.LoadProductGroupsAsync(product, cancellationToken);
             }
 
-            _logger.LogInformation("Successfully retrieved {Count} products for product group ID: {ProductGroupId}",
+            _logger.LogInformation("Successfully retrieved {Count} products for product group ID: {ProductGroupId}", 
                 products.Count(), request.ProductGroupId);
 
             // Map the product entities to DTOs

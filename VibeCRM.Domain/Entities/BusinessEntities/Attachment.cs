@@ -13,8 +13,7 @@ namespace VibeCRM.Domain.Entities.BusinessEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Attachment"/> class.
         /// </summary>
-        public Attachment()
-        { Companies = new HashSet<Company_Attachment>(); Persons = new HashSet<Person_Attachment>(); Id = Guid.NewGuid(); Subject = string.Empty; Path = string.Empty; }
+        public Attachment() { Companies = new HashSet<Company_Attachment>(); Persons = new HashSet<Person_Attachment>(); Id = Guid.NewGuid(); Subject = string.Empty; Path = string.Empty; }
 
         /// <summary>
         /// Gets or sets the attachment identifier that directly maps to the AttachmentId database column

@@ -1,3 +1,5 @@
+using System;
+
 namespace VibeCRM.Application.Features.ShipMethod.DTOs
 {
     /// <summary>

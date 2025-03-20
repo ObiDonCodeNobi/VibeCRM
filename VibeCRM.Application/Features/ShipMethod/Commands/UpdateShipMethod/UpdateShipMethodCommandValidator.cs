@@ -1,3 +1,4 @@
+using System;
 using FluentValidation;
 
 namespace VibeCRM.Application.Features.ShipMethod.Commands.UpdateShipMethod

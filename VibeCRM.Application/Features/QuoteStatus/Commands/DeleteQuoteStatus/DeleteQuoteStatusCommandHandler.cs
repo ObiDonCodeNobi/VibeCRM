@@ -43,7 +43,7 @@ namespace VibeCRM.Application.Features.QuoteStatus.Commands.DeleteQuoteStatus
 
                 // Check if quote status exists
                 var existingQuoteStatus = await _quoteStatusRepository.GetByIdAsync(request.Id, cancellationToken);
-
+                
                 if (existingQuoteStatus == null)
                 {
                     _logger.LogError("Quote status with ID {QuoteStatusId} not found", request.Id);

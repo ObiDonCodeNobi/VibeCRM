@@ -46,11 +46,11 @@ namespace VibeCRM.Application.Features.Call.DTOs
         /// </summary>
         public DateTime ModifiedDate { get; set; }
 
-        public CallDetailsDto()
-        {
-            TypeName = string.Empty;
-            StatusName = string.Empty;
-            DirectionName = string.Empty;
+        public CallDetailsDto() 
+        { 
+            TypeName = string.Empty; 
+            StatusName = string.Empty; 
+            DirectionName = string.Empty; 
         }
     }
 }

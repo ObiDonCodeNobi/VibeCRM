@@ -2,6 +2,7 @@ using AutoMapper;
 using VibeCRM.Application.Features.NoteType.Commands.CreateNoteType;
 using VibeCRM.Application.Features.NoteType.Commands.UpdateNoteType;
 using VibeCRM.Application.Features.NoteType.DTOs;
+using VibeCRM.Domain.Entities.TypeStatusEntities;
 
 namespace VibeCRM.Application.Features.NoteType.Mapping
 {

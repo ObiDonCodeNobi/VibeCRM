@@ -47,11 +47,11 @@ namespace VibeCRM.Application.Features.QuoteStatus.Queries.GetQuoteStatusByStatu
 
                 // Get quote statuses by status name
                 var quoteStatuses = await _quoteStatusRepository.GetByStatusAsync(request.Status, cancellationToken);
-
+                
                 // Map to DTOs
                 var quoteStatusDtos = _mapper.Map<IEnumerable<QuoteStatusDto>>(quoteStatuses);
 
-                _logger.LogInformation("Successfully retrieved {Count} quote statuses with status name {StatusName}",
+                _logger.LogInformation("Successfully retrieved {Count} quote statuses with status name {StatusName}", 
                     quoteStatusDtos.Count(), request.Status);
 
                 return quoteStatusDtos;

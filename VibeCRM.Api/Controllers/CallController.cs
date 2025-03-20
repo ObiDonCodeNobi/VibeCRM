@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Call.Commands.CreateCall;
 using VibeCRM.Application.Features.Call.Commands.DeleteCall;
@@ -38,9 +40,9 @@ public class CallController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateCallCommand command)
     {
         _logger.LogInformation("Creating new Call with Description: {Description}", command.Description);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Call created successfully"));
     }
 
@@ -62,9 +64,9 @@ public class CallController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Call with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Call updated successfully"));
     }
 
@@ -79,14 +81,14 @@ public class CallController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Call with ID: {Id}", id);
-
-        var command = new DeleteCallCommand
-        {
+        
+        var command = new DeleteCallCommand 
+        { 
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Call deleted successfully"));
     }
 
@@ -101,15 +103,15 @@ public class CallController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Call with ID: {Id}", id);
-
+        
         var query = new GetCallByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<CallDetailsDto>($"Call with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -122,10 +124,10 @@ public class CallController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Calls");
-
+        
         var query = new GetAllCallsQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

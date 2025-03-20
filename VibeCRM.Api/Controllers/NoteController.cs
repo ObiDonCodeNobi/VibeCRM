@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Note.Commands.CreateNote;
 using VibeCRM.Application.Features.Note.Commands.DeleteNote;
@@ -41,9 +43,9 @@ public class NoteController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateNoteCommand command)
     {
         _logger.LogInformation("Creating new Note with Subject: {Subject}", command.Subject);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Note created successfully"));
     }
 
@@ -65,9 +67,9 @@ public class NoteController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Note with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Note updated successfully"));
     }
 
@@ -82,10 +84,10 @@ public class NoteController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Note with ID: {Id}", id);
-
+        
         var command = new DeleteNoteCommand(id, Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString()));
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Note deleted successfully"));
     }
 
@@ -100,15 +102,15 @@ public class NoteController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Note with ID: {Id}", id);
-
+        
         var query = new GetNoteByIdQuery(id);
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<NoteDto>($"Note with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -121,10 +123,10 @@ public class NoteController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Notes");
-
+        
         var query = new GetAllNotesQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -138,10 +140,10 @@ public class NoteController : ApiControllerBase
     public async Task<IActionResult> GetByCompany(Guid companyId)
     {
         _logger.LogInformation("Getting Notes for Company with ID: {CompanyId}", companyId);
-
+        
         var query = new GetNotesByCompanyQuery(companyId);
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -155,10 +157,10 @@ public class NoteController : ApiControllerBase
     public async Task<IActionResult> GetByPerson(Guid personId)
     {
         _logger.LogInformation("Getting Notes for Person with ID: {PersonId}", personId);
-
+        
         var query = new GetNotesByPersonQuery(personId);
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -172,10 +174,10 @@ public class NoteController : ApiControllerBase
     public async Task<IActionResult> GetByNoteType(Guid noteTypeId)
     {
         _logger.LogInformation("Getting Notes for Note Type with ID: {NoteTypeId}", noteTypeId);
-
+        
         var query = new GetNotesByNoteTypeQuery(noteTypeId);
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

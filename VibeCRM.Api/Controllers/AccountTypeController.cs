@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.AccountType.Commands.CreateAccountType;
 using VibeCRM.Application.Features.AccountType.Commands.DeleteAccountType;
@@ -37,9 +39,9 @@ public class AccountTypeController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateAccountTypeCommand command)
     {
         _logger.LogInformation("Creating new Account Type with Type: {Type}", command.Type);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result }, Success(result, "Account Type created successfully"));
     }
 
@@ -61,9 +63,9 @@ public class AccountTypeController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Account Type with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Account Type updated successfully"));
     }
 
@@ -78,10 +80,10 @@ public class AccountTypeController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Account Type with ID: {Id}", id);
-
+        
         var command = new DeleteAccountTypeCommand { Id = id };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Account Type deleted successfully"));
     }
 
@@ -96,19 +98,19 @@ public class AccountTypeController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Account Type with ID: {Id}", id);
-
+        
         // Since there's no specific GetAccountTypeByIdQuery, we'll use the GetAccountTypeByTypeQuery
         // and filter the results in the controller
         var query = new GetAccountTypeByTypeQuery { Type = string.Empty };
         var results = await _mediator.Send(query);
-
+        
         var result = results.FirstOrDefault(at => at.Id == id);
-
+        
         if (result == null)
         {
             return NotFoundResponse<AccountTypeDto>($"Account Type with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -121,12 +123,12 @@ public class AccountTypeController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Account Types");
-
+        
         // Since there's no specific GetAllAccountTypesQuery, we'll use the GetAccountTypeByTypeQuery
         // with an empty type string to get all account types
         var query = new GetAccountTypeByTypeQuery { Type = string.Empty };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -140,10 +142,10 @@ public class AccountTypeController : ApiControllerBase
     public async Task<IActionResult> GetByType(string type)
     {
         _logger.LogInformation("Getting Account Types with Type: {Type}", type);
-
+        
         var query = new GetAccountTypeByTypeQuery { Type = type };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Quote.Commands.CreateQuote;
 using VibeCRM.Application.Features.Quote.Commands.DeleteQuote;
@@ -41,9 +43,9 @@ public class QuoteController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateQuoteCommand command)
     {
         _logger.LogInformation("Creating new Quote with Number: {Number}", command.Number);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Quote created successfully"));
     }
 
@@ -65,9 +67,9 @@ public class QuoteController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Quote with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Quote updated successfully"));
     }
 
@@ -82,14 +84,14 @@ public class QuoteController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Quote with ID: {Id}", id);
-
-        var command = new DeleteQuoteCommand
-        {
+        
+        var command = new DeleteQuoteCommand 
+        { 
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Quote deleted successfully"));
     }
 
@@ -104,15 +106,15 @@ public class QuoteController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Quote with ID: {Id}", id);
-
+        
         var query = new GetQuoteByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<QuoteDetailsDto>($"Quote with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -125,10 +127,10 @@ public class QuoteController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Quotes");
-
+        
         var query = new GetAllQuotesQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -142,10 +144,10 @@ public class QuoteController : ApiControllerBase
     public async Task<IActionResult> GetByCompany(Guid companyId)
     {
         _logger.LogInformation("Getting Quotes for Company ID: {CompanyId}", companyId);
-
+        
         var query = new GetQuotesByCompanyQuery { CompanyId = companyId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -159,10 +161,10 @@ public class QuoteController : ApiControllerBase
     public async Task<IActionResult> GetByActivity(Guid activityId)
     {
         _logger.LogInformation("Getting Quotes for Activity ID: {ActivityId}", activityId);
-
+        
         var query = new GetQuotesByActivityQuery { ActivityId = activityId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -176,10 +178,10 @@ public class QuoteController : ApiControllerBase
     public async Task<IActionResult> GetByNumber(string number)
     {
         _logger.LogInformation("Getting Quotes with Number: {Number}", number);
-
+        
         var query = new GetQuotesByNumberQuery { Number = number };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

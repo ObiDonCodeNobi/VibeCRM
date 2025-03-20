@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Person.Commands.CreatePerson;
 using VibeCRM.Application.Features.Person.Commands.DeletePerson;
@@ -38,11 +40,11 @@ public class PersonController : ApiControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreatePersonCommand command)
     {
-        _logger.LogInformation("Creating new Person with FirstName: {Firstname}, LastName: {Lastname}",
+        _logger.LogInformation("Creating new Person with FirstName: {Firstname}, LastName: {Lastname}", 
             command.Firstname, command.Lastname);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Person created successfully"));
     }
 
@@ -64,9 +66,9 @@ public class PersonController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Person with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Person updated successfully"));
     }
 
@@ -81,14 +83,14 @@ public class PersonController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Person with ID: {Id}", id);
-
-        var command = new DeletePersonCommand
-        {
+        
+        var command = new DeletePersonCommand 
+        { 
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Person deleted successfully"));
     }
 
@@ -103,15 +105,15 @@ public class PersonController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Person with ID: {Id}", id);
-
+        
         var query = new GetPersonByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<PersonDto>($"Person with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -124,10 +126,10 @@ public class PersonController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Persons");
-
+        
         var query = new GetAllPersonsQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -142,15 +144,15 @@ public class PersonController : ApiControllerBase
     public async Task<IActionResult> GetWithRelatedEntities(Guid id)
     {
         _logger.LogInformation("Getting Person with related entities, ID: {Id}", id);
-
+        
         var query = new GetPersonWithRelatedEntitiesQuery(id);
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<PersonDetailsDto>($"Person with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 }

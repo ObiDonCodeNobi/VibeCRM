@@ -15,8 +15,7 @@ namespace VibeCRM.Domain.Entities.BusinessEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductGroup"/> class.
         /// </summary>
-        public ProductGroup()
-        { Id = Guid.NewGuid(); Name = string.Empty; Description = string.Empty; Products = new List<Product>(); }
+        public ProductGroup() { Id = Guid.NewGuid(); Name = string.Empty; Description = string.Empty; Products = new List<Product>(); }
 
         /// <summary>
         /// Gets or sets the unique identifier for the product group.

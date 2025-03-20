@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Workflow.Commands.CreateWorkflow;
 using VibeCRM.Application.Features.Workflow.Commands.DeleteWorkflow;
@@ -39,9 +41,9 @@ public class WorkflowController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateWorkflowCommand command)
     {
         _logger.LogInformation("Creating new Workflow with Subject: {Subject}", command.Subject);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Workflow created successfully"));
     }
 
@@ -63,9 +65,9 @@ public class WorkflowController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Workflow with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Workflow updated successfully"));
     }
 
@@ -80,14 +82,14 @@ public class WorkflowController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Workflow with ID: {Id}", id);
-
-        var command = new DeleteWorkflowCommand
-        {
+        
+        var command = new DeleteWorkflowCommand 
+        { 
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Workflow deleted successfully"));
     }
 
@@ -102,15 +104,15 @@ public class WorkflowController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Workflow with ID: {Id}", id);
-
+        
         var query = new GetWorkflowByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<WorkflowDto>($"Workflow with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -123,10 +125,10 @@ public class WorkflowController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Workflows");
-
+        
         var query = new GetAllWorkflowsQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -140,10 +142,10 @@ public class WorkflowController : ApiControllerBase
     public async Task<IActionResult> GetByWorkflowType(Guid workflowTypeId)
     {
         _logger.LogInformation("Getting Workflows with Workflow Type ID: {WorkflowTypeId}", workflowTypeId);
-
+        
         var query = new GetWorkflowsByWorkflowTypeQuery { WorkflowTypeId = workflowTypeId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

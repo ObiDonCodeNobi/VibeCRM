@@ -50,7 +50,7 @@ namespace VibeCRM.Application.Features.PaymentStatus.Queries.GetAllPaymentStatus
 
                 // Get all payment statuses
                 var paymentStatuses = await _paymentStatusRepository.GetAllAsync(cancellationToken);
-
+                
                 // Filter by active status if needed
                 if (!request.IncludeInactive)
                 {

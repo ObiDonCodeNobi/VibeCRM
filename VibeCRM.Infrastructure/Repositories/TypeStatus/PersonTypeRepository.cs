@@ -206,7 +206,7 @@ namespace VibeCRM.Infrastructure.Repositories.TypeStatus
         {
             var sql = $@"
                 UPDATE {TableName}
-                SET Active = 0,
+                SET Active = 0, 
                     ModifiedDate = @ModifiedDate,
                     ModifiedBy = @ModifiedBy
                 WHERE {IdColumnName} = @Id";

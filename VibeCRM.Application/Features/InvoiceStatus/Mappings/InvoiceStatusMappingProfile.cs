@@ -2,6 +2,7 @@ using AutoMapper;
 using VibeCRM.Application.Features.InvoiceStatus.Commands.CreateInvoiceStatus;
 using VibeCRM.Application.Features.InvoiceStatus.Commands.UpdateInvoiceStatus;
 using VibeCRM.Application.Features.InvoiceStatus.DTOs;
+using VibeCRM.Domain.Entities.TypeStatusEntities;
 
 namespace VibeCRM.Application.Features.InvoiceStatus.Mappings
 {

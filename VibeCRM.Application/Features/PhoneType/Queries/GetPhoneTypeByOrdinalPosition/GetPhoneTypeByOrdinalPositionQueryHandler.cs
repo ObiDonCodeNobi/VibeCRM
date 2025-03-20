@@ -48,10 +48,10 @@ namespace VibeCRM.Application.Features.PhoneType.Queries.GetPhoneTypeByOrdinalPo
 
                 // Get all phone types ordered by ordinal position
                 var phoneTypes = await _phoneTypeRepository.GetByOrdinalPositionAsync(cancellationToken);
-
+                
                 // Find the phone type with the requested ordinal position
                 var phoneType = phoneTypes.FirstOrDefault(pt => pt.OrdinalPosition == request.OrdinalPosition);
-
+                
                 if (phoneType == null)
                 {
                     _logger.LogError("Phone type with ordinal position {OrdinalPosition} not found", request.OrdinalPosition);

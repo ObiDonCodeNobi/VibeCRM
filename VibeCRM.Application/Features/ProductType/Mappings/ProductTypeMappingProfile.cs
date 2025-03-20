@@ -2,6 +2,7 @@ using AutoMapper;
 using VibeCRM.Application.Features.ProductType.Commands.CreateProductType;
 using VibeCRM.Application.Features.ProductType.Commands.UpdateProductType;
 using VibeCRM.Application.Features.ProductType.DTOs;
+using VibeCRM.Domain.Entities.TypeStatusEntities;
 
 namespace VibeCRM.Application.Features.ProductType.Mappings
 {

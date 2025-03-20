@@ -34,10 +34,10 @@ namespace VibeCRM.Application.Features.AccountStatus.Commands.UpdateAccountStatu
         /// </summary>
         public Guid ModifiedBy { get; set; }
 
-        public UpdateAccountStatusCommand()
-        {
-            Status = string.Empty;
-            Description = string.Empty;
+        public UpdateAccountStatusCommand() 
+        { 
+            Status = string.Empty; 
+            Description = string.Empty; 
         }
     }
 }

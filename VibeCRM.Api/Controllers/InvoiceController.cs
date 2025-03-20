@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Invoice.Commands.CreateInvoice;
 using VibeCRM.Application.Features.Invoice.Commands.DeleteInvoice;
@@ -39,9 +41,9 @@ public class InvoiceController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateInvoiceCommand command)
     {
         _logger.LogInformation("Creating new Invoice with Number: {Number}", command.Number);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result }, Success(result, "Invoice created successfully"));
     }
 
@@ -63,9 +65,9 @@ public class InvoiceController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Invoice with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Invoice updated successfully"));
     }
 
@@ -80,15 +82,15 @@ public class InvoiceController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Invoice with ID: {Id}", id);
-
-        var command = new DeleteInvoiceCommand
-        {
+        
+        var command = new DeleteInvoiceCommand 
+        { 
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString()),
             ModifiedDate = DateTime.UtcNow
         };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Invoice deleted successfully"));
     }
 
@@ -103,15 +105,15 @@ public class InvoiceController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Invoice with ID: {Id}", id);
-
+        
         var query = new GetInvoiceByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<InvoiceDetailsDto>($"Invoice with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -124,10 +126,10 @@ public class InvoiceController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Invoices");
-
+        
         var query = new GetAllInvoicesQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -141,10 +143,10 @@ public class InvoiceController : ApiControllerBase
     public async Task<IActionResult> GetBySalesOrder(Guid salesOrderId)
     {
         _logger.LogInformation("Getting Invoices for Sales Order ID: {SalesOrderId}", salesOrderId);
-
+        
         var query = new GetInvoicesBySalesOrderIdQuery { SalesOrderId = salesOrderId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

@@ -1,4 +1,5 @@
 using FluentValidation;
+using VibeCRM.Application.Features.PaymentMethod.Commands.UpdatePaymentMethod;
 
 namespace VibeCRM.Application.Features.PaymentMethod.Commands.UpdatePaymentMethod
 {

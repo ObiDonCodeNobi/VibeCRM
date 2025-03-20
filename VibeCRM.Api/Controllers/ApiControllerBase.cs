@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 
 namespace VibeCRM.Api.Controllers;
@@ -17,7 +18,7 @@ public abstract class ApiControllerBase : ControllerBase
     /// The mediator instance for sending commands and queries.
     /// </summary>
     protected readonly IMediator _mediator;
-
+    
     /// <summary>
     /// The logger instance for logging controller actions.
     /// </summary>

@@ -1,4 +1,5 @@
 using MediatR;
+using System.Collections.Generic;
 using VibeCRM.Application.Features.PersonStatus.DTOs;
 
 namespace VibeCRM.Application.Features.PersonStatus.Queries.GetPersonStatusByStatus

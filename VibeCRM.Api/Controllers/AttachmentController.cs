@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Attachment.Commands.CreateAttachment;
 using VibeCRM.Application.Features.Attachment.Commands.DeleteAttachment;
@@ -38,9 +40,9 @@ public class AttachmentController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateAttachmentCommand command)
     {
         _logger.LogInformation("Creating new Attachment with Subject: {Subject}", command.Subject);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Attachment created successfully"));
     }
 
@@ -62,9 +64,9 @@ public class AttachmentController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Attachment with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Attachment updated successfully"));
     }
 
@@ -79,10 +81,10 @@ public class AttachmentController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Attachment with ID: {Id}", id);
-
+        
         var command = new DeleteAttachmentCommand(id, Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString()));
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Attachment deleted successfully"));
     }
 
@@ -97,15 +99,15 @@ public class AttachmentController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Attachment with ID: {Id}", id);
-
+        
         var query = new GetAttachmentByIdQuery(id);
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<AttachmentDto>($"Attachment with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -118,10 +120,10 @@ public class AttachmentController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Attachments");
-
+        
         var query = new GetAllAttachmentsQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

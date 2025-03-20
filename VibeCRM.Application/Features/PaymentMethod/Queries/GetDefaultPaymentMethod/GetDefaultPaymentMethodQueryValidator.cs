@@ -1,4 +1,5 @@
 using FluentValidation;
+using VibeCRM.Application.Features.PaymentMethod.Queries.GetDefaultPaymentMethod;
 
 namespace VibeCRM.Application.Features.PaymentMethod.Queries.GetDefaultPaymentMethod
 {

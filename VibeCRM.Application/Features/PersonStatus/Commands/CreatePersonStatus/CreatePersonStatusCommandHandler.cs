@@ -1,6 +1,10 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using VibeCRM.Domain.Entities.TypeStatusEntities;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
 namespace VibeCRM.Application.Features.PersonStatus.Commands.CreatePersonStatus
@@ -55,12 +59,12 @@ namespace VibeCRM.Application.Features.PersonStatus.Commands.CreatePersonStatus
                 {
                     personStatus.CreatedDate = DateTime.UtcNow;
                 }
-
+                
                 if (personStatus.ModifiedDate == default)
                 {
                     personStatus.ModifiedDate = personStatus.CreatedDate;
                 }
-
+                
                 // The CreatedBy and ModifiedBy properties are now handled by the mapper
                 personStatus.Active = true;
 

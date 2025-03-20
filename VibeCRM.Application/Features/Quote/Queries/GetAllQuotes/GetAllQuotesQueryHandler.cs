@@ -47,7 +47,7 @@ namespace VibeCRM.Application.Features.Quote.Queries.GetAllQuotes
             {
                 // Retrieve all active quotes from the repository
                 var quotes = await _quoteRepository.GetAllAsync(cancellationToken);
-
+                
                 // For each quote, load its related entities
                 foreach (var quote in quotes)
                 {
@@ -56,7 +56,7 @@ namespace VibeCRM.Application.Features.Quote.Queries.GetAllQuotes
                     {
                         await _quoteRepository.LoadQuoteStatusAsync(quote, cancellationToken);
                     }
-
+                    
                     // Load the line items for calculating the total amount and line item count
                     await _quoteRepository.LoadLineItemsAsync(quote, cancellationToken);
                 }

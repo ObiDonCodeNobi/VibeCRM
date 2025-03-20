@@ -1,6 +1,11 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using VibeCRM.Application.Features.PersonStatus.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
@@ -50,7 +55,7 @@ namespace VibeCRM.Application.Features.PersonStatus.Queries.GetAllPersonStatuses
 
                 // Get all person statuses
                 var personStatuses = await _personStatusRepository.GetAllAsync(cancellationToken);
-
+                
                 // Filter by active status if needed
                 if (!request.IncludeInactive)
                 {

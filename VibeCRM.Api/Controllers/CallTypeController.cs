@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.CallType.Commands.CreateCallType;
 using VibeCRM.Application.Features.CallType.Commands.DeleteCallType;
@@ -43,9 +45,9 @@ public class CallTypeController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateCallTypeCommand command)
     {
         _logger.LogInformation("Creating new Call Type with Type: {Type}", command.Type);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Call Type created successfully"));
     }
 
@@ -67,9 +69,9 @@ public class CallTypeController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Call Type with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Call Type updated successfully"));
     }
 
@@ -84,10 +86,10 @@ public class CallTypeController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Call Type with ID: {Id}", id);
-
+        
         var command = new DeleteCallTypeCommand { Id = id };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Call Type deleted successfully"));
     }
 
@@ -102,15 +104,15 @@ public class CallTypeController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Call Type with ID: {Id}", id);
-
+        
         var query = new GetCallTypeByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<CallTypeDto>($"Call Type with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -123,10 +125,10 @@ public class CallTypeController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Call Types");
-
+        
         var query = new GetAllCallTypesQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -140,10 +142,10 @@ public class CallTypeController : ApiControllerBase
     public async Task<IActionResult> GetByType(string type)
     {
         _logger.LogInformation("Getting Call Types with Type: {Type}", type);
-
+        
         var query = new GetCallTypeByTypeQuery { Type = type };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -157,10 +159,10 @@ public class CallTypeController : ApiControllerBase
     public async Task<IActionResult> GetByOrdinalPosition(int position)
     {
         _logger.LogInformation("Getting Call Types with Ordinal Position: {Position}", position);
-
+        
         var query = new GetCallTypesByOrdinalPositionQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -174,15 +176,15 @@ public class CallTypeController : ApiControllerBase
     public async Task<IActionResult> GetDefault()
     {
         _logger.LogInformation("Getting default Call Type");
-
+        
         var query = new GetDefaultCallTypeQuery();
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<CallTypeDto>("Default Call Type not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -195,10 +197,10 @@ public class CallTypeController : ApiControllerBase
     public async Task<IActionResult> GetInbound()
     {
         _logger.LogInformation("Getting all inbound Call Types");
-
+        
         var query = new GetInboundCallTypesQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -211,10 +213,10 @@ public class CallTypeController : ApiControllerBase
     public async Task<IActionResult> GetOutbound()
     {
         _logger.LogInformation("Getting all outbound Call Types");
-
+        
         var query = new GetOutboundCallTypesQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

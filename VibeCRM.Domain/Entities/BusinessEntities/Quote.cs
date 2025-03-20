@@ -13,8 +13,7 @@ namespace VibeCRM.Domain.Entities.BusinessEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Quote"/> class.
         /// </summary>
-        public Quote()
-        { Companies = new HashSet<Company_Quote>(); Activities = new HashSet<Quote_Activity>(); LineItems = new HashSet<QuoteLineItem>(); SalesOrders = new HashSet<SalesOrder>(); Id = Guid.NewGuid(); Number = string.Empty; }
+        public Quote() { Companies = new HashSet<Company_Quote>(); Activities = new HashSet<Quote_Activity>(); LineItems = new HashSet<QuoteLineItem>(); SalesOrders = new HashSet<SalesOrder>(); Id = Guid.NewGuid(); Number = string.Empty; }
 
         /// <summary>
         /// Gets or sets the quote identifier that directly maps to the QuoteId database column

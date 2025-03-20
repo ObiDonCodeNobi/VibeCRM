@@ -1,3 +1,4 @@
+using System;
 using MediatR;
 
 namespace VibeCRM.Application.Features.QuoteStatus.Commands.DeleteQuoteStatus

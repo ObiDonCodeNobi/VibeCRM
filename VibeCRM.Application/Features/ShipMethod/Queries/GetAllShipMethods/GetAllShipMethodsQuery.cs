@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MediatR;
 using VibeCRM.Application.Features.ShipMethod.DTOs;
 

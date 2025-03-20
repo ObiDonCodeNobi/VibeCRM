@@ -1,5 +1,9 @@
 using System.Net;
 using System.Text.Json;
+using FluentValidation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Exceptions;
 using VibeCRM.Application.Common.Models;
 
@@ -21,7 +25,7 @@ namespace VibeCRM.Api.Middleware
         /// <param name="logger">The logger instance.</param>
         /// <param name="environment">The hosting environment information.</param>
         public ExceptionHandlingMiddleware(
-            RequestDelegate next,
+            RequestDelegate next, 
             ILogger<ExceptionHandlingMiddleware> logger,
             IWebHostEnvironment environment)
         {

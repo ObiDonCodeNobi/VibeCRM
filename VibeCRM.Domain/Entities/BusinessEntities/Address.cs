@@ -13,8 +13,7 @@ namespace VibeCRM.Domain.Entities.BusinessEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Address"/> class.
         /// </summary>
-        public Address()
-        { Companies = new HashSet<Company_Address>(); Persons = new HashSet<Person_Address>(); Id = Guid.NewGuid(); Line1 = string.Empty; City = string.Empty; Zip = string.Empty; }
+        public Address() { Companies = new HashSet<Company_Address>(); Persons = new HashSet<Person_Address>(); Id = Guid.NewGuid(); Line1 = string.Empty; City = string.Empty; Zip = string.Empty; }
 
         /// <summary>
         /// Gets or sets the address identifier that directly maps to the AddressId database column

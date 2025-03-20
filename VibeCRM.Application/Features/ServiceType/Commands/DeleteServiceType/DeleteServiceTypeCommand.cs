@@ -1,3 +1,4 @@
+using System;
 using MediatR;
 
 namespace VibeCRM.Application.Features.ServiceType.Commands.DeleteServiceType

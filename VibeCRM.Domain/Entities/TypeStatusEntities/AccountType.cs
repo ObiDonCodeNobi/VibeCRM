@@ -29,12 +29,12 @@ namespace VibeCRM.Domain.Entities.TypeStatusEntities
         /// <summary>
         /// Gets or sets the type name (e.g., "Customer", "Vendor", "Partner").
         /// </summary>
-        public string Type { get; set; }
+        public required string Type { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the account type.
         /// </summary>
-        public string Description { get; set; }
+        public required string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the ordinal position for sorting account types in listings and dropdowns.

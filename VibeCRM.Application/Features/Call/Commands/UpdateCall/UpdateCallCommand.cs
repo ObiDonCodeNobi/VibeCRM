@@ -44,9 +44,9 @@ namespace VibeCRM.Application.Features.Call.Commands.UpdateCall
         /// </summary>
         public Guid ModifiedBy { get; set; }
 
-        public UpdateCallCommand()
-        {
-            Description = string.Empty;
+        public UpdateCallCommand() 
+        { 
+            Description = string.Empty; 
         }
     }
 }

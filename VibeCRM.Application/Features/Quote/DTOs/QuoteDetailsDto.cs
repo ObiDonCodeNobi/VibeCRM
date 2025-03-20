@@ -1,4 +1,5 @@
 using VibeCRM.Application.Features.SalesOrder.DTOs;
+using System.Collections.Generic;
 
 namespace VibeCRM.Application.Features.Quote.DTOs
 {

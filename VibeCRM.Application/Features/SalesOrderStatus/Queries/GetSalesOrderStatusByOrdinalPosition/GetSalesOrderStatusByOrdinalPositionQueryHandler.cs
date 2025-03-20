@@ -47,14 +47,14 @@ namespace VibeCRM.Application.Features.SalesOrderStatus.Queries.GetSalesOrderSta
 
                 // Get sales order statuses by ordinal position
                 var salesOrderStatuses = await _salesOrderStatusRepository.GetByOrdinalPositionAsync(cancellationToken);
-
+                
                 // Filter by the requested ordinal position
                 var filteredSalesOrderStatuses = salesOrderStatuses.Where(sos => sos.OrdinalPosition == request.OrdinalPosition);
-
+                
                 // Map to DTOs
                 var salesOrderStatusDtos = _mapper.Map<IEnumerable<SalesOrderStatusDto>>(filteredSalesOrderStatuses);
 
-                _logger.LogInformation("Successfully retrieved {Count} sales order statuses with ordinal position {OrdinalPosition}",
+                _logger.LogInformation("Successfully retrieved {Count} sales order statuses with ordinal position {OrdinalPosition}", 
                     salesOrderStatusDtos.Count(), request.OrdinalPosition);
 
                 return salesOrderStatusDtos;

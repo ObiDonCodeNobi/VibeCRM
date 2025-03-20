@@ -1,7 +1,9 @@
 using AutoMapper;
+using System;
 using VibeCRM.Application.Features.PersonType.Commands.CreatePersonType;
 using VibeCRM.Application.Features.PersonType.Commands.UpdatePersonType;
 using VibeCRM.Application.Features.PersonType.DTOs;
+using VibeCRM.Domain.Entities.TypeStatusEntities;
 
 namespace VibeCRM.Application.Features.PersonType.Mappings
 {
@@ -27,16 +29,16 @@ namespace VibeCRM.Application.Features.PersonType.Mappings
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src =>
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => 
                     string.IsNullOrEmpty(src.CreatedBy) ? Guid.Empty : Guid.Parse(src.CreatedBy)))
-                .ForMember(dest => dest.ModifiedBy, opt => opt.MapFrom(src =>
+                .ForMember(dest => dest.ModifiedBy, opt => opt.MapFrom(src => 
                     string.IsNullOrEmpty(src.ModifiedBy) ? Guid.Empty : Guid.Parse(src.ModifiedBy)))
                 .ForMember(dest => dest.Active, opt => opt.MapFrom(src => true))
                 .ForMember(dest => dest.People, opt => opt.Ignore());
 
             CreateMap<UpdatePersonTypeCommand, Domain.Entities.TypeStatusEntities.PersonType>()
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.ModifiedBy, opt => opt.MapFrom(src =>
+                .ForMember(dest => dest.ModifiedBy, opt => opt.MapFrom(src => 
                     string.IsNullOrEmpty(src.ModifiedBy) ? Guid.Empty : Guid.Parse(src.ModifiedBy)))
                 .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
                 .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())

@@ -229,7 +229,7 @@ namespace VibeCRM.Infrastructure.Repositories.Business
             if (product.ProductTypeId == Guid.Empty) return;
 
             const string sql = @"
-                SELECT
+                SELECT 
                     ProductTypeId, Type, Description, OrdinalPosition,
                     CreatedBy, CreatedDate, ModifiedBy, ModifiedDate, Active
                 FROM ProductType
@@ -329,7 +329,7 @@ namespace VibeCRM.Infrastructure.Repositories.Business
         public async Task LoadProductGroupsAsync(Product product, CancellationToken cancellationToken = default)
         {
             const string sql = @"
-                SELECT
+                SELECT 
                     pg.ProductGroupId, pg.Name, pg.Description, pg.ParentProductGroupId,
                     pg.DisplayOrder, pg.CreatedBy, pg.CreatedDate, pg.ModifiedBy, pg.ModifiedDate, pg.Active
                 FROM ProductGroup pg

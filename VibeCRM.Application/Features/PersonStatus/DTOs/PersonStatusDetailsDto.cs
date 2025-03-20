@@ -1,3 +1,5 @@
+using System;
+
 namespace VibeCRM.Application.Features.PersonStatus.DTOs
 {
     /// <summary>

@@ -23,7 +23,7 @@ namespace VibeCRM.Application.Features.PhoneType.Commands.UpdatePhoneType
             RuleFor(x => x.Id)
                 .NotEmpty()
                 .WithMessage("Phone type ID is required.")
-                .MustAsync(async (id, cancellation) =>
+                .MustAsync(async (id, cancellation) => 
                 {
                     return await _phoneTypeRepository.ExistsAsync(id, cancellation);
                 })
@@ -34,7 +34,7 @@ namespace VibeCRM.Application.Features.PhoneType.Commands.UpdatePhoneType
                 .WithMessage("Phone type name is required.")
                 .MaximumLength(50)
                 .WithMessage("Phone type name cannot exceed 50 characters.")
-                .MustAsync(async (command, type, cancellation) =>
+                .MustAsync(async (command, type, cancellation) => 
                 {
                     var existingTypes = await _phoneTypeRepository.GetByTypeAsync(type, cancellation);
                     return !existingTypes.Any(pt => pt.Id != command.Id);

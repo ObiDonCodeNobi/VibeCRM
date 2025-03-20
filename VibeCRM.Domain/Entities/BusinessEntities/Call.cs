@@ -12,12 +12,12 @@ namespace VibeCRM.Domain.Entities.BusinessEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Call"/> class.
         /// </summary>
-        public Call()
-        {
-            Companies = new HashSet<Company_Call>();
-            Persons = new HashSet<Person_Call>();
-            Id = Guid.NewGuid();
-            Description = string.Empty;
+        public Call() 
+        { 
+            Companies = new HashSet<Company_Call>(); 
+            Persons = new HashSet<Person_Call>(); 
+            Id = Guid.NewGuid(); 
+            Description = string.Empty; 
         }
 
         /// <summary>

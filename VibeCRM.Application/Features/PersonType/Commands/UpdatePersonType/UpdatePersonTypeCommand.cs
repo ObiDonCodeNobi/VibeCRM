@@ -1,4 +1,5 @@
 using MediatR;
+using System;
 
 namespace VibeCRM.Application.Features.PersonType.Commands.UpdatePersonType
 {

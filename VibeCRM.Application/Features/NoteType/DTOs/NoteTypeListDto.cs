@@ -1,3 +1,5 @@
+using System;
+
 namespace VibeCRM.Application.Features.NoteType.DTOs
 {
     /// <summary>
@@ -24,7 +26,7 @@ namespace VibeCRM.Application.Features.NoteType.DTOs
         /// Gets or sets the ordinal position for sorting note types in listings and dropdowns
         /// </summary>
         public int OrdinalPosition { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the count of notes with this type
         /// </summary>

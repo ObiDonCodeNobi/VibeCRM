@@ -43,7 +43,7 @@ namespace VibeCRM.Application.Features.SalesOrderStatus.Commands.DeleteSalesOrde
 
                 // Check if sales order status exists
                 var existingSalesOrderStatus = await _salesOrderStatusRepository.GetByIdAsync(request.Id, cancellationToken);
-
+                
                 if (existingSalesOrderStatus == null)
                 {
                     _logger.LogError("Sales order status with ID {SalesOrderStatusId} not found", request.Id);

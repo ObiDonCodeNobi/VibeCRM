@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Payment.Commands.CreatePayment;
 using VibeCRM.Application.Features.Payment.Commands.DeletePayment;
@@ -44,9 +46,9 @@ public class PaymentController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreatePaymentCommand command)
     {
         _logger.LogInformation("Creating new Payment with Reference Number: {ReferenceNumber}", command.ReferenceNumber);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Payment created successfully"));
     }
 
@@ -68,9 +70,9 @@ public class PaymentController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Payment with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Payment updated successfully"));
     }
 
@@ -85,14 +87,14 @@ public class PaymentController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Payment with ID: {Id}", id);
-
-        var command = new DeletePaymentCommand
-        {
+        
+        var command = new DeletePaymentCommand 
+        { 
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Payment deleted successfully"));
     }
 
@@ -107,15 +109,15 @@ public class PaymentController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Payment with ID: {Id}", id);
-
+        
         var query = new GetPaymentByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<PaymentDetailsDto>($"Payment with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -128,10 +130,10 @@ public class PaymentController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Payments");
-
+        
         var query = new GetAllPaymentsQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -145,10 +147,10 @@ public class PaymentController : ApiControllerBase
     public async Task<IActionResult> GetByInvoice(Guid invoiceId)
     {
         _logger.LogInformation("Getting Payments for Invoice ID: {InvoiceId}", invoiceId);
-
+        
         var query = new GetPaymentsByInvoiceQuery { InvoiceId = invoiceId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -162,10 +164,10 @@ public class PaymentController : ApiControllerBase
     public async Task<IActionResult> GetByCompany(Guid companyId)
     {
         _logger.LogInformation("Getting Payments for Company ID: {CompanyId}", companyId);
-
+        
         var query = new GetPaymentsByCompanyQuery { CompanyId = companyId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -179,10 +181,10 @@ public class PaymentController : ApiControllerBase
     public async Task<IActionResult> GetByPerson(Guid personId)
     {
         _logger.LogInformation("Getting Payments for Person ID: {PersonId}", personId);
-
+        
         var query = new GetPaymentsByPersonQuery { PersonId = personId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -196,10 +198,10 @@ public class PaymentController : ApiControllerBase
     public async Task<IActionResult> GetByMethod(Guid methodId)
     {
         _logger.LogInformation("Getting Payments for Method ID: {MethodId}", methodId);
-
+        
         var query = new GetPaymentsByMethodQuery { PaymentMethodId = methodId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -213,10 +215,10 @@ public class PaymentController : ApiControllerBase
     public async Task<IActionResult> GetByStatus(Guid statusId)
     {
         _logger.LogInformation("Getting Payments with Status ID: {StatusId}", statusId);
-
+        
         var query = new GetPaymentsByStatusQuery { PaymentStatusId = statusId };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -237,10 +239,10 @@ public class PaymentController : ApiControllerBase
         }
 
         _logger.LogInformation("Getting Payments between {StartDate} and {EndDate}", startDate, endDate);
-
+        
         var query = new GetPaymentsByDateRangeQuery { StartDate = startDate, EndDate = endDate };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

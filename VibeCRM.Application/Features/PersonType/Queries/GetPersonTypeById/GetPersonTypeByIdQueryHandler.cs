@@ -1,6 +1,9 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using VibeCRM.Application.Features.PersonType.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
@@ -61,7 +64,7 @@ namespace VibeCRM.Application.Features.PersonType.Queries.GetPersonTypeById
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving person type with ID: {PersonTypeId}. Error: {ErrorMessage}",
+                _logger.LogError(ex, "Error retrieving person type with ID: {PersonTypeId}. Error: {ErrorMessage}", 
                     request.Id, ex.Message);
                 throw new InvalidOperationException($"Failed to retrieve person type: {ex.Message}", ex);
             }

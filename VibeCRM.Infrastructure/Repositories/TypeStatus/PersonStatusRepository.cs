@@ -284,11 +284,11 @@ namespace VibeCRM.Infrastructure.Repositories.TypeStatus
         public async Task<bool> DeleteAsync(Guid id, Guid modifiedBy, CancellationToken cancellationToken = default)
         {
             string sql = $@"
-                UPDATE {TableName}
-                SET Active = 0,
+                UPDATE {TableName} 
+                SET Active = 0, 
                     ModifiedDate = GETUTCDATE(),
                     ModifiedBy = @ModifiedBy
-                WHERE {IdColumnName} = @Id
+                WHERE {IdColumnName} = @Id 
                 AND Active = 1";
 
             int affected = await ExecuteWithResilienceAndLoggingAsync(

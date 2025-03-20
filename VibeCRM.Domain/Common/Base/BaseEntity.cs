@@ -24,8 +24,7 @@ namespace VibeCRM.Domain.Common.Base
         /// <summary>
         /// Initializes a new instance of the BaseEntity class
         /// </summary>
-        public BaseEntity()
-        { Id = (TId)Convert.ChangeType(Guid.NewGuid(), typeof(TId)); }
+        public BaseEntity() { Id = (TId)Convert.ChangeType(Guid.NewGuid(), typeof(TId)); }
 
         /// <summary>
         /// Adds a domain event to the entity

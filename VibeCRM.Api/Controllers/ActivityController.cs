@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Activity.Commands.CreateActivity;
 using VibeCRM.Application.Features.Activity.Commands.DeleteActivity;
@@ -38,9 +40,9 @@ public class ActivityController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateActivityCommand command)
     {
         _logger.LogInformation("Creating new Activity with Subject: {Subject}", command.Subject);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.ActivityId }, Success(result, "Activity created successfully"));
     }
 
@@ -62,9 +64,9 @@ public class ActivityController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Activity with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Activity updated successfully"));
     }
 
@@ -79,14 +81,14 @@ public class ActivityController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Activity with ID: {Id}", id);
-
-        var command = new DeleteActivityCommand
-        {
+        
+        var command = new DeleteActivityCommand 
+        { 
             ActivityId = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Activity deleted successfully"));
     }
 
@@ -101,15 +103,15 @@ public class ActivityController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Activity with ID: {Id}", id);
-
+        
         var query = new GetActivityByIdQuery(id);
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<ActivityDetailsDto>($"Activity with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -122,10 +124,10 @@ public class ActivityController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Activities");
-
+        
         var query = new GetAllActivitiesQuery();
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 }

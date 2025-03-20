@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.AddressType.Commands.CreateAddressType;
 using VibeCRM.Application.Features.AddressType.Commands.DeleteAddressType;
@@ -38,9 +40,9 @@ public class AddressTypeController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateAddressTypeCommand command)
     {
         _logger.LogInformation("Creating new Address Type with Type: {Type}", command.Type);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Address Type created successfully"));
     }
 
@@ -62,9 +64,9 @@ public class AddressTypeController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Address Type with ID: {Id}", id);
-
+        
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Address Type updated successfully"));
     }
 
@@ -79,10 +81,10 @@ public class AddressTypeController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Address Type with ID: {Id}", id);
-
+        
         var command = new DeleteAddressTypeCommand { Id = id };
         var result = await _mediator.Send(command);
-
+        
         return Ok(Success(result, "Address Type deleted successfully"));
     }
 
@@ -97,17 +99,17 @@ public class AddressTypeController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Address Type with ID: {Id}", id);
-
+        
         // Since there's no specific GetAddressTypeByIdQuery, we'll use the GetAddressTypeByTypeQuery
         // and filter the results in the controller
         var query = new GetAddressTypeByTypeQuery { Type = string.Empty };
         var result = await _mediator.Send(query);
-
+        
         if (result == null || result.Id != id)
         {
             return NotFoundResponse<AddressTypeDto>($"Address Type with ID {id} not found");
         }
-
+        
         return Ok(Success(result));
     }
 
@@ -120,12 +122,12 @@ public class AddressTypeController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Address Types");
-
+        
         // Since there's no specific GetAllAddressTypesQuery, we'll use the GetAddressTypeByTypeQuery
         // with an empty type string to get all address types
         var query = new GetAddressTypeByTypeQuery { Type = string.Empty };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -139,10 +141,10 @@ public class AddressTypeController : ApiControllerBase
     public async Task<IActionResult> GetByType(string type)
     {
         _logger.LogInformation("Getting Address Types with Type: {Type}", type);
-
+        
         var query = new GetAddressTypeByTypeQuery { Type = type };
         var result = await _mediator.Send(query);
-
+        
         return Ok(Success(result));
     }
 
@@ -156,15 +158,15 @@ public class AddressTypeController : ApiControllerBase
     public async Task<IActionResult> GetDefault()
     {
         _logger.LogInformation("Getting default Address Type");
-
+        
         var query = new GetDefaultAddressTypeQuery();
         var result = await _mediator.Send(query);
-
+        
         if (result == null)
         {
             return NotFoundResponse<AddressTypeDto>("Default Address Type not found");
         }
-
+        
         return Ok(Success(result));
     }
 }

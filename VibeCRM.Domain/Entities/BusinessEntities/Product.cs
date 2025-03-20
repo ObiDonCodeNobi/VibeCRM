@@ -1,6 +1,7 @@
-using VibeCRM.Domain.Common.Base;
 using VibeCRM.Domain.Common.Interfaces;
 using VibeCRM.Domain.Entities.TypeStatusEntities;
+using System.Collections.Generic;
+using VibeCRM.Domain.Common.Base;
 
 namespace VibeCRM.Domain.Entities.BusinessEntities
 {

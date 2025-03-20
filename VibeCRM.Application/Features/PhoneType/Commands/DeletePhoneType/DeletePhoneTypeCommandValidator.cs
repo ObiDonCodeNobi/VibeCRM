@@ -23,7 +23,7 @@ namespace VibeCRM.Application.Features.PhoneType.Commands.DeletePhoneType
             RuleFor(x => x.Id)
                 .NotEmpty()
                 .WithMessage("Phone type ID is required.")
-                .MustAsync(async (id, cancellation) =>
+                .MustAsync(async (id, cancellation) => 
                 {
                     return await _phoneTypeRepository.ExistsAsync(id, cancellation);
                 })

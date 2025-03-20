@@ -1,8 +1,11 @@
 using AutoMapper;
+using System;
+using System.Linq;
 using VibeCRM.Application.Features.Quote.Commands.CreateQuote;
 using VibeCRM.Application.Features.Quote.Commands.UpdateQuote;
 using VibeCRM.Application.Features.Quote.DTOs;
 using VibeCRM.Application.Features.SalesOrder.DTOs;
+using VibeCRM.Domain.Entities.BusinessEntities;
 
 namespace VibeCRM.Application.Features.Quote.Mappings
 {
@@ -32,10 +35,10 @@ namespace VibeCRM.Application.Features.Quote.Mappings
                 .ForMember(dest => dest.QuoteStatusId, opt => opt.MapFrom(src => src.QuoteStatusId))
                 .ForMember(dest => dest.QuoteStatusName, opt => opt.MapFrom(src => src.QuoteStatus != null ? src.QuoteStatus.Status : null))
                 .ForMember(dest => dest.LineItemCount, opt => opt.MapFrom(src => src.LineItems != null ? src.LineItems.Count : 0))
-                .ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => src.LineItems != null ?
-                    src.LineItems.Sum(li => li.UnitPrice * li.Quantity -
-                        (li.DiscountAmount ?? 0) -
-                        (li.UnitPrice * li.Quantity * (li.DiscountPercentage ?? 0) / 100) +
+                .ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => src.LineItems != null ? 
+                    src.LineItems.Sum(li => li.UnitPrice * li.Quantity - 
+                        (li.DiscountAmount ?? 0) - 
+                        (li.UnitPrice * li.Quantity * (li.DiscountPercentage ?? 0) / 100) + 
                         (li.UnitPrice * li.Quantity * (li.TaxPercentage ?? 0) / 100)) : 0));
 
             // QuoteLineItem to QuoteLineItemDto mapping

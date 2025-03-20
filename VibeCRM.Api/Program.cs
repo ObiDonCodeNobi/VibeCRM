@@ -3,11 +3,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using VibeCRM.Api.Middleware;
-using VibeCRM.Application.Common.Interfaces.Services;
 using VibeCRM.Application.Common.Models.Authentication;
 using VibeCRM.Application.Extensions;
-using VibeCRM.Infrastructure;
 using VibeCRM.Infrastructure.Services;
+using VibeCRM.Application.Common.Interfaces.Services;
+using VibeCRM.Infrastructure;
 
 namespace VibeCRM.Api;
 
@@ -30,14 +30,14 @@ public class Program
 
         // Register application services
         builder.Services.AddApplicationServices();
-
+        
         // Register infrastructure services (including database connection)
         builder.Services.AddInfrastructureServices(builder.Configuration);
 
         // Configure JWT Authentication
         var jwtSettings = builder.Configuration.GetSection("JwtSettings");
         builder.Services.Configure<JwtSettings>(jwtSettings);
-
+        
         var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT Secret Key is not configured");
         var key = Encoding.UTF8.GetBytes(secretKey);
 

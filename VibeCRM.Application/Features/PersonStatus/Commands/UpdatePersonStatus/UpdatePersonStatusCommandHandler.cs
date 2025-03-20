@@ -1,6 +1,9 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
 namespace VibeCRM.Application.Features.PersonStatus.Commands.UpdatePersonStatus
@@ -57,7 +60,7 @@ namespace VibeCRM.Application.Features.PersonStatus.Commands.UpdatePersonStatus
 
                 // Map the command to the existing entity
                 _mapper.Map(request, existingPersonStatus);
-
+                
                 // Ensure modified date is set
                 if (existingPersonStatus.ModifiedDate == default)
                 {
@@ -73,7 +76,7 @@ namespace VibeCRM.Application.Features.PersonStatus.Commands.UpdatePersonStatus
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating person status with ID: {PersonStatusId}. Error: {ErrorMessage}",
+                _logger.LogError(ex, "Error occurred while updating person status with ID: {PersonStatusId}. Error: {ErrorMessage}", 
                     request.Id, ex.Message);
                 throw;
             }

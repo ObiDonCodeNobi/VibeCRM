@@ -1,6 +1,9 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using VibeCRM.Application.Features.PersonStatus.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
@@ -69,7 +72,7 @@ namespace VibeCRM.Application.Features.PersonStatus.Queries.GetPersonStatusById
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while retrieving person status with ID: {PersonStatusId}. Error: {ErrorMessage}",
+                _logger.LogError(ex, "Error occurred while retrieving person status with ID: {PersonStatusId}. Error: {ErrorMessage}", 
                     request.Id, ex.Message);
                 throw;
             }

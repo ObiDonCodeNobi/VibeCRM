@@ -1,4 +1,6 @@
+using System;
 using MediatR;
+using VibeCRM.Application.Features.NoteType.DTOs;
 
 namespace VibeCRM.Application.Features.NoteType.Commands.UpdateNoteType
 {

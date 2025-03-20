@@ -1,5 +1,6 @@
 using Dapper;
 using Microsoft.Extensions.Logging;
+using VibeCRM.Domain.Common;
 using VibeCRM.Domain.Entities.BusinessEntities;
 using VibeCRM.Domain.Entities.JunctionEntities;
 using VibeCRM.Domain.Entities.TypeStatusEntities;
@@ -28,9 +29,9 @@ namespace VibeCRM.Infrastructure.Repositories.Business
         /// </summary>
         protected override string[] SelectColumns => new[]
         {
-            "SalesOrderId", "Number", "SalesOrderStatusId", "ShipMethodId", "BillToAddressId",
-            "ShipToAddressId", "TaxCodeId", "OrderDate", "DueDate", "ShipDate",
-            "Subtotal", "TaxAmount", "TotalDiscount", "TotalAmount", "CreatedBy",
+            "SalesOrderId", "Number", "SalesOrderStatusId", "ShipMethodId", "BillToAddressId", 
+            "ShipToAddressId", "TaxCodeId", "OrderDate", "DueDate", "ShipDate", 
+            "Subtotal", "TaxAmount", "TotalDiscount", "TotalAmount", "CreatedBy", 
             "CreatedDate", "ModifiedBy", "ModifiedDate", "Active"
         };
 
@@ -58,14 +59,14 @@ namespace VibeCRM.Infrastructure.Repositories.Business
 
             const string sql = @"
                 INSERT INTO SalesOrder (
-                    SalesOrderId, Number, SalesOrderStatusId, ShipMethodId, BillToAddressId,
-                    ShipToAddressId, TaxCodeId, OrderDate, DueDate, ShipDate,
-                    Subtotal, TaxAmount, TotalDiscount, TotalAmount, CreatedBy,
+                    SalesOrderId, Number, SalesOrderStatusId, ShipMethodId, BillToAddressId, 
+                    ShipToAddressId, TaxCodeId, OrderDate, DueDate, ShipDate, 
+                    Subtotal, TaxAmount, TotalDiscount, TotalAmount, CreatedBy, 
                     CreatedDate, ModifiedBy, ModifiedDate, Active
                 ) VALUES (
-                    @SalesOrderId, @Number, @SalesOrderStatusId, @ShipMethodId, @BillToAddressId,
-                    @ShipToAddressId, @TaxCodeId, @OrderDate, @DueDate, @ShipDate,
-                    @Subtotal, @TaxAmount, @TotalDiscount, @TotalAmount, @CreatedBy,
+                    @SalesOrderId, @Number, @SalesOrderStatusId, @ShipMethodId, @BillToAddressId, 
+                    @ShipToAddressId, @TaxCodeId, @OrderDate, @DueDate, @ShipDate, 
+                    @Subtotal, @TaxAmount, @TotalDiscount, @TotalAmount, @CreatedBy, 
                     @CreatedDate, @ModifiedBy, @ModifiedDate, @Active
                 );";
 
@@ -177,9 +178,9 @@ namespace VibeCRM.Infrastructure.Repositories.Business
 
             const string sql = @"
                 SELECT
-                    s.SalesOrderId, s.Number, s.SalesOrderStatusId, s.ShipMethodId, s.BillToAddressId,
-                    s.ShipToAddressId, s.TaxCodeId, s.OrderDate, s.DueDate, s.ShipDate,
-                    s.Subtotal, s.TaxAmount, s.TotalDiscount, s.TotalAmount, s.CreatedBy,
+                    s.SalesOrderId, s.Number, s.SalesOrderStatusId, s.ShipMethodId, s.BillToAddressId, 
+                    s.ShipToAddressId, s.TaxCodeId, s.OrderDate, s.DueDate, s.ShipDate, 
+                    s.Subtotal, s.TaxAmount, s.TotalDiscount, s.TotalAmount, s.CreatedBy, 
                     s.CreatedDate, s.ModifiedBy, s.ModifiedDate, s.Active
                 FROM SalesOrder s
                 INNER JOIN Company_SalesOrder cs ON s.SalesOrderId = cs.SalesOrderId
@@ -210,9 +211,9 @@ namespace VibeCRM.Infrastructure.Repositories.Business
 
             const string sql = @"
                 SELECT
-                    s.SalesOrderId, s.Number, s.SalesOrderStatusId, s.ShipMethodId, s.BillToAddressId,
-                    s.ShipToAddressId, s.TaxCodeId, s.OrderDate, s.DueDate, s.ShipDate,
-                    s.Subtotal, s.TaxAmount, s.TotalDiscount, s.TotalAmount, s.CreatedBy,
+                    s.SalesOrderId, s.Number, s.SalesOrderStatusId, s.ShipMethodId, s.BillToAddressId, 
+                    s.ShipToAddressId, s.TaxCodeId, s.OrderDate, s.DueDate, s.ShipDate, 
+                    s.Subtotal, s.TaxAmount, s.TotalDiscount, s.TotalAmount, s.CreatedBy, 
                     s.CreatedDate, s.ModifiedBy, s.ModifiedDate, s.Active
                 FROM SalesOrder s
                 INNER JOIN SalesOrder_Activity sa ON s.SalesOrderId = sa.SalesOrderId
@@ -244,9 +245,9 @@ namespace VibeCRM.Infrastructure.Repositories.Business
 
             const string sql = @"
                 SELECT
-                    s.SalesOrderId, s.Number, s.SalesOrderStatusId, s.ShipMethodId, s.BillToAddressId,
-                    s.ShipToAddressId, s.TaxCodeId, s.OrderDate, s.DueDate, s.ShipDate,
-                    s.Subtotal, s.TaxAmount, s.TotalDiscount, s.TotalAmount, s.CreatedBy,
+                    s.SalesOrderId, s.Number, s.SalesOrderStatusId, s.ShipMethodId, s.BillToAddressId, 
+                    s.ShipToAddressId, s.TaxCodeId, s.OrderDate, s.DueDate, s.ShipDate, 
+                    s.Subtotal, s.TaxAmount, s.TotalDiscount, s.TotalAmount, s.CreatedBy, 
                     s.CreatedDate, s.ModifiedBy, s.ModifiedDate, s.Active
                 FROM SalesOrder s
                 INNER JOIN Quote_SalesOrder qs ON s.SalesOrderId = qs.SalesOrderId
@@ -374,7 +375,7 @@ namespace VibeCRM.Infrastructure.Repositories.Business
 
             const string sql = @"
                 SELECT
-                    SalesOrderStatusId, Status, Description, OrdinalPosition,
+                    SalesOrderStatusId, Status, Description, OrdinalPosition, 
                     CreatedBy, CreatedDate, ModifiedBy, ModifiedDate, Active
                 FROM SalesOrderStatus
                 WHERE SalesOrderStatusId = @StatusId AND Active = 1";
@@ -407,7 +408,7 @@ namespace VibeCRM.Infrastructure.Repositories.Business
 
             const string sql = @"
                 SELECT
-                    ShipMethodId, Method, Description, OrdinalPosition,
+                    ShipMethodId, Method, Description, OrdinalPosition, 
                     CreatedBy, CreatedDate, ModifiedBy, ModifiedDate, Active
                 FROM ShipMethod
                 WHERE ShipMethodId = @ShipMethodId AND Active = 1";
@@ -451,10 +452,9 @@ namespace VibeCRM.Infrastructure.Repositories.Business
                     await connection.QueryAsync<Address>(
                         new CommandDefinition(
                             sql,
-                            new
-                            {
-                                BillToAddressId = salesOrder.BillToAddressId,
-                                ShipToAddressId = salesOrder.ShipToAddressId
+                            new { 
+                                BillToAddressId = salesOrder.BillToAddressId, 
+                                ShipToAddressId = salesOrder.ShipToAddressId 
                             },
                             cancellationToken: cancellationToken)),
                 "LoadAddressesAsync",
@@ -506,7 +506,7 @@ namespace VibeCRM.Infrastructure.Repositories.Business
                 cancellationToken);
 
             salesOrder.LineItems = lineItems.ToList();
-
+            
             // Set the parent reference in each line item
             foreach (var lineItem in salesOrder.LineItems)
             {
@@ -524,7 +524,7 @@ namespace VibeCRM.Infrastructure.Repositories.Business
         public async Task LoadTaxCodeAsync(SalesOrder salesOrder, CancellationToken cancellationToken = default)
         {
             if (salesOrder == null) throw new ArgumentNullException(nameof(salesOrder));
-
+            
             if (salesOrder.TaxCodeId.HasValue)
             {
                 const string sql = @"
@@ -576,8 +576,7 @@ namespace VibeCRM.Infrastructure.Repositories.Business
                             sql,
                             new { SalesOrderId = salesOrder.SalesOrderId },
                             cancellationToken: cancellationToken),
-                        (companySalesOrder, company) =>
-                        {
+                        (companySalesOrder, company) => {
                             companySalesOrder.Company = company;
                             companySalesOrder.SalesOrder = salesOrder;
                             return companySalesOrder;
@@ -619,8 +618,7 @@ namespace VibeCRM.Infrastructure.Repositories.Business
                             sql,
                             new { SalesOrderId = salesOrder.SalesOrderId },
                             cancellationToken: cancellationToken),
-                        (salesOrderActivity, activity) =>
-                        {
+                        (salesOrderActivity, activity) => {
                             salesOrderActivity.Activity = activity;
                             salesOrderActivity.SalesOrder = salesOrder;
                             return salesOrderActivity;
