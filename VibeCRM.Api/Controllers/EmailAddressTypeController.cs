@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.EmailAddressType.Commands.CreateEmailAddressType;
 using VibeCRM.Application.Features.EmailAddressType.Commands.DeleteEmailAddressType;
@@ -40,9 +38,9 @@ public class EmailAddressTypeController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateEmailAddressTypeCommand command)
     {
         _logger.LogInformation("Creating new Email Address Type with Type: {Type}", command.Type);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result }, Success(result, "Email Address Type created successfully"));
     }
 
@@ -64,9 +62,9 @@ public class EmailAddressTypeController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Email Address Type with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Email Address Type updated successfully"));
     }
 
@@ -81,10 +79,10 @@ public class EmailAddressTypeController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Email Address Type with ID: {Id}", id);
-        
+
         var command = new DeleteEmailAddressTypeCommand { Id = id };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Email Address Type deleted successfully"));
     }
 
@@ -99,19 +97,19 @@ public class EmailAddressTypeController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Email Address Type with ID: {Id}", id);
-        
+
         // Since there's no specific GetEmailAddressTypeByIdQuery, we'll use the GetEmailAddressTypeByTypeQuery
         // and filter the results in the controller
         var query = new GetEmailAddressTypeByTypeQuery(string.Empty);
         var results = await _mediator.Send(query);
-        
+
         var result = results.FirstOrDefault(at => at.Id == id);
-        
+
         if (result == null)
         {
             return NotFoundResponse<EmailAddressTypeDto>($"Email Address Type with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -124,12 +122,12 @@ public class EmailAddressTypeController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Email Address Types");
-        
+
         // Since there's no specific GetAllEmailAddressTypesQuery, we'll use the GetEmailAddressTypeByTypeQuery
         // with an empty type string to get all email address types
         var query = new GetEmailAddressTypeByTypeQuery(string.Empty);
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -143,10 +141,10 @@ public class EmailAddressTypeController : ApiControllerBase
     public async Task<IActionResult> GetByType(string type)
     {
         _logger.LogInformation("Getting Email Address Types with Type: {Type}", type);
-        
+
         var query = new GetEmailAddressTypeByTypeQuery(type);
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -160,15 +158,15 @@ public class EmailAddressTypeController : ApiControllerBase
     public async Task<IActionResult> GetDefault()
     {
         _logger.LogInformation("Getting default Email Address Type");
-        
+
         var query = new GetDefaultEmailAddressTypeQuery();
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<EmailAddressTypeDto>("Default Email Address Type not found");
         }
-        
+
         return Ok(Success(result));
     }
 }

@@ -49,9 +49,9 @@ namespace VibeCRM.Application.Features.Person.Queries.GetPersonWithRelatedEntiti
                 _logger.LogInformation("Retrieving person with ID {PersonId} with specified related entities", request.Id);
 
                 // Check if all related entities are requested
-                bool loadAllEntities = request.LoadCompanies && request.LoadAddresses && 
-                                      request.LoadPhoneNumbers && request.LoadEmailAddresses && 
-                                      request.LoadActivities && request.LoadAttachments && 
+                bool loadAllEntities = request.LoadCompanies && request.LoadAddresses &&
+                                      request.LoadPhoneNumbers && request.LoadEmailAddresses &&
+                                      request.LoadActivities && request.LoadAttachments &&
                                       request.LoadNotes && request.LoadCalls;
 
                 // If all entities are requested, use the optimized method

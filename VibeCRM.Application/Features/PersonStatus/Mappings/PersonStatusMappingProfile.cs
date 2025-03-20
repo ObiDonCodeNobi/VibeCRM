@@ -2,7 +2,6 @@ using AutoMapper;
 using VibeCRM.Application.Features.PersonStatus.Commands.CreatePersonStatus;
 using VibeCRM.Application.Features.PersonStatus.Commands.UpdatePersonStatus;
 using VibeCRM.Application.Features.PersonStatus.DTOs;
-using VibeCRM.Domain.Entities.TypeStatusEntities;
 
 namespace VibeCRM.Application.Features.PersonStatus.Mappings
 {

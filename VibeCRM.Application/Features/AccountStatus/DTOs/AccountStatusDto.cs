@@ -26,6 +26,7 @@ namespace VibeCRM.Application.Features.AccountStatus.DTOs
         /// </summary>
         public int OrdinalPosition { get; set; }
 
-        public AccountStatusDto() { Status = string.Empty; Description = string.Empty; }
+        public AccountStatusDto()
+        { Status = string.Empty; Description = string.Empty; }
     }
 }

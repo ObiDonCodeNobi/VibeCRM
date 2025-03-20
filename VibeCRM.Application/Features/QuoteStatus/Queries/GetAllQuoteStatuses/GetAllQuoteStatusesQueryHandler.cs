@@ -47,7 +47,7 @@ namespace VibeCRM.Application.Features.QuoteStatus.Queries.GetAllQuoteStatuses
 
                 // Get all quote statuses
                 var quoteStatuses = await _quoteStatusRepository.GetAllAsync(cancellationToken);
-                
+
                 // Map to DTOs
                 var quoteStatusDtos = _mapper.Map<IEnumerable<QuoteStatusListDto>>(quoteStatuses);
 

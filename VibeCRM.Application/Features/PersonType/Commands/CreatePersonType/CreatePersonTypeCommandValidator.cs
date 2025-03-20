@@ -1,8 +1,4 @@
 using FluentValidation;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using VibeCRM.Application.Features.PersonType.Commands.CreatePersonType;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
 namespace VibeCRM.Application.Features.PersonType.Commands.CreatePersonType

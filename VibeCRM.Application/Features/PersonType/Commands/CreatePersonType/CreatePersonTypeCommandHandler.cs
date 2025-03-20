@@ -1,9 +1,6 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
 namespace VibeCRM.Application.Features.PersonType.Commands.CreatePersonType
@@ -60,7 +57,7 @@ namespace VibeCRM.Application.Features.PersonType.Commands.CreatePersonType
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating person type: {Type}. Error: {ErrorMessage}", 
+                _logger.LogError(ex, "Error creating person type: {Type}. Error: {ErrorMessage}",
                     request.Type, ex.Message);
                 throw new InvalidOperationException($"Failed to create person type: {ex.Message}", ex);
             }

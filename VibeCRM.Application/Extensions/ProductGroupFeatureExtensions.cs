@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.ProductGroup.Commands.CreateProductGroup;
 using VibeCRM.Application.Features.ProductGroup.Commands.DeleteProductGroup;
@@ -46,7 +45,7 @@ namespace VibeCRM.Application.Extensions
             }).CreateMapper());
 
             // Register MediatR handlers
-            services.AddMediatR(cfg => 
+            services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblyContaining<GetProductGroupByIdQuery>();
             });

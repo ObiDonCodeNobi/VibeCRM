@@ -47,11 +47,11 @@ namespace VibeCRM.Application.Features.SalesOrderStatus.Queries.GetSalesOrderSta
 
                 // Get sales order statuses by status name
                 var salesOrderStatuses = await _salesOrderStatusRepository.GetByStatusAsync(request.Status, cancellationToken);
-                
+
                 // Map to DTOs
                 var salesOrderStatusDtos = _mapper.Map<IEnumerable<SalesOrderStatusDto>>(salesOrderStatuses);
 
-                _logger.LogInformation("Successfully retrieved {Count} sales order statuses with status name {StatusName}", 
+                _logger.LogInformation("Successfully retrieved {Count} sales order statuses with status name {StatusName}",
                     salesOrderStatusDtos.Count(), request.Status);
 
                 return salesOrderStatusDtos;

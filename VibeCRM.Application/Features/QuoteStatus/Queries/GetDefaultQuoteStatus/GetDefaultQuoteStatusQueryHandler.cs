@@ -48,7 +48,7 @@ namespace VibeCRM.Application.Features.QuoteStatus.Queries.GetDefaultQuoteStatus
 
                 // Get default quote status
                 var defaultQuoteStatus = await _quoteStatusRepository.GetDefaultAsync(cancellationToken);
-                
+
                 if (defaultQuoteStatus == null)
                 {
                     _logger.LogError("Default quote status not found");

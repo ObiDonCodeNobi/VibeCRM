@@ -12,7 +12,8 @@ namespace VibeCRM.Domain.Entities.TypeStatusEntities
         /// <summary>
         /// Initializes a new instance of the PersonType class
         /// </summary>
-        public PersonType() { People = new List<Person>(); Id = Guid.NewGuid(); Type = string.Empty; Description = string.Empty; }
+        public PersonType()
+        { People = new List<Person>(); Id = Guid.NewGuid(); Type = string.Empty; Description = string.Empty; }
 
         /// <summary>
         /// Gets or sets the person type identifier that directly maps to the PersonTypeId database column

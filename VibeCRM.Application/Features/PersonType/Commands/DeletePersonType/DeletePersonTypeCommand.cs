@@ -1,5 +1,4 @@
 using MediatR;
-using System;
 
 namespace VibeCRM.Application.Features.PersonType.Commands.DeletePersonType
 {
@@ -13,7 +12,7 @@ namespace VibeCRM.Application.Features.PersonType.Commands.DeletePersonType
         /// Gets or sets the unique identifier of the person type to delete.
         /// </summary>
         public Guid Id { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the identifier of the user who is performing the delete operation.
         /// </summary>

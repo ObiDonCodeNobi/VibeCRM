@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Quote.Commands.CreateQuote;
 using VibeCRM.Application.Features.Quote.Commands.DeleteQuote;
@@ -46,7 +45,7 @@ namespace VibeCRM.Application.Extensions
             }).CreateMapper());
 
             // Register MediatR handlers
-            services.AddMediatR(cfg => 
+            services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblyContaining<GetQuoteByIdQuery>();
             });

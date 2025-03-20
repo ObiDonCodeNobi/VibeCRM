@@ -1,11 +1,6 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using VibeCRM.Application.Features.PersonStatus.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
 
@@ -55,7 +50,7 @@ namespace VibeCRM.Application.Features.PersonStatus.Queries.GetPersonStatusByOrd
 
                 // Get person statuses ordered by ordinal position
                 var personStatuses = await _personStatusRepository.GetByOrdinalPositionAsync(cancellationToken);
-                
+
                 // Filter by active status if needed
                 if (!request.IncludeInactive)
                 {

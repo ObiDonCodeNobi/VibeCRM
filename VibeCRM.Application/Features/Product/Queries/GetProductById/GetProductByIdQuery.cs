@@ -1,5 +1,4 @@
 using MediatR;
-using System;
 using VibeCRM.Application.Features.Product.DTOs;
 
 namespace VibeCRM.Application.Features.Product.Queries.GetProductById

@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.CallDirection.Commands.CreateCallDirection;
 using VibeCRM.Application.Features.CallDirection.Commands.DeleteCallDirection;
@@ -43,9 +41,9 @@ public class CallDirectionController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateCallDirectionCommand command)
     {
         _logger.LogInformation("Creating new Call Direction with Direction: {Direction}", command.Direction);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result }, Success(result, "Call Direction created successfully"));
     }
 
@@ -67,9 +65,9 @@ public class CallDirectionController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Call Direction with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Call Direction updated successfully"));
     }
 
@@ -84,14 +82,14 @@ public class CallDirectionController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Call Direction with ID: {Id}", id);
-        
-        var command = new DeleteCallDirectionCommand 
-        { 
+
+        var command = new DeleteCallDirectionCommand
+        {
             Id = id,
             ModifiedBy = User.Identity?.Name ?? string.Empty
         };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Call Direction deleted successfully"));
     }
 
@@ -106,15 +104,15 @@ public class CallDirectionController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Call Direction with ID: {Id}", id);
-        
+
         var query = new GetCallDirectionByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<CallDirectionDto>($"Call Direction with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -127,10 +125,10 @@ public class CallDirectionController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Call Directions");
-        
+
         var query = new GetAllCallDirectionsQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -144,10 +142,10 @@ public class CallDirectionController : ApiControllerBase
     public async Task<IActionResult> GetByDirection(string direction)
     {
         _logger.LogInformation("Getting Call Directions with Direction: {Direction}", direction);
-        
+
         var query = new GetCallDirectionByDirectionQuery { Direction = direction };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -161,10 +159,10 @@ public class CallDirectionController : ApiControllerBase
     public async Task<IActionResult> GetByOrdinalPosition(int position)
     {
         _logger.LogInformation("Getting Call Directions with Ordinal Position: {Position}", position);
-        
+
         var query = new GetCallDirectionsByOrdinalPositionQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -178,15 +176,15 @@ public class CallDirectionController : ApiControllerBase
     public async Task<IActionResult> GetDefault()
     {
         _logger.LogInformation("Getting default Call Direction");
-        
+
         var query = new GetDefaultCallDirectionQuery();
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<CallDirectionDto>("Default Call Direction not found");
         }
-        
+
         return Ok(Success(result));
     }
 }

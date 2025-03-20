@@ -13,7 +13,8 @@ namespace VibeCRM.Domain.Entities.BusinessEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailAddress"/> class.
         /// </summary>
-        public EmailAddress() { Companies = new HashSet<Company_EmailAddress>(); Persons = new HashSet<Person_EmailAddress>(); Id = Guid.NewGuid(); Address = string.Empty; }
+        public EmailAddress()
+        { Companies = new HashSet<Company_EmailAddress>(); Persons = new HashSet<Person_EmailAddress>(); Id = Guid.NewGuid(); Address = string.Empty; }
 
         /// <summary>
         /// Gets or sets the email address identifier that directly maps to the EmailAddressId database column

@@ -1,5 +1,4 @@
 using MediatR;
-using System;
 
 namespace VibeCRM.Application.Features.PersonStatus.Commands.CreatePersonStatus
 {

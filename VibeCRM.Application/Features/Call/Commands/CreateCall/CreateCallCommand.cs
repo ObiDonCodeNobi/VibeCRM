@@ -49,6 +49,7 @@ namespace VibeCRM.Application.Features.Call.Commands.CreateCall
         /// </summary>
         public Guid ModifiedBy { get; set; }
 
-        public CreateCallCommand() { Description = string.Empty; }
+        public CreateCallCommand()
+        { Description = string.Empty; }
     }
 }

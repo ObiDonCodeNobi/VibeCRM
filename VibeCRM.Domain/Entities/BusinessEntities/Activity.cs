@@ -13,13 +13,13 @@ namespace VibeCRM.Domain.Entities.BusinessEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Activity"/> class.
         /// </summary>
-        public Activity() 
-        { 
-            Companies = new HashSet<Company_Activity>(); 
-            Persons = new HashSet<Person_Activity>(); 
-            Id = Guid.NewGuid(); 
-            Subject = string.Empty; 
-            Description = string.Empty; 
+        public Activity()
+        {
+            Companies = new HashSet<Company_Activity>();
+            Persons = new HashSet<Person_Activity>();
+            Id = Guid.NewGuid();
+            Subject = string.Empty;
+            Description = string.Empty;
         }
 
         /// <summary>

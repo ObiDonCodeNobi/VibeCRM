@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.NoteType.Commands.CreateNoteType;
 using VibeCRM.Application.Features.NoteType.Commands.DeleteNoteType;
@@ -42,9 +40,9 @@ public class NoteTypeController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateNoteTypeCommand command)
     {
         _logger.LogInformation("Creating new Note Type with Type: {Type}", command.Type);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "Note Type created successfully"));
     }
 
@@ -66,9 +64,9 @@ public class NoteTypeController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Note Type with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Note Type updated successfully"));
     }
 
@@ -83,10 +81,10 @@ public class NoteTypeController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Note Type with ID: {Id}", id);
-        
+
         var command = new DeleteNoteTypeCommand { Id = id };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Note Type deleted successfully"));
     }
 
@@ -101,15 +99,15 @@ public class NoteTypeController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Note Type with ID: {Id}", id);
-        
+
         var query = new GetNoteTypeByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<NoteTypeDto>($"Note Type with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -122,10 +120,10 @@ public class NoteTypeController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Note Types");
-        
+
         var query = new GetAllNoteTypesQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -139,10 +137,10 @@ public class NoteTypeController : ApiControllerBase
     public async Task<IActionResult> GetByType(string type)
     {
         _logger.LogInformation("Getting Note Types with Type: {Type}", type);
-        
+
         var query = new GetNoteTypeByTypeQuery { Type = type };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -156,10 +154,10 @@ public class NoteTypeController : ApiControllerBase
     public async Task<IActionResult> GetByOrdinalPosition(int position)
     {
         _logger.LogInformation("Getting Note Types with Ordinal Position: {Position}", position);
-        
+
         var query = new GetNoteTypeByOrdinalPositionQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 }

@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.AttachmentType.Commands.CreateAttachmentType;
 using VibeCRM.Application.Features.AttachmentType.Commands.DeleteAttachmentType;
@@ -40,9 +38,9 @@ public class AttachmentTypeController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateAttachmentTypeCommand command)
     {
         _logger.LogInformation("Creating new Attachment Type with Type: {Type}", command.Type);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result }, Success(result, "Attachment Type created successfully"));
     }
 
@@ -64,9 +62,9 @@ public class AttachmentTypeController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Attachment Type with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Attachment Type updated successfully"));
     }
 
@@ -81,10 +79,10 @@ public class AttachmentTypeController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Attachment Type with ID: {Id}", id);
-        
+
         var command = new DeleteAttachmentTypeCommand { Id = id };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Attachment Type deleted successfully"));
     }
 
@@ -99,17 +97,17 @@ public class AttachmentTypeController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Attachment Type with ID: {Id}", id);
-        
+
         // Since there's no specific GetAttachmentTypeByIdQuery, we'll use the GetAttachmentTypeByTypeQuery
         // and filter the results in the controller
         var query = new GetAttachmentTypeByTypeQuery { Type = string.Empty };
         var result = await _mediator.Send(query);
-        
+
         if (result == null || result.Id != id)
         {
             return NotFoundResponse<AttachmentTypeDto>($"Attachment Type with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -122,12 +120,12 @@ public class AttachmentTypeController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Attachment Types");
-        
+
         // Since there's no specific GetAllAttachmentTypesQuery, we'll use the GetAttachmentTypeByTypeQuery
         // with an empty type string to get all attachment types
         var query = new GetAttachmentTypeByTypeQuery { Type = string.Empty };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -141,10 +139,10 @@ public class AttachmentTypeController : ApiControllerBase
     public async Task<IActionResult> GetByType(string type)
     {
         _logger.LogInformation("Getting Attachment Types with Type: {Type}", type);
-        
+
         var query = new GetAttachmentTypeByTypeQuery { Type = type };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -158,15 +156,15 @@ public class AttachmentTypeController : ApiControllerBase
     public async Task<IActionResult> GetDefault()
     {
         _logger.LogInformation("Getting default Attachment Type");
-        
+
         var query = new GetDefaultAttachmentTypeQuery();
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<AttachmentTypeDto>("Default Attachment Type not found");
         }
-        
+
         return Ok(Success(result));
     }
 }

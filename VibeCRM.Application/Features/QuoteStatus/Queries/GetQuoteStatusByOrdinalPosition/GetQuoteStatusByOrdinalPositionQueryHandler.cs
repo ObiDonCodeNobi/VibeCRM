@@ -47,14 +47,14 @@ namespace VibeCRM.Application.Features.QuoteStatus.Queries.GetQuoteStatusByOrdin
 
                 // Get quote statuses by ordinal position
                 var quoteStatuses = await _quoteStatusRepository.GetByOrdinalPositionAsync(cancellationToken);
-                
+
                 // Filter by the requested ordinal position
                 var filteredQuoteStatuses = quoteStatuses.Where(qs => qs.OrdinalPosition == request.OrdinalPosition);
-                
+
                 // Map to DTOs
                 var quoteStatusDtos = _mapper.Map<IEnumerable<QuoteStatusDto>>(filteredQuoteStatuses);
 
-                _logger.LogInformation("Successfully retrieved {Count} quote statuses with ordinal position {OrdinalPosition}", 
+                _logger.LogInformation("Successfully retrieved {Count} quote statuses with ordinal position {OrdinalPosition}",
                     quoteStatusDtos.Count(), request.OrdinalPosition);
 
                 return quoteStatusDtos;

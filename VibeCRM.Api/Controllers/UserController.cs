@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.User.Commands.CreateUser;
 using VibeCRM.Application.Features.User.Commands.DeleteUser;
@@ -43,11 +41,11 @@ public class UserController : ApiControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateUserCommand command)
     {
-        _logger.LogInformation("Creating new User with LoginName: {LoginName}", 
+        _logger.LogInformation("Creating new User with LoginName: {LoginName}",
             command.LoginName);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, Success(result, "User created successfully"));
     }
 
@@ -69,9 +67,9 @@ public class UserController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating User with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "User updated successfully"));
     }
 
@@ -86,14 +84,14 @@ public class UserController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting User with ID: {Id}", id);
-        
-        var command = new DeleteUserCommand 
-        { 
+
+        var command = new DeleteUserCommand
+        {
             Id = id,
             ModifiedBy = Guid.Parse(User.Identity?.Name ?? Guid.Empty.ToString())
         };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "User deleted successfully"));
     }
 
@@ -108,15 +106,15 @@ public class UserController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting User with ID: {Id}", id);
-        
+
         var query = new GetUserByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<UserDto>($"User with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -129,10 +127,10 @@ public class UserController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Users");
-        
+
         var query = new GetAllUsersQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -147,15 +145,15 @@ public class UserController : ApiControllerBase
     public async Task<IActionResult> GetByUsername(string username)
     {
         _logger.LogInformation("Getting User with Username: {Username}", username);
-        
+
         var query = new GetUserByUsernameQuery { Username = username };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<UserDto>($"User with Username {username} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -170,15 +168,15 @@ public class UserController : ApiControllerBase
     public async Task<IActionResult> GetByEmail([FromQuery] string email)
     {
         _logger.LogInformation("Getting User with Email: {Email}", email);
-        
+
         var query = new GetUserByEmailQuery { Email = email };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<UserDto>($"User with Email {email} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -192,10 +190,10 @@ public class UserController : ApiControllerBase
     public async Task<IActionResult> GetByRoleId(Guid roleId)
     {
         _logger.LogInformation("Getting Users with Role ID: {RoleId}", roleId);
-        
+
         var query = new GetUsersByRoleIdQuery { RoleId = roleId };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -209,10 +207,10 @@ public class UserController : ApiControllerBase
     public async Task<IActionResult> GetByTeamId(Guid teamId)
     {
         _logger.LogInformation("Getting Users with Team ID: {TeamId}", teamId);
-        
+
         var query = new GetUsersByTeamIdQuery { TeamId = teamId };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 }

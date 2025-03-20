@@ -1,5 +1,4 @@
 using FluentValidation;
-using System;
 using VibeCRM.Application.Features.PersonType.DTOs;
 
 namespace VibeCRM.Application.Features.PersonType.Validators

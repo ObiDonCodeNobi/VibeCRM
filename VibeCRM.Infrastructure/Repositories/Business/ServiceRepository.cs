@@ -404,9 +404,9 @@ namespace VibeCRM.Infrastructure.Repositories.Business
             if (service.Id == Guid.Empty) throw new ArgumentException("The Service ID cannot be empty", nameof(service));
 
             const string sql = @"
-                SELECT 
-                    qli.QuoteLineItemId, qli.QuoteId, qli.ProductId, qli.ServiceId, 
-                    qli.Description, qli.Quantity, qli.UnitPrice, qli.DiscountPercentage, 
+                SELECT
+                    qli.QuoteLineItemId, qli.QuoteId, qli.ProductId, qli.ServiceId,
+                    qli.Description, qli.Quantity, qli.UnitPrice, qli.DiscountPercentage,
                     qli.DiscountAmount, qli.TaxPercentage, qli.LineNumber, qli.Notes,
                     qli.CreatedBy, qli.CreatedDate, qli.ModifiedBy, qli.ModifiedDate, qli.Active
                 FROM QuoteLineItem qli
@@ -452,10 +452,10 @@ namespace VibeCRM.Infrastructure.Repositories.Business
             if (service.Id == Guid.Empty) throw new ArgumentException("The Service ID cannot be empty", nameof(service));
 
             const string sql = @"
-                SELECT 
-                    ili.InvoiceLineItemId, ili.InvoiceId, ili.ProductId, ili.ServiceId, 
-                    ili.SalesOrderLineItemId, ili.Description, ili.Quantity, ili.UnitPrice, 
-                    ili.DiscountPercentage, ili.DiscountAmount, ili.TaxPercentage, 
+                SELECT
+                    ili.InvoiceLineItemId, ili.InvoiceId, ili.ProductId, ili.ServiceId,
+                    ili.SalesOrderLineItemId, ili.Description, ili.Quantity, ili.UnitPrice,
+                    ili.DiscountPercentage, ili.DiscountAmount, ili.TaxPercentage,
                     ili.LineNumber, ili.Notes,
                     ili.CreatedBy, ili.CreatedDate, ili.ModifiedBy, ili.ModifiedDate, ili.Active
                 FROM InvoiceLineItem ili
@@ -501,7 +501,7 @@ namespace VibeCRM.Infrastructure.Repositories.Business
             if (service.Id == Guid.Empty) throw new ArgumentException("The Service ID cannot be empty", nameof(service));
 
             const string sql = @"
-                SELECT 
+                SELECT
                     solis.SalesOrderLineItemId, solis.ServiceId, solis.Active, solis.ModifiedDate
                 FROM SalesOrderLineItem_Service solis
                 WHERE solis.ServiceId = @ServiceId
@@ -546,10 +546,10 @@ namespace VibeCRM.Infrastructure.Repositories.Business
             if (service.Id == Guid.Empty) throw new ArgumentException("The Service ID cannot be empty", nameof(service));
 
             const string sql = @"
-                SELECT 
-                    soli.SalesOrderLineItemId, soli.SalesOrderId, soli.ProductId, soli.ServiceId, 
-                    soli.QuoteLineItemId, soli.Description, soli.Quantity, soli.UnitPrice, 
-                    soli.DiscountPercentage, soli.DiscountAmount, soli.TaxPercentage, 
+                SELECT
+                    soli.SalesOrderLineItemId, soli.SalesOrderId, soli.ProductId, soli.ServiceId,
+                    soli.QuoteLineItemId, soli.Description, soli.Quantity, soli.UnitPrice,
+                    soli.DiscountPercentage, soli.DiscountAmount, soli.TaxPercentage,
                     soli.LineNumber, soli.Notes,
                     soli.CreatedBy, soli.CreatedDate, soli.ModifiedBy, soli.ModifiedDate, soli.Active
                 FROM SalesOrderLineItem soli

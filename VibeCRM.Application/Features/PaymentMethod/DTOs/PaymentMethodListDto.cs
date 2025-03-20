@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace VibeCRM.Application.Features.PaymentMethod.DTOs
 {
     /// <summary>

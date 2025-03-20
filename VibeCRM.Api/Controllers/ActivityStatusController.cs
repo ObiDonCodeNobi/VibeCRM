@@ -1,7 +1,5 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.ActivityStatus.Commands.CreateActivityStatus;
 using VibeCRM.Application.Features.ActivityStatus.Commands.DeleteActivityStatus;
@@ -44,9 +42,9 @@ public class ActivityStatusController : ApiControllerBase
     public async Task<IActionResult> Create([FromBody] CreateActivityStatusCommand command)
     {
         _logger.LogInformation("Creating new Activity Status with Status: {Status}", command.Status);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return CreatedAtAction(nameof(GetById), new { id = result }, Success(result, "Activity Status created successfully"));
     }
 
@@ -68,9 +66,9 @@ public class ActivityStatusController : ApiControllerBase
         }
 
         _logger.LogInformation("Updating Activity Status with ID: {Id}", id);
-        
+
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Activity Status updated successfully"));
     }
 
@@ -85,10 +83,10 @@ public class ActivityStatusController : ApiControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         _logger.LogInformation("Deleting Activity Status with ID: {Id}", id);
-        
+
         var command = new DeleteActivityStatusCommand { Id = id };
         var result = await _mediator.Send(command);
-        
+
         return Ok(Success(result, "Activity Status deleted successfully"));
     }
 
@@ -103,15 +101,15 @@ public class ActivityStatusController : ApiControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Getting Activity Status with ID: {Id}", id);
-        
+
         var query = new GetActivityStatusByIdQuery { Id = id };
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<ActivityStatusDto>($"Activity Status with ID {id} not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -124,10 +122,10 @@ public class ActivityStatusController : ApiControllerBase
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all Activity Statuses");
-        
+
         var query = new GetAllActivityStatusesQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -141,10 +139,10 @@ public class ActivityStatusController : ApiControllerBase
     public async Task<IActionResult> GetByStatus(string status)
     {
         _logger.LogInformation("Getting Activity Statuses with Status: {Status}", status);
-        
+
         var query = new GetActivityStatusByStatusQuery { Status = status };
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -158,10 +156,10 @@ public class ActivityStatusController : ApiControllerBase
     public async Task<IActionResult> GetByOrdinalPosition(int position)
     {
         _logger.LogInformation("Getting Activity Statuses with Ordinal Position: {Position}", position);
-        
+
         var query = new GetActivityStatusByOrdinalPositionQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 
@@ -175,15 +173,15 @@ public class ActivityStatusController : ApiControllerBase
     public async Task<IActionResult> GetDefault()
     {
         _logger.LogInformation("Getting default Activity Status");
-        
+
         var query = new GetDefaultActivityStatusQuery();
         var result = await _mediator.Send(query);
-        
+
         if (result == null)
         {
             return NotFoundResponse<ActivityStatusDto>("Default Activity Status not found");
         }
-        
+
         return Ok(Success(result));
     }
 
@@ -196,10 +194,10 @@ public class ActivityStatusController : ApiControllerBase
     public async Task<IActionResult> GetCompleted()
     {
         _logger.LogInformation("Getting all completed Activity Statuses");
-        
+
         var query = new GetCompletedActivityStatusesQuery();
         var result = await _mediator.Send(query);
-        
+
         return Ok(Success(result));
     }
 }

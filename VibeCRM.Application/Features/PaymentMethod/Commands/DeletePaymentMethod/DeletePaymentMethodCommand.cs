@@ -1,4 +1,3 @@
-using System;
 using MediatR;
 
 namespace VibeCRM.Application.Features.PaymentMethod.Commands.DeletePaymentMethod
