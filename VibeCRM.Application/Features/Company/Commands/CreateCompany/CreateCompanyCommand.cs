@@ -1,0 +1,72 @@
+using MediatR;
+using VibeCRM.Application.Features.Company.DTOs;
+
+namespace VibeCRM.Application.Features.Company.Commands.CreateCompany
+{
+    /// <summary>
+    /// Command for creating a new company in the system.
+    /// Implements the CQRS command pattern for company creation.
+    /// </summary>
+    public class CreateCompanyCommand : IRequest<CompanyDto>
+    {
+        /// <summary>
+        /// Gets or sets the unique identifier for the company.
+        /// </summary>
+        public Guid Id { get; set; } = Guid.NewGuid();
+
+        /// <summary>
+        /// Gets or sets the parent company identifier.
+        /// </summary>
+        public Guid? ParentCompanyId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the company name.
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the company description.
+        /// </summary>
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the account type identifier.
+        /// </summary>
+        public Guid AccountTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the account status identifier.
+        /// </summary>
+        public Guid AccountStatusId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the primary contact identifier.
+        /// </summary>
+        public Guid PrimaryContactId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the primary phone identifier.
+        /// </summary>
+        public Guid PrimaryPhoneId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the primary address identifier.
+        /// </summary>
+        public Guid PrimaryAddressId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the company website.
+        /// </summary>
+        public string Website { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the ID of the user who created the company.
+        /// </summary>
+        public Guid CreatedBy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the user who last modified the company.
+        /// </summary>
+        public Guid ModifiedBy { get; set; }
+    }
+}
