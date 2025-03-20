@@ -4,6 +4,7 @@ using System.Linq;
 using VibeCRM.Application.Features.Quote.Commands.CreateQuote;
 using VibeCRM.Application.Features.Quote.Commands.UpdateQuote;
 using VibeCRM.Application.Features.Quote.DTOs;
+using VibeCRM.Application.Features.QuoteLineItem.DTOs;
 using VibeCRM.Application.Features.SalesOrder.DTOs;
 using VibeCRM.Domain.Entities.BusinessEntities;
 

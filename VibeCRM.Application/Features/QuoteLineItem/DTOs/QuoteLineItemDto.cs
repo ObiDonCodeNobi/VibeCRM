@@ -21,9 +21,19 @@ namespace VibeCRM.Application.Features.QuoteLineItem.DTOs
         public Guid? ProductId { get; set; }
 
         /// <summary>
+        /// Gets or sets the product name, if applicable
+        /// </summary>
+        public string? ProductName { get; set; }
+
+        /// <summary>
         /// Gets or sets the service identifier that this line item represents, if applicable
         /// </summary>
         public Guid? ServiceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the service name, if applicable
+        /// </summary>
+        public string? ServiceName { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the line item
