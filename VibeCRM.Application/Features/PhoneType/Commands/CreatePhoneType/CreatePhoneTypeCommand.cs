@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.PhoneType.DTOs;
+using VibeCRM.Shared.DTOs.PhoneType;
 
 namespace VibeCRM.Application.Features.PhoneType.Commands.CreatePhoneType
 {

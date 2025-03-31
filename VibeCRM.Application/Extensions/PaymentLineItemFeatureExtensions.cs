@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.PaymentLineItem.Commands.CreatePaymentLineItem;
 using VibeCRM.Application.Features.PaymentLineItem.Commands.DeletePaymentLineItem;
 using VibeCRM.Application.Features.PaymentLineItem.Commands.UpdatePaymentLineItem;
-using VibeCRM.Application.Features.PaymentLineItem.DTOs;
 using VibeCRM.Application.Features.PaymentLineItem.Mappings;
 using VibeCRM.Application.Features.PaymentLineItem.Queries.GetAllPaymentLineItems;
 using VibeCRM.Application.Features.PaymentLineItem.Queries.GetPaymentLineItemById;
 using VibeCRM.Application.Features.PaymentLineItem.Validators;
+using VibeCRM.Shared.DTOs.PaymentLineItem;
 
 namespace VibeCRM.Application.Extensions
 {

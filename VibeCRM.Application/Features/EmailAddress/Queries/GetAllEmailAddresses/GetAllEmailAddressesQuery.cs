@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.EmailAddress.DTOs;
+using VibeCRM.Shared.DTOs.EmailAddress;
 
 namespace VibeCRM.Application.Features.EmailAddress.Queries.GetAllEmailAddresses
 {

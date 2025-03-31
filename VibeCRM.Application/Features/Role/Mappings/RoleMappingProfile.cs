@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Role.Commands.CreateRole;
 using VibeCRM.Application.Features.Role.Commands.UpdateRole;
-using VibeCRM.Application.Features.Role.DTOs;
+using VibeCRM.Shared.DTOs.Role;
 
 namespace VibeCRM.Application.Features.Role.Mappings
 {

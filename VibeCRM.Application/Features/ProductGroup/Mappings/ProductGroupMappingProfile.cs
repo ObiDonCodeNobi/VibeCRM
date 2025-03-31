@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.ProductGroup.Commands.CreateProductGroup;
 using VibeCRM.Application.Features.ProductGroup.Commands.UpdateProductGroup;
-using VibeCRM.Application.Features.ProductGroup.DTOs;
+using VibeCRM.Shared.DTOs.ProductGroup;
 
 namespace VibeCRM.Application.Features.ProductGroup.Mappings
 {

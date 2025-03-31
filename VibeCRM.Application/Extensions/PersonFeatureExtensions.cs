@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Person.Commands.CreatePerson;
 using VibeCRM.Application.Features.Person.Commands.DeletePerson;
 using VibeCRM.Application.Features.Person.Commands.UpdatePerson;
-using VibeCRM.Application.Features.Person.DTOs;
 using VibeCRM.Application.Features.Person.Mappings;
 using VibeCRM.Application.Features.Person.Queries.GetAllPersons;
 using VibeCRM.Application.Features.Person.Queries.GetPersonById;
 using VibeCRM.Application.Features.Person.Validators;
+using VibeCRM.Shared.DTOs.Person;
 
 namespace VibeCRM.Application.Extensions
 {

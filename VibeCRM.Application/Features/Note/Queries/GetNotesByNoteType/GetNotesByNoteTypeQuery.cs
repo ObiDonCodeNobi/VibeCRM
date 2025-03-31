@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.Note.DTOs;
+using VibeCRM.Shared.DTOs.Note;
 
 namespace VibeCRM.Application.Features.Note.Queries.GetNotesByNoteType
 {

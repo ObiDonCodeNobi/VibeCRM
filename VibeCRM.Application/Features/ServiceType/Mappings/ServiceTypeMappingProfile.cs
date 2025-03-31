@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.ServiceType.Commands.CreateServiceType;
 using VibeCRM.Application.Features.ServiceType.Commands.UpdateServiceType;
-using VibeCRM.Application.Features.ServiceType.DTOs;
+using VibeCRM.Shared.DTOs.ServiceType;
 
 namespace VibeCRM.Application.Features.ServiceType.Mappings
 {

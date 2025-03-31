@@ -1,5 +1,5 @@
 using FluentValidation;
-using VibeCRM.Application.Features.NoteType.DTOs;
+using VibeCRM.Shared.DTOs.NoteType;
 
 namespace VibeCRM.Application.Features.NoteType.Validators
 {

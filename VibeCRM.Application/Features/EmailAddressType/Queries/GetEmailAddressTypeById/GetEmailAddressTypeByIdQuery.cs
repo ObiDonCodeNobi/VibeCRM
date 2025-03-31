@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.EmailAddressType.DTOs;
+using VibeCRM.Shared.DTOs.EmailAddressType;
 
 namespace VibeCRM.Application.Features.EmailAddressType.Queries.GetEmailAddressTypeById
 {

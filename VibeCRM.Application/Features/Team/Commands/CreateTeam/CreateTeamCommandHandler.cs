@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.Team.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
+using VibeCRM.Shared.DTOs.Team;
 
 namespace VibeCRM.Application.Features.Team.Commands.CreateTeam
 {

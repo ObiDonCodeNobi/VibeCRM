@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Role.Commands.CreateRole;
 using VibeCRM.Application.Features.Role.Commands.DeleteRole;
 using VibeCRM.Application.Features.Role.Commands.UpdateRole;
-using VibeCRM.Application.Features.Role.DTOs;
 using VibeCRM.Application.Features.Role.Mappings;
 using VibeCRM.Application.Features.Role.Queries.GetAllRoles;
 using VibeCRM.Application.Features.Role.Queries.GetRoleById;
 using VibeCRM.Application.Features.Role.Validators;
+using VibeCRM.Shared.DTOs.Role;
 
 namespace VibeCRM.Application.Extensions
 {

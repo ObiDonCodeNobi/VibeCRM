@@ -1,131 +1,175 @@
 # Service Feature
 
 ## Overview
-The Service feature provides functionality for managing services offered to customers in the VibeCRM system. These services can be organized by service types and include details such as name, description, and standard auditing properties.
+The Service feature provides functionality for managing services offered to customers in the VibeCRM system. It allows for creating, retrieving, updating, and soft-deleting service records that represent billable services provided to clients.
+
+## Domain Model
+The Service entity is a core business entity that represents a billable service in the CRM system. Each Service has the following properties:
+
+- **ServiceId**: Unique identifier (UUID)
+- **ServiceTypeId**: Reference to the service type
+- **Name**: The name of the service
+- **Description**: Detailed description of the service
+- **Rate**: Standard hourly or unit rate for the service
+- **IsTaxable**: Boolean flag indicating if the service is taxable
+- **StandardTaxRate**: Default tax rate percentage if taxable
+- **IsActive**: Boolean flag indicating if the service is active for sale
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **ServiceType**: Navigation property to the associated ServiceType
+- **SalesOrderLineItems**: Collection of associated SalesOrderLineItem entities
+- **QuoteLineItems**: Collection of associated QuoteLineItem entities
 
 ## Feature Components
 
-### Domain Layer
-- **Service Entity**: Represents a service in the system with properties for ID, ServiceTypeId, Name, Description, and standard auditing fields.
-- **IServiceRepository Interface**: Defines contract for Service data access operations.
+### DTOs
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **ServiceDto**: Base DTO with core properties
+- **ServiceDetailsDto**: Extended DTO with audit fields and related data
+- **ServiceListDto**: Optimized DTO for list views
 
-### Infrastructure Layer
-- **ServiceRepository**: Implements the IServiceRepository interface using Dapper for data access to SQL Server.
+### Commands
+- **CreateService**: Creates a new service
+- **UpdateService**: Updates an existing service
+- **DeleteService**: Soft-deletes a service by setting Active = false
+- **ActivateService**: Sets a service as active for sale
+- **DeactivateService**: Sets a service as inactive for sale
+- **UpdateServiceRate**: Updates the rate information for a service
 
-### Application Layer
-- **DTOs**:
-  - `ServiceDto`: Base DTO with essential service properties
-  - `ServiceDetailsDto`: Detailed view with additional metadata
-  - `ServiceListDto`: Streamlined version for list displays
-- **Commands & Handlers**:
-  - `CreateServiceCommand`: Creates a new service
-  - `UpdateServiceCommand`: Updates an existing service
-  - `DeleteServiceCommand`: Soft deletes a service (sets Active=0)
-  - Each command has its own validator in the same folder
-- **Queries & Handlers**:
-  - `GetAllServicesQuery`: Retrieves all active services
-  - `GetServiceByIdQuery`: Retrieves a specific service by ID
-- **Mapping Profiles**:
-  - `ServiceMappingProfile`: Maps between entities and DTOs
-- **Validators**:
-  - DTO validators in the Validators folder:
-    - `ServiceDtoValidator`: For the base DTO
-    - `ServiceDetailsDtoValidator`: For the detailed DTO
-    - `ServiceListDtoValidator`: For the list DTO
+### Queries
+- **GetAllServices**: Retrieves all active services
+- **GetServiceById**: Retrieves a specific service by its ID
+- **GetServicesByType**: Retrieves services of a specific service type
+- **GetActiveServices**: Retrieves only active services
+- **GetInactiveServices**: Retrieves only inactive services
+- **GetTaxableServices**: Retrieves services that are taxable
 
-### Dependency Registration
-- The Service repository is registered in the infrastructure layer's `DependencyInjection.cs` file.
-- The Service mapping profiles and validators are registered in the application layer's `ServiceCollectionExtensions.cs` file through the `AddServiceFeature` extension method.
+### Validators
+- **ServiceDtoValidator**: Validates the base DTO
+- **ServiceDetailsDtoValidator**: Validates the detailed DTO
+- **ServiceListDtoValidator**: Validates the list DTO
+- **CreateServiceCommandValidator**: Validates the create command
+- **UpdateServiceCommandValidator**: Validates the update command
+- **DeleteServiceCommandValidator**: Validates the delete command
+- **ActivateServiceCommandValidator**: Validates the activate command
+- **DeactivateServiceCommandValidator**: Validates the deactivate command
+- **UpdateServiceRateCommandValidator**: Validates the update rate command
+- **GetServiceByIdQueryValidator**: Validates the ID query
+- **GetServicesByTypeQueryValidator**: Validates the type query
 
-## Implementation Notes
-
-### Entity Design
-The Service entity inherits from `BaseAuditableEntity<Guid>` and includes:
-- ServiceId (Guid): Primary key
-- ServiceTypeId (Guid): Foreign key to ServiceType
-- Name (string): Service name
-- Description (string): Optional service description
-- Standard audit fields: CreatedBy, CreatedDate, ModifiedBy, ModifiedDate, Active
-
-### Soft Delete Pattern
-Services use the standardized soft delete pattern with the `Active` property:
-- Active=1 indicates active records
-- Active=0 indicates "deleted" records
-- All queries filter by `Active=1` to exclude soft-deleted records
-- The `DeleteAsync` method performs soft deletion by setting `Active=0`
-
-### Validation Rules
-- **Service Name**:
-  - Required
-  - Maximum length of 100 characters
-- **Service Description**:
-  - Optional
-  - Maximum length of 500 characters
-- **ServiceTypeId**:
-  - Required (cannot be empty GUID)
-- **IDs and User References**:
-  - Command IDs must be valid GUIDs
-  - User references (CreatedBy, ModifiedBy) must be valid GUIDs
-
-### Relationships
-- Services have a relationship with ServiceType (many-to-one)
+### Mappings
+- **ServiceMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a Service
+### Creating a new Service
 ```csharp
 var command = new CreateServiceCommand
 {
-    ServiceTypeId = serviceTypeGuid,
+    ServiceTypeId = serviceTypeId,
     Name = "Software Development",
     Description = "Custom software development services",
-    CreatedBy = currentUserGuid,
-    ModifiedBy = currentUserGuid
+    Rate = 150.00m,
+    IsTaxable = true,
+    StandardTaxRate = 8.25m,
+    IsActive = true,
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
-var result = await mediator.Send(command);
+var result = await _mediator.Send(command);
+```
+
+### Retrieving all Services
+```csharp
+var query = new GetAllServicesQuery();
+var services = await _mediator.Send(query);
+```
+
+### Retrieving a Service by ID
+```csharp
+var query = new GetServiceByIdQuery { Id = serviceId };
+var service = await _mediator.Send(query);
+```
+
+### Retrieving Services by Type
+```csharp
+var query = new GetServicesByTypeQuery { ServiceTypeId = serviceTypeId };
+var services = await _mediator.Send(query);
+```
+
+### Updating a Service's Rate
+```csharp
+var command = new UpdateServiceRateCommand
+{
+    Id = serviceId,
+    Rate = 175.00m,
+    ModifiedBy = currentUserId
+};
+
+var result = await _mediator.Send(command);
 ```
 
 ### Updating a Service
 ```csharp
 var command = new UpdateServiceCommand
 {
-    Id = serviceGuid,
-    ServiceTypeId = serviceTypeGuid,
-    Name = "Updated Service Name",
-    Description = "Updated description",
-    ModifiedBy = currentUserGuid
+    Id = serviceId,
+    Name = "Advanced Software Development",
+    Description = "Enterprise-level custom software development services",
+    IsTaxable = true,
+    StandardTaxRate = 9.0m,
+    ModifiedBy = currentUserId
 };
 
-var result = await mediator.Send(command);
+var result = await _mediator.Send(command);
+```
+
+### Deactivating a Service
+```csharp
+var command = new DeactivateServiceCommand
+{
+    Id = serviceId,
+    ModifiedBy = currentUserId
+};
+
+var success = await _mediator.Send(command);
 ```
 
 ### Deleting a Service
 ```csharp
-var command = new DeleteServiceCommand(serviceGuid, currentUserGuid);
-var result = await mediator.Send(command);
+var command = new DeleteServiceCommand
+{
+    Id = serviceId,
+    ModifiedBy = currentUserId
+};
+
+var success = await _mediator.Send(command);
 ```
 
-### Retrieving Services
-```csharp
-// Get all services
-var allServices = await mediator.Send(new GetAllServicesQuery());
+## Implementation Notes
 
-// Get a specific service
-var service = await mediator.Send(new GetServiceByIdQuery(serviceGuid));
-```
+### Soft Delete Pattern
+The Service feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
 
-## Best Practices Followed
-1. **Clean Architecture**: Separation of concerns between domain, infrastructure, and application layers
-2. **CQRS Pattern**: Separate command and query responsibility using MediatR
-3. **Repository Pattern**: Abstraction layer for data access operations
-4. **Soft Delete**: Records are never physically deleted, only marked as inactive by setting Active=0
-5. **XML Documentation**: Comprehensive documentation for all classes and methods
-6. **Entity as Source of Truth**: All other components (DTOs, commands, etc.) match the entity definition
-7. **FluentValidation**: Validation rules defined using FluentValidation library for all commands and DTOs
-8. **Consistent Structure**: Command validators placed in command folders, DTO validators in Validators folder
+### Validation Rules
+- Name is required and limited to 100 characters
+- Name must be unique
+- Description is optional but limited to 500 characters
+- ServiceTypeId must reference a valid service type
+- Rate must be non-negative
+- StandardTaxRate must be between 0 and 100 if IsTaxable is true
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
 
-## Pending Components
-1. API Controllers (WebAPI layer)
-2. UI Components (using Blazor and Fluent UI)
-3. Query Validators (if needed, following the same pattern as command validators)
+### Service Activation
+- The system distinguishes between soft-deleted services (`Active = false`) and inactive services (`IsActive = false`)
+- Inactive services still exist in the system but are not available for selection in new quotes or sales orders
+- This allows for temporarily removing services from availability without losing historical data
+
+### Rate Management
+- The system maintains the standard rate for each service
+- Historical rates are preserved for existing quotes and sales orders
+- Rate changes only affect new quotes and sales orders
+- The system can generate reports showing rate changes over time

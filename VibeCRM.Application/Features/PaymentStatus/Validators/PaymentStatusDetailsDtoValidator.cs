@@ -1,5 +1,5 @@
 using FluentValidation;
-using VibeCRM.Application.Features.PaymentStatus.DTOs;
+using VibeCRM.Shared.DTOs.PaymentStatus;
 
 namespace VibeCRM.Application.Features.PaymentStatus.Validators
 {

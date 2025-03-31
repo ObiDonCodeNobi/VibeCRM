@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.ActivityDefinition.Commands.CreateActivityDefinition;
 using VibeCRM.Application.Features.ActivityDefinition.Commands.DeleteActivityDefinition;
 using VibeCRM.Application.Features.ActivityDefinition.Commands.UpdateActivityDefinition;
-using VibeCRM.Application.Features.ActivityDefinition.DTOs;
 using VibeCRM.Application.Features.ActivityDefinition.Mappings;
 using VibeCRM.Application.Features.ActivityDefinition.Queries.GetActivityDefinitionById;
 using VibeCRM.Application.Features.ActivityDefinition.Queries.GetAllActivityDefinitions;
 using VibeCRM.Application.Features.ActivityDefinition.Validators;
+using VibeCRM.Shared.DTOs.ActivityDefinition;
 
 namespace VibeCRM.Application.Extensions
 {

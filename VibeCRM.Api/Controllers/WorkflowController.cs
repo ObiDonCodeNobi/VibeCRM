@@ -1,13 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Workflow.Commands.CreateWorkflow;
 using VibeCRM.Application.Features.Workflow.Commands.DeleteWorkflow;
 using VibeCRM.Application.Features.Workflow.Commands.UpdateWorkflow;
-using VibeCRM.Application.Features.Workflow.DTOs;
 using VibeCRM.Application.Features.Workflow.Queries.GetAllWorkflows;
 using VibeCRM.Application.Features.Workflow.Queries.GetWorkflowById;
 using VibeCRM.Application.Features.Workflow.Queries.GetWorkflowsByWorkflowType;
+using VibeCRM.Shared.DTOs.Workflow;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

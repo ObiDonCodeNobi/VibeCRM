@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.CallType.DTOs;
+using VibeCRM.Shared.DTOs.CallType;
 
 namespace VibeCRM.Application.Features.CallType.Commands.UpdateCallType
 {

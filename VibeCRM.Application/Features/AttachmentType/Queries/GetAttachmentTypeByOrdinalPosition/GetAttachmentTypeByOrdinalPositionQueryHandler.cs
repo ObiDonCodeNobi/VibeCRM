@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.AttachmentType.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.AttachmentType;
 
 namespace VibeCRM.Application.Features.AttachmentType.Queries.GetAttachmentTypeByOrdinalPosition
 {

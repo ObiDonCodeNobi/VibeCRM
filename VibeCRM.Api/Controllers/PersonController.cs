@@ -1,13 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Person.Commands.CreatePerson;
 using VibeCRM.Application.Features.Person.Commands.DeletePerson;
 using VibeCRM.Application.Features.Person.Commands.UpdatePerson;
-using VibeCRM.Application.Features.Person.DTOs;
 using VibeCRM.Application.Features.Person.Queries.GetAllPersons;
 using VibeCRM.Application.Features.Person.Queries.GetPersonById;
 using VibeCRM.Application.Features.Person.Queries.GetPersonWithRelatedEntities;
+using VibeCRM.Shared.DTOs.Person;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

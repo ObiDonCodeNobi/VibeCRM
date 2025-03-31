@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.ActivityStatus.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.ActivityStatus;
 
 namespace VibeCRM.Application.Features.ActivityStatus.Queries.GetActivityStatusByOrdinalPosition
 {

@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.User.DTOs;
+using VibeCRM.Shared.DTOs.User;
 
 namespace VibeCRM.Application.Features.User.Queries.GetUserById
 {

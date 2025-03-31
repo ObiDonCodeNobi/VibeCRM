@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.SalesOrderStatus.DTOs;
+using VibeCRM.Shared.DTOs.SalesOrderStatus;
 
 namespace VibeCRM.Application.Features.SalesOrderStatus.Queries.GetSalesOrderStatusByStatus
 {

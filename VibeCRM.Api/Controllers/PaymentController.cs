@@ -1,10 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Payment.Commands.CreatePayment;
 using VibeCRM.Application.Features.Payment.Commands.DeletePayment;
 using VibeCRM.Application.Features.Payment.Commands.UpdatePayment;
-using VibeCRM.Application.Features.Payment.DTOs;
 using VibeCRM.Application.Features.Payment.Queries.GetAllPayments;
 using VibeCRM.Application.Features.Payment.Queries.GetPaymentById;
 using VibeCRM.Application.Features.Payment.Queries.GetPaymentsByCompany;
@@ -13,6 +11,8 @@ using VibeCRM.Application.Features.Payment.Queries.GetPaymentsByInvoice;
 using VibeCRM.Application.Features.Payment.Queries.GetPaymentsByMethod;
 using VibeCRM.Application.Features.Payment.Queries.GetPaymentsByPerson;
 using VibeCRM.Application.Features.Payment.Queries.GetPaymentsByStatus;
+using VibeCRM.Shared.DTOs.Payment;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

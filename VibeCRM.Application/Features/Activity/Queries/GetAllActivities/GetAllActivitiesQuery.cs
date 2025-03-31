@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.Activity.DTOs;
+using VibeCRM.Shared.DTOs.Activity;
 
 namespace VibeCRM.Application.Features.Activity.Queries.GetAllActivities
 {

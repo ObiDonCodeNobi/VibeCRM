@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.Call.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
+using VibeCRM.Shared.DTOs.Call;
 
 namespace VibeCRM.Application.Features.Call.Commands.UpdateCall
 {

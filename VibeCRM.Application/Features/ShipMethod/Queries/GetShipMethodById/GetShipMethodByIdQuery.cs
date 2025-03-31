@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.ShipMethod.DTOs;
+using VibeCRM.Shared.DTOs.ShipMethod;
 
 namespace VibeCRM.Application.Features.ShipMethod.Queries.GetShipMethodById
 {

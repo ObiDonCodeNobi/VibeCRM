@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.PaymentStatus.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.PaymentStatus;
 
 namespace VibeCRM.Application.Features.PaymentStatus.Queries.GetPaymentStatusById
 {

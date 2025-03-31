@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Service.Commands.CreateService;
 using VibeCRM.Application.Features.Service.Commands.DeleteService;
 using VibeCRM.Application.Features.Service.Commands.UpdateService;
@@ -9,6 +8,7 @@ using VibeCRM.Application.Features.Service.Queries.GetAllServices;
 using VibeCRM.Application.Features.Service.Queries.GetAllServicesWithRelatedEntities;
 using VibeCRM.Application.Features.Service.Queries.GetServiceById;
 using VibeCRM.Application.Features.Service.Queries.GetServiceByIdWithRelatedEntities;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

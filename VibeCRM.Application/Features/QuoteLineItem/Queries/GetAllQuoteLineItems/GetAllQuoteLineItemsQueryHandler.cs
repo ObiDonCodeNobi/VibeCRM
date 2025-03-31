@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.QuoteLineItem.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
+using VibeCRM.Shared.DTOs.QuoteLineItem;
 
 namespace VibeCRM.Application.Features.QuoteLineItem.Queries.GetAllQuoteLineItems
 {

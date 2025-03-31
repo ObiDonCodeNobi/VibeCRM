@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.ActivityStatus.DTOs;
+using VibeCRM.Shared.DTOs.ActivityStatus;
 
 namespace VibeCRM.Application.Features.ActivityStatus.Queries.GetDefaultActivityStatus
 {

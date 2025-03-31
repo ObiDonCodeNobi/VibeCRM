@@ -3,94 +3,111 @@
 ## Overview
 The AddressType feature provides functionality for managing address types in the VibeCRM system. Address types categorize addresses (e.g., "Home", "Work", "Billing", "Shipping") and help organize contact information for entities in the system.
 
-## Architecture
-This feature follows Clean Architecture and CQRS principles:
+## Domain Model
+The AddressType entity is a reference entity that represents a type category for addresses. Each AddressType has the following properties:
 
-- **Domain Layer**: Contains the `AddressType` entity and repository interface
-- **Application Layer**: Contains DTOs, Commands, Queries, Validators, and Mapping profiles
-- **Infrastructure Layer**: Contains the repository implementation
+- **AddressTypeId**: Unique identifier (UUID)
+- **Type**: Name of the address type (e.g., "Home", "Work", "Billing")
+- **Description**: Detailed description of what the address type means
+- **OrdinalPosition**: Numeric value for ordering address types in dropdowns and lists
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **Addresses**: Collection of associated Address entities
 
-## Components
+## Feature Components
 
 ### DTOs
-- **AddressTypeDto**: Basic properties of an address type
-- **AddressTypeListDto**: List view with address count
-- **AddressTypeDetailsDto**: Detailed view with audit fields
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **AddressTypeDto**: Base DTO with core properties
+- **AddressTypeDetailsDto**: Extended DTO with audit fields and address count
+- **AddressTypeListDto**: Optimized DTO for list views
 
 ### Commands
 - **CreateAddressType**: Creates a new address type
 - **UpdateAddressType**: Updates an existing address type
-- **DeleteAddressType**: Performs soft delete by setting Active = false
+- **DeleteAddressType**: Soft-deletes an address type by setting Active = false
 
 ### Queries
-- **GetAllAddressTypes**: Retrieves all address types
-- **GetAddressTypeById**: Retrieves an address type by ID
-- **GetAddressTypeByType**: Retrieves an address type by its type name
-- **GetAddressTypeByOrdinalPosition**: Retrieves an address type by its ordinal position
+- **GetAllAddressTypes**: Retrieves all active address types
+- **GetAddressTypeById**: Retrieves a specific address type by its ID
+- **GetAddressTypeByType**: Retrieves a specific address type by its type name
+- **GetAddressTypeByOrdinalPosition**: Retrieves a specific address type by its ordinal position
 - **GetDefaultAddressType**: Retrieves the default address type
 
 ### Validators
-- Validators for all DTOs, commands, and queries
-- Ensures data integrity and validation
+- **AddressTypeDtoValidator**: Validates the base DTO
+- **AddressTypeDetailsDtoValidator**: Validates the detailed DTO
+- **AddressTypeListDtoValidator**: Validates the list DTO
+- **GetAddressTypeByIdQueryValidator**: Validates the ID query
+- **GetAddressTypeByTypeQueryValidator**: Validates the type name query
+- **GetAddressTypeByOrdinalPositionQueryValidator**: Validates the ordinal position query
+- **GetAllAddressTypesQueryValidator**: Validates the "get all" query
 
-### Mapping Profile
-- Maps between entities and DTOs/commands
-- Ensures proper data transformation
-
-## Implementation Details
-
-### Soft Delete
-- Implemented using the `Active` property (true = active, false = deleted)
-- All queries filter by `Active = true` to exclude soft-deleted records
-- The `DeleteAsync` method in the repository sets `Active = false` instead of removing the record
-
-### Audit Fields
-- All entities include audit fields (CreatedBy, CreatedDate, ModifiedBy, ModifiedDate)
-- These fields are automatically set in command handlers
-
-### Ordinal Position
-- Address types can be ordered using the `OrdinalPosition` property
-- The `GetByOrdinalPositionAsync` method in the repository returns address types ordered by this field
+### Mappings
+- **AddressTypeMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating an Address Type
+### Creating a new AddressType
 ```csharp
 var command = new CreateAddressTypeCommand
 {
     Type = "Home",
     Description = "Residential address",
-    OrdinalPosition = 1
+    OrdinalPosition = 1,
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Retrieving All Address Types
+### Retrieving all AddressTypes
 ```csharp
 var query = new GetAllAddressTypesQuery();
 var addressTypes = await _mediator.Send(query);
 ```
 
-### Updating an Address Type
+### Updating an AddressType
 ```csharp
 var command = new UpdateAddressTypeCommand
 {
     Id = addressTypeId,
     Type = "Primary Residence",
     Description = "Main home address",
-    OrdinalPosition = 1
+    OrdinalPosition = 1,
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Deleting an Address Type
+### Deleting an AddressType
 ```csharp
 var command = new DeleteAddressTypeCommand
 {
-    Id = addressTypeId
+    Id = addressTypeId,
+    ModifiedBy = currentUserId
 };
 
-var result = await _mediator.Send(command);
+var success = await _mediator.Send(command);
 ```
+
+## Implementation Notes
+
+### Soft Delete Pattern
+The AddressType feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
+
+### Validation Rules
+- Type name is required and limited to 100 characters
+- Description is required and limited to 500 characters
+- Ordinal position must be a non-negative number
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
+
+### Ordering
+Address types are ordered by their OrdinalPosition property in list views to ensure consistent display order.
+
+### Address Associations
+Each AddressType can be associated with multiple Address entities. The feature includes functionality to retrieve the count of addresses using each type.

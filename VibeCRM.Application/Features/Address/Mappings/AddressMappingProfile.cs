@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Address.Commands.CreateAddress;
 using VibeCRM.Application.Features.Address.Commands.UpdateAddress;
-using VibeCRM.Application.Features.Address.DTOs;
+using VibeCRM.Shared.DTOs.Address;
 
 namespace VibeCRM.Application.Features.Address.Mappings
 {

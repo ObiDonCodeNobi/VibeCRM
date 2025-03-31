@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using VibeCRM.Application.Common.Interfaces.Services;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Common.Models.Authentication;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

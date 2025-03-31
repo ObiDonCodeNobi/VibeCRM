@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.ProductType.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.ProductType;
 
 namespace VibeCRM.Application.Features.ProductType.Commands.UpdateProductType
 {

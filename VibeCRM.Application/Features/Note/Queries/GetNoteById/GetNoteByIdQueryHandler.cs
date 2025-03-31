@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.Note.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
+using VibeCRM.Shared.DTOs.Note;
 
 namespace VibeCRM.Application.Features.Note.Queries.GetNoteById
 {

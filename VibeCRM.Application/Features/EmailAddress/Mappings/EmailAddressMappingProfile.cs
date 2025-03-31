@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.EmailAddress.Commands.CreateEmailAddress;
 using VibeCRM.Application.Features.EmailAddress.Commands.UpdateEmailAddress;
-using VibeCRM.Application.Features.EmailAddress.DTOs;
+using VibeCRM.Shared.DTOs.EmailAddress;
 
 namespace VibeCRM.Application.Features.EmailAddress.Mappings
 {

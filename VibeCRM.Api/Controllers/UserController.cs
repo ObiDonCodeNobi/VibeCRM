@@ -1,16 +1,16 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.User.Commands.CreateUser;
 using VibeCRM.Application.Features.User.Commands.DeleteUser;
 using VibeCRM.Application.Features.User.Commands.UpdateUser;
-using VibeCRM.Application.Features.User.DTOs;
 using VibeCRM.Application.Features.User.Queries.GetAllUsers;
 using VibeCRM.Application.Features.User.Queries.GetUserByEmail;
 using VibeCRM.Application.Features.User.Queries.GetUserById;
 using VibeCRM.Application.Features.User.Queries.GetUserByUsername;
 using VibeCRM.Application.Features.User.Queries.GetUsersByRoleId;
 using VibeCRM.Application.Features.User.Queries.GetUsersByTeamId;
+using VibeCRM.Shared.DTOs.User;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

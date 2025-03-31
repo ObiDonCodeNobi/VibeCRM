@@ -1,15 +1,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.ActivityType.Commands.CreateActivityType;
 using VibeCRM.Application.Features.ActivityType.Commands.DeleteActivityType;
 using VibeCRM.Application.Features.ActivityType.Commands.UpdateActivityType;
-using VibeCRM.Application.Features.ActivityType.DTOs;
 using VibeCRM.Application.Features.ActivityType.Queries.GetActivityTypeById;
 using VibeCRM.Application.Features.ActivityType.Queries.GetActivityTypeByOrdinalPosition;
 using VibeCRM.Application.Features.ActivityType.Queries.GetActivityTypeByType;
 using VibeCRM.Application.Features.ActivityType.Queries.GetAllActivityTypes;
 using VibeCRM.Application.Features.ActivityType.Queries.GetDefaultActivityType;
+using VibeCRM.Shared.DTOs.ActivityType;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

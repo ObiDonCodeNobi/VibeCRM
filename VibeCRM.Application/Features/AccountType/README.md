@@ -1,47 +1,134 @@
 # AccountType Feature
 
-This feature implements the functionality for managing account types in the VibeCRM system. Account types are used to categorize accounts for organization and reporting purposes.
+## Overview
+The AccountType feature provides functionality for managing account types in the VibeCRM system. Account types are used to categorize accounts for organization and reporting purposes.
 
-## Structure
+## Domain Model
+The AccountType entity is a reference entity that represents a type category for accounts. Each AccountType has the following properties:
 
-The feature follows the Clean Architecture principles and CQRS pattern with the following components:
+- **AccountTypeId**: Unique identifier (UUID)
+- **Type**: Name of the account type (e.g., "Customer", "Prospect", "Partner")
+- **Description**: Detailed description of what the account type means
+- **OrdinalPosition**: Numeric value for ordering account types in dropdowns and lists
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **Accounts**: Collection of associated Account entities
+
+## Feature Components
+
+### DTOs
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **AccountTypeDto**: Base DTO with core properties
+- **AccountTypeDetailsDto**: Extended DTO with audit fields and account count
+- **AccountTypeListDto**: Optimized DTO for list views
 
 ### Commands
 - **CreateAccountType**: Creates a new account type
 - **UpdateAccountType**: Updates an existing account type
-- **DeleteAccountType**: Soft deletes an account type (sets Active = false)
+- **DeleteAccountType**: Soft-deletes an account type by setting Active = false
 
 ### Queries
 - **GetAllAccountTypes**: Retrieves all active account types
 - **GetAccountTypeById**: Retrieves a specific account type by its ID
 - **GetAccountTypeByType**: Retrieves account types by their type name
 - **GetAccountTypeByOrdinalPosition**: Retrieves account types ordered by their ordinal position
-
-### DTOs
-- **AccountTypeDto**: Basic DTO for account type data
-- **AccountTypeListDto**: Extended DTO for account type data in list views, includes company count
+- **GetDefaultAccountType**: Retrieves the default account type (lowest ordinal position)
 
 ### Validators
-- Validators for all commands and DTOs to ensure data integrity
+- **AccountTypeDtoValidator**: Validates the base DTO
+- **AccountTypeDetailsDtoValidator**: Validates the detailed DTO
+- **AccountTypeListDtoValidator**: Validates the list DTO
+- **CreateAccountTypeCommandValidator**: Validates the create command
+- **UpdateAccountTypeCommandValidator**: Validates the update command
+- **DeleteAccountTypeCommandValidator**: Validates the delete command
+- **GetAccountTypeByIdQueryValidator**: Validates the ID query
+- **GetAccountTypeByTypeQueryValidator**: Validates the type name query
+- **GetAccountTypeByOrdinalPositionQueryValidator**: Validates the ordinal position query
 
 ### Mappings
-- AutoMapper profile for mapping between entities and DTOs
+- **AccountTypeMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
-## Implementation Details
+## Usage Examples
 
-- Follows the soft delete pattern using the `Active` property
-- Uses Dapper ORM for data access
-- Implements comprehensive logging with Serilog
-- Includes full XML documentation for all classes and methods
+### Creating a new AccountType
+```csharp
+var command = new CreateAccountTypeCommand
+{
+    Type = "Customer",
+    Description = "Organizations that purchase products or services",
+    OrdinalPosition = 1,
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
+};
 
-## Usage
+var result = await _mediator.Send(command);
+```
 
-The feature is accessed through MediatR handlers that process commands and queries. The handlers interact with the repository layer, which uses Dapper to communicate with the database.
+### Retrieving all AccountTypes
+```csharp
+var query = new GetAllAccountTypesQuery();
+var accountTypes = await _mediator.Send(query);
+```
 
-## Dependencies
+### Retrieving an AccountType by ID
+```csharp
+var query = new GetAccountTypeByIdQuery { Id = accountTypeId };
+var accountType = await _mediator.Send(query);
+```
 
-- MediatR for CQRS implementation
-- AutoMapper for object mapping
-- FluentValidation for validation
-- Serilog for logging
-- Dapper for data access
+### Retrieving AccountTypes by type name
+```csharp
+var query = new GetAccountTypeByTypeQuery { Type = "Customer" };
+var accountType = await _mediator.Send(query);
+```
+
+### Retrieving the default AccountType
+```csharp
+var query = new GetDefaultAccountTypeQuery();
+var defaultAccountType = await _mediator.Send(query);
+```
+
+### Updating an AccountType
+```csharp
+var command = new UpdateAccountTypeCommand
+{
+    Id = accountTypeId,
+    Type = "Strategic Customer",
+    Description = "High-value customers with strategic importance",
+    OrdinalPosition = 1,
+    ModifiedBy = currentUserId
+};
+
+var result = await _mediator.Send(command);
+```
+
+### Deleting an AccountType
+```csharp
+var command = new DeleteAccountTypeCommand
+{
+    Id = accountTypeId,
+    ModifiedBy = currentUserId
+};
+
+var success = await _mediator.Send(command);
+```
+
+## Implementation Notes
+
+### Soft Delete Pattern
+The AccountType feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
+
+### Validation Rules
+- Type name is required and limited to 50 characters
+- Description is required and limited to 500 characters
+- Ordinal position must be a non-negative number
+- Type name must be unique across all account types
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
+
+### Ordering
+Account types are ordered by their OrdinalPosition property in list views to ensure consistent display order.
+
+### Account Associations
+Each AccountType can be associated with multiple Account entities. The feature includes functionality to retrieve the count of accounts using each type.

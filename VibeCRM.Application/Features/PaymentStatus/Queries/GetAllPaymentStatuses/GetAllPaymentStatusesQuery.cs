@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.PaymentStatus.DTOs;
+using VibeCRM.Shared.DTOs.PaymentStatus;
 
 namespace VibeCRM.Application.Features.PaymentStatus.Queries.GetAllPaymentStatuses
 {

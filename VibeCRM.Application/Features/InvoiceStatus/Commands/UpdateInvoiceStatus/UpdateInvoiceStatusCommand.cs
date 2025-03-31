@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.InvoiceStatus.DTOs;
+using VibeCRM.Shared.DTOs.InvoiceStatus;
 
 namespace VibeCRM.Application.Features.InvoiceStatus.Commands.UpdateInvoiceStatus
 {

@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.ProductGroup.DTOs;
+using VibeCRM.Shared.DTOs.ProductGroup;
 
 namespace VibeCRM.Application.Features.ProductGroup.Queries.GetProductGroupsByParentId
 {

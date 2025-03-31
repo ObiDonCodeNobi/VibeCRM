@@ -1,9 +1,9 @@
 using AutoMapper;
-using VibeCRM.Application.Features.Product.DTOs;
-using VibeCRM.Application.Features.ProductGroup.DTOs;
-using VibeCRM.Application.Features.ProductType.DTOs;
-using VibeCRM.Application.Features.QuoteLineItem.DTOs;
-using VibeCRM.Application.Features.SalesOrderLineItem.DTOs;
+using VibeCRM.Shared.DTOs.Product;
+using VibeCRM.Shared.DTOs.ProductGroup;
+using VibeCRM.Shared.DTOs.ProductType;
+using VibeCRM.Shared.DTOs.QuoteLineItem;
+using VibeCRM.Shared.DTOs.SalesOrderLineItem;
 
 namespace VibeCRM.Application.Features.Product.Mappings
 {

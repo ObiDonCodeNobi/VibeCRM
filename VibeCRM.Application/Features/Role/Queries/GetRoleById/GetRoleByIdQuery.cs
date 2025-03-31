@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.Role.DTOs;
+using VibeCRM.Shared.DTOs.Role;
 
 namespace VibeCRM.Application.Features.Role.Queries.GetRoleById
 {

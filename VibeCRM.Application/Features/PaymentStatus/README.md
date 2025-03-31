@@ -3,80 +3,80 @@
 ## Overview
 The PaymentStatus feature provides a comprehensive implementation for managing payment statuses within the VibeCRM system. Payment statuses represent the current state of payments (e.g., "Paid", "Pending", "Overdue") and are used to track payment progress throughout the system.
 
-## Architecture
-This feature follows the Clean Architecture and CQRS patterns established in the VibeCRM system:
+## Domain Model
+The PaymentStatus entity is a reference entity that represents the status of a payment. Each PaymentStatus has the following properties:
 
-- **Domain Layer**: Contains the PaymentStatus entity definition
-- **Application Layer**: Contains DTOs, Commands, Queries, Validators, and Mapping profiles
-- **Infrastructure Layer**: Contains the PaymentStatusRepository implementation
+- **PaymentStatusId**: Unique identifier (UUID)
+- **Status**: Name of the status (e.g., "Paid", "Pending", "Overdue")
+- **Description**: Detailed description of what the status means
+- **OrdinalPosition**: Numeric value for ordering statuses in dropdowns and lists
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **Payments**: Collection of associated Payment entities
 
-## Components
+## Feature Components
 
 ### DTOs
-- `PaymentStatusDto`: Basic DTO for transferring payment status data
-- `PaymentStatusDetailsDto`: Detailed DTO with additional information like creation/modification dates
-- `PaymentStatusListDto`: DTO optimized for list views with payment count
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **PaymentStatusDto**: Base DTO with core properties
+- **PaymentStatusDetailsDto**: Extended DTO with audit fields and payment count
+- **PaymentStatusListDto**: Optimized DTO for list views
 
 ### Commands
-- `CreatePaymentStatus`: Creates a new payment status
-- `UpdatePaymentStatus`: Updates an existing payment status
-- `DeletePaymentStatus`: Soft deletes a payment status (sets Active = false)
+- **CreatePaymentStatus**: Creates a new payment status
+- **UpdatePaymentStatus**: Updates an existing payment status
+- **DeletePaymentStatus**: Soft-deletes a payment status by setting Active = false
 
 ### Queries
-- `GetPaymentStatusById`: Retrieves a payment status by its ID
-- `GetPaymentStatusByStatus`: Retrieves a payment status by its status name
-- `GetAllPaymentStatuses`: Retrieves all payment statuses with optional filtering
+- **GetAllPaymentStatuses**: Retrieves all active payment statuses
+- **GetPaymentStatusById**: Retrieves a specific payment status by its ID
+- **GetPaymentStatusByStatus**: Retrieves a specific payment status by its status name
+- **GetPaymentStatusByOrdinalPosition**: Retrieves payment statuses ordered by position
 
 ### Validators
-- Command validators: Ensure command data is valid before processing
-- Query validators: Validate query parameters
-- DTO validators: Validate DTO properties for data consistency
+- **PaymentStatusDtoValidator**: Validates the base DTO
+- **PaymentStatusDetailsDtoValidator**: Validates the detailed DTO
+- **PaymentStatusListDtoValidator**: Validates the list DTO
+- **GetPaymentStatusByIdQueryValidator**: Validates the ID query
+- **GetPaymentStatusByStatusQueryValidator**: Validates the status name query
+- **GetPaymentStatusByOrdinalPositionQueryValidator**: Validates the ordinal position query
+- **GetAllPaymentStatusesQueryValidator**: Validates the "get all" query
 
-### Mapping Profiles
-- `PaymentStatusMappingProfile`: Configures AutoMapper mappings between entities and DTOs
-
-## Implementation Details
-
-### Soft Delete Pattern
-- Uses the standard `Active` property for soft delete
-- All queries filter by `Active = 1` to exclude soft-deleted records
-- The `DeleteAsync` method sets `Active = 0` rather than removing records
-
-### Audit Fields
-- Tracks `CreatedDate`, `CreatedBy`, `ModifiedDate`, and `ModifiedBy` for all entities
-- These fields are properly maintained in command handlers
-
-### Validation
-- All commands and DTOs have comprehensive validation rules
-- Validation includes required fields, string lengths, and numeric ranges
+### Mappings
+- **PaymentStatusMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a Payment Status
+### Creating a new PaymentStatus
 ```csharp
 var command = new CreatePaymentStatusCommand
 {
     Status = "Paid",
     Description = "Payment has been received and processed",
     OrdinalPosition = 1,
-    CreatedBy = userId,
-    ModifiedBy = userId
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
-var result = await mediator.Send(command);
+var result = await _mediator.Send(command);
 ```
 
-### Retrieving a Payment Status
+### Retrieving all PaymentStatuses
+```csharp
+var query = new GetAllPaymentStatusesQuery();
+var paymentStatuses = await _mediator.Send(query);
+```
+
+### Retrieving a PaymentStatus by status name
 ```csharp
 var query = new GetPaymentStatusByStatusQuery
 {
     Status = "Paid"
 };
 
-var paymentStatus = await mediator.Send(query);
+var paymentStatus = await _mediator.Send(query);
 ```
 
-### Updating a Payment Status
+### Updating a PaymentStatus
 ```csharp
 var command = new UpdatePaymentStatusCommand
 {
@@ -84,19 +84,39 @@ var command = new UpdatePaymentStatusCommand
     Status = "Paid in Full",
     Description = "Payment has been received and fully processed",
     OrdinalPosition = 1,
-    ModifiedBy = userId
+    ModifiedBy = currentUserId
 };
 
-var result = await mediator.Send(command);
+var result = await _mediator.Send(command);
 ```
 
-### Deleting a Payment Status
+### Deleting a PaymentStatus
 ```csharp
 var command = new DeletePaymentStatusCommand
 {
     Id = paymentStatusId,
-    ModifiedBy = userId
+    ModifiedBy = currentUserId
 };
 
-var success = await mediator.Send(command);
+var success = await _mediator.Send(command);
 ```
+
+## Implementation Notes
+
+### Soft Delete Pattern
+The PaymentStatus feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
+
+### Validation Rules
+- Status name is required and limited to 100 characters
+- Description is required and limited to 500 characters
+- Ordinal position must be a non-negative number
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
+
+### Ordering
+Payment statuses are ordered by their OrdinalPosition property in list views to ensure consistent display order.
+
+### Payment Associations
+Each PaymentStatus can be associated with multiple Payment entities. The feature includes functionality to retrieve the count of payments using each status.

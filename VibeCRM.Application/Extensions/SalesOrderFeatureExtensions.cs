@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.SalesOrder.Commands.CreateSalesOrder;
 using VibeCRM.Application.Features.SalesOrder.Commands.DeleteSalesOrder;
 using VibeCRM.Application.Features.SalesOrder.Commands.UpdateSalesOrder;
-using VibeCRM.Application.Features.SalesOrder.DTOs;
 using VibeCRM.Application.Features.SalesOrder.Mappings;
 using VibeCRM.Application.Features.SalesOrder.Queries.GetAllSalesOrders;
 using VibeCRM.Application.Features.SalesOrder.Queries.GetSalesOrderById;
 using VibeCRM.Application.Features.SalesOrder.Validators;
+using VibeCRM.Shared.DTOs.SalesOrder;
 
 namespace VibeCRM.Application.Extensions
 {

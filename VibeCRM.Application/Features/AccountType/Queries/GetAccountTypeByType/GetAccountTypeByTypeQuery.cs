@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.AccountType.DTOs;
+using VibeCRM.Shared.DTOs.AccountType;
 
 namespace VibeCRM.Application.Features.AccountType.Queries.GetAccountTypeByType
 {

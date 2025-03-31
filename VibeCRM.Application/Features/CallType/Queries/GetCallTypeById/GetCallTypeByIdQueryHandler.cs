@@ -2,8 +2,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Exceptions;
-using VibeCRM.Application.Features.CallType.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.CallType;
 
 namespace VibeCRM.Application.Features.CallType.Queries.GetCallTypeById
 {

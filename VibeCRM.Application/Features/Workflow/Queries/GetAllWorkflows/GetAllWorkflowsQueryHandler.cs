@@ -1,9 +1,9 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.Workflow.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.Workflow;
 
 namespace VibeCRM.Application.Features.Workflow.Queries.GetAllWorkflows
 {

@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.Role.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
+using VibeCRM.Shared.DTOs.Role;
 
 namespace VibeCRM.Application.Features.Role.Queries.GetRolesByUserId
 {

@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Team.Commands.CreateTeam;
 using VibeCRM.Application.Features.Team.Commands.UpdateTeam;
-using VibeCRM.Application.Features.Team.DTOs;
+using VibeCRM.Shared.DTOs.Team;
 
 namespace VibeCRM.Application.Features.Team.Mappings
 {

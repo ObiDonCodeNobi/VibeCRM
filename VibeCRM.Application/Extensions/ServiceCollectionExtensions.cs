@@ -24,30 +24,51 @@ namespace VibeCRM.Application.Extensions
             services.AddAccountTypeFeature();
             services.AddActivityDefinitionFeature();
             services.AddActivityFeature();
+            services.AddActivityStatusFeature();
+            services.AddActivityTypeFeature();
             services.AddAddressFeature();
+            services.AddAddressTypeFeature();
             services.AddAttachmentFeature();
+            services.AddAttachmentTypeFeature();
             services.AddCallFeature();
+            services.AddCallDirectionFeature();
+            services.AddCallTypeFeature();
             services.AddCompanyFeature();
+            services.AddContactTypeFeature();
             services.AddEmailAddressFeature();
+            services.AddEmailAddressTypeFeature();
             services.AddInvoiceFeature();
+            //services.AddInvoiceLineItemFeature();
+            services.AddInvoiceStatusFeature();
             services.AddNoteFeature();
+            services.AddNoteTypeFeature();
             services.AddPaymentFeature();
             services.AddPaymentLineItemFeature();
+            services.AddPaymentMethodFeature();
+            services.AddPaymentStatusFeature();
             services.AddPersonFeature();
+            services.AddPersonStatusFeature();
+            services.AddPersonTypeFeature();
             services.AddPhoneFeature();
+            services.AddPhoneTypeFeature();
             services.AddProductFeature();
             services.AddProductGroupFeature();
+            services.AddProductTypeFeature();
             services.AddQuoteFeature();
             services.AddQuoteLineItemFeature();
+            services.AddQuoteStatusFeature();
             services.AddRoleFeature();
             services.AddSalesOrderFeature();
             services.AddSalesOrderLineItemFeature();
+            services.AddSalesOrderStatusFeature();
             services.AddServiceFeature();
+            services.AddServiceTypeFeature();
+            services.AddShipMethodFeature();
+            services.AddStateFeature();
             services.AddTeamFeature();
             services.AddUserFeature();
             services.AddWorkflowFeature();
-
-            // Note: Additional feature registrations will be added as they are implemented
+            //services.AddWorkflowTypeFeature();
 
             return services;
         }

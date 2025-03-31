@@ -3,79 +3,96 @@
 ## Overview
 The AttachmentType feature provides functionality for managing attachment types in the VibeCRM system. Attachment types categorize attachments (such as documents, images, contracts, etc.) for organization and reporting purposes.
 
-## Architecture
-This feature follows Clean Architecture and CQRS principles:
-- **Domain Layer**: Contains the AttachmentType entity definition
-- **Application Layer**: Implements CQRS with MediatR, handling commands and queries
-- **Infrastructure Layer**: Manages data access using the AttachmentTypeRepository
+## Domain Model
+The AttachmentType entity is a reference entity that represents a type category for attachments. Each AttachmentType has the following properties:
 
-## Components
+- **AttachmentTypeId**: Unique identifier (UUID)
+- **Type**: Name of the attachment type (e.g., "Document", "Image", "Contract")
+- **Description**: Detailed description of what the attachment type means
+- **OrdinalPosition**: Numeric value for ordering attachment types in dropdowns and lists
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **Attachments**: Collection of associated Attachment entities
+- **SupportedFileExtensions**: Collection of file extensions supported by this attachment type
+
+## Feature Components
 
 ### DTOs
-- **AttachmentTypeDto**: Basic properties for attachment types
-- **AttachmentTypeListDto**: List view including an AttachmentCount property
-- **AttachmentTypeDetailsDto**: Detailed view with audit fields
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **AttachmentTypeDto**: Base DTO with core properties
+- **AttachmentTypeDetailsDto**: Extended DTO with audit fields and attachment count
+- **AttachmentTypeListDto**: Optimized DTO for list views
 
-### Commands and Handlers
-- **CreateAttachmentType**: Command and handler for creating new attachment types
-- **UpdateAttachmentType**: Command and handler for updating existing attachment types
-- **DeleteAttachmentType**: Command and handler for performing a soft delete using the Active property
+### Commands
+- **CreateAttachmentType**: Creates a new attachment type
+- **UpdateAttachmentType**: Updates an existing attachment type
+- **DeleteAttachmentType**: Soft-deletes an attachment type by setting Active = false
 
-### Queries and Handlers
-- **GetAllAttachmentTypes**: Query and handler to retrieve all attachment types
-- **GetAttachmentTypeById**: Query and handler to retrieve an attachment type by its ID
-- **GetAttachmentTypeByType**: Query and handler to retrieve an attachment type by its type name
-- **GetAttachmentTypeByOrdinalPosition**: Query and handler to retrieve attachment types ordered by their ordinal position
-- **GetDefaultAttachmentType**: Query and handler to retrieve the default attachment type
-- **GetAttachmentTypeByFileExtension**: Query and handler to retrieve attachment types that support a specific file extension
+### Queries
+- **GetAllAttachmentTypes**: Retrieves all active attachment types
+- **GetAttachmentTypeById**: Retrieves a specific attachment type by its ID
+- **GetAttachmentTypeByType**: Retrieves a specific attachment type by its type name
+- **GetAttachmentTypeByOrdinalPosition**: Retrieves attachment types ordered by position
+- **GetDefaultAttachmentType**: Retrieves the default attachment type
+- **GetAttachmentTypeByFileExtension**: Retrieves attachment types that support a specific file extension
 
 ### Validators
-- **AttachmentTypeDtoValidator**: Validates the basic AttachmentTypeDto
-- **AttachmentTypeListDtoValidator**: Validates the AttachmentTypeListDto
-- **AttachmentTypeDetailsDtoValidator**: Validates the AttachmentTypeDetailsDto
-- **CreateAttachmentTypeCommandValidator**: Validates the CreateAttachmentTypeCommand
-- **UpdateAttachmentTypeCommandValidator**: Validates the UpdateAttachmentTypeCommand
-- **DeleteAttachmentTypeCommandValidator**: Validates the DeleteAttachmentTypeCommand
-- **GetAttachmentTypeByIdQueryValidator**: Validates the GetAttachmentTypeByIdQuery
-- **GetAttachmentTypeByTypeQueryValidator**: Validates the GetAttachmentTypeByTypeQuery
-- **GetAttachmentTypeByFileExtensionQueryValidator**: Validates the GetAttachmentTypeByFileExtensionQuery
-- **GetAllAttachmentTypesQueryValidator**: Validates the GetAllAttachmentTypesQuery (parameter-less)
-- **GetAttachmentTypeByOrdinalPositionQueryValidator**: Validates the GetAttachmentTypeByOrdinalPositionQuery (parameter-less)
-- **GetDefaultAttachmentTypeQueryValidator**: Validates the GetDefaultAttachmentTypeQuery (parameter-less)
+- **AttachmentTypeDtoValidator**: Validates the base DTO
+- **AttachmentTypeDetailsDtoValidator**: Validates the detailed DTO
+- **AttachmentTypeListDtoValidator**: Validates the list DTO
+- **CreateAttachmentTypeCommandValidator**: Validates the create command
+- **UpdateAttachmentTypeCommandValidator**: Validates the update command
+- **DeleteAttachmentTypeCommandValidator**: Validates the delete command
+- **GetAttachmentTypeByIdQueryValidator**: Validates the ID query
+- **GetAttachmentTypeByTypeQueryValidator**: Validates the type name query
+- **GetAttachmentTypeByFileExtensionQueryValidator**: Validates the file extension query
+- **GetAllAttachmentTypesQueryValidator**: Validates the "get all" query
+- **GetAttachmentTypeByOrdinalPositionQueryValidator**: Validates the ordinal position query
+- **GetDefaultAttachmentTypeQueryValidator**: Validates the default query
 
-### Mapping Profile
-- **AttachmentTypeMappingProfile**: Maps between entities and DTOs/commands, ensuring the use of fully qualified entity names to avoid namespace conflicts
-
-## Implementation Details
-
-### Soft Delete
-The feature implements soft delete functionality using the Active property instead of removing records from the database. When an entity is "deleted", the Active property is set to false, and all queries filter by Active = 1 to exclude soft-deleted records.
-
-### Audit Fields
-All entities include audit fields (CreatedBy, CreatedDate, ModifiedBy, ModifiedDate) which are properly set during create and update operations.
-
-### Ordinal Position
-The GetByOrdinalPositionAsync method returns attachment types ordered by their ordinal position, allowing for customized sorting in the UI.
-
-### File Extension Support
-The GetByFileExtensionAsync method returns attachment types that support a specific file extension, allowing for filtering attachment types based on file types.
+### Mappings
+- **AttachmentTypeMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a New Attachment Type
+### Creating a new AttachmentType
 ```csharp
 var command = new CreateAttachmentTypeCommand
 {
     Type = "Document",
     Description = "General document attachments",
     OrdinalPosition = 1,
-    CreatedBy = "system"
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
-var attachmentTypeId = await _mediator.Send(command);
+var result = await _mediator.Send(command);
 ```
 
-### Updating an Attachment Type
+### Retrieving all AttachmentTypes
+```csharp
+var query = new GetAllAttachmentTypesQuery();
+var attachmentTypes = await _mediator.Send(query);
+```
+
+### Retrieving an AttachmentType by ID
+```csharp
+var query = new GetAttachmentTypeByIdQuery { Id = attachmentTypeId };
+var attachmentType = await _mediator.Send(query);
+```
+
+### Retrieving AttachmentTypes by file extension
+```csharp
+var query = new GetAttachmentTypeByFileExtensionQuery { FileExtension = ".pdf" };
+var attachmentTypes = await _mediator.Send(query);
+```
+
+### Retrieving the default AttachmentType
+```csharp
+var query = new GetDefaultAttachmentTypeQuery();
+var defaultAttachmentType = await _mediator.Send(query);
+```
+
+### Updating an AttachmentType
 ```csharp
 var command = new UpdateAttachmentTypeCommand
 {
@@ -83,37 +100,43 @@ var command = new UpdateAttachmentTypeCommand
     Type = "Updated Document",
     Description = "Updated description for document attachments",
     OrdinalPosition = 2,
-    ModifiedBy = "system"
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Retrieving All Attachment Types
-```csharp
-var query = new GetAllAttachmentTypesQuery();
-var attachmentTypes = await _mediator.Send(query);
-```
-
-### Retrieving an Attachment Type by ID
-```csharp
-var query = new GetAttachmentTypeByIdQuery { Id = attachmentTypeId };
-var attachmentType = await _mediator.Send(query);
-```
-
-### Retrieving Attachment Types by File Extension
-```csharp
-var query = new GetAttachmentTypeByFileExtensionQuery { FileExtension = ".pdf" };
-var attachmentTypes = await _mediator.Send(query);
-```
-
-### Soft Deleting an Attachment Type
+### Deleting an AttachmentType
 ```csharp
 var command = new DeleteAttachmentTypeCommand
 {
     Id = attachmentTypeId,
-    ModifiedBy = "system"
+    ModifiedBy = currentUserId
 };
 
-var result = await _mediator.Send(command);
+var success = await _mediator.Send(command);
 ```
+
+## Implementation Notes
+
+### Soft Delete Pattern
+The AttachmentType feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
+
+### Validation Rules
+- Type name is required and limited to 100 characters
+- Description is required and limited to 500 characters
+- Ordinal position must be a non-negative number
+- Type name must be unique across all attachment types
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
+
+### Ordering
+Attachment types are ordered by their OrdinalPosition property in list views to ensure consistent display order.
+
+### Attachment Associations
+Each AttachmentType can be associated with multiple Attachment entities. The feature includes functionality to retrieve the count of attachments using each type.
+
+### File Extension Support
+The feature supports filtering attachment types by file extension, allowing the system to determine which attachment types are valid for specific file types.

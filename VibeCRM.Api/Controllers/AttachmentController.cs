@@ -1,12 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Attachment.Commands.CreateAttachment;
 using VibeCRM.Application.Features.Attachment.Commands.DeleteAttachment;
 using VibeCRM.Application.Features.Attachment.Commands.UpdateAttachment;
-using VibeCRM.Application.Features.Attachment.DTOs;
 using VibeCRM.Application.Features.Attachment.Queries.GetAllAttachments;
 using VibeCRM.Application.Features.Attachment.Queries.GetAttachmentById;
+using VibeCRM.Shared.DTOs.Attachment;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

@@ -1,64 +1,94 @@
 # NoteType Feature
 
-This feature implements the NoteType functionality in the VibeCRM system, allowing for the categorization of notes for organization and reporting.
-
 ## Overview
+The NoteType feature implements the functionality for categorizing notes in the VibeCRM system, allowing for organization and reporting of different types of notes.
 
-The NoteType feature provides a complete implementation for managing note types in the system, including:
+## Domain Model
+The NoteType entity is a reference entity that represents a category for notes. Each NoteType has the following properties:
 
-- Creating new note types
-- Updating existing note types
-- Soft deleting note types (setting Active = false)
-- Retrieving note types by various criteria
-- Validating note type data
+- **NoteTypeId**: Unique identifier (UUID)
+- **Type**: Name of the note type (e.g., "Meeting Notes", "Call Summary", "Follow-up")
+- **Description**: Detailed description of what the note type means
+- **OrdinalPosition**: Numeric value for ordering note types in dropdowns and lists
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **Notes**: Collection of associated Note entities
 
-## Components
+## Feature Components
 
 ### DTOs
-
-- **NoteTypeDto**: Basic note type information
-- **NoteTypeDetailsDto**: Detailed note type information including audit fields
-- **NoteTypeListDto**: Note type information for list views, including note count
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **NoteTypeDto**: Base DTO with core properties
+- **NoteTypeDetailsDto**: Extended DTO with audit fields and note count
+- **NoteTypeListDto**: Optimized DTO for list views
 
 ### Commands
-
-- **CreateNoteTypeCommand**: Creates a new note type
-- **UpdateNoteTypeCommand**: Updates an existing note type
-- **DeleteNoteTypeCommand**: Soft deletes a note type (sets Active = false)
+- **CreateNoteType**: Creates a new note type
+- **UpdateNoteType**: Updates an existing note type
+- **DeleteNoteType**: Soft-deletes a note type by setting Active = false
 
 ### Queries
-
-- **GetAllNoteTypesQuery**: Retrieves all active note types
-- **GetNoteTypeByIdQuery**: Retrieves a specific note type by ID
-- **GetNoteTypeByTypeQuery**: Retrieves note types by type name
-- **GetNoteTypeByOrdinalPositionQuery**: Retrieves note types ordered by ordinal position
+- **GetAllNoteTypes**: Retrieves all active note types
+- **GetNoteTypeById**: Retrieves a specific note type by its ID
+- **GetNoteTypeByType**: Retrieves note types by their type name
+- **GetNoteTypeByOrdinalPosition**: Retrieves note types by their ordinal position
+- **GetDefaultNoteType**: Retrieves the default note type (lowest ordinal position)
 
 ### Validators
+- **NoteTypeDtoValidator**: Validates the base DTO
+- **NoteTypeDetailsDtoValidator**: Validates the detailed DTO
+- **NoteTypeListDtoValidator**: Validates the list DTO
+- **CreateNoteTypeCommandValidator**: Validates the create command
+- **UpdateNoteTypeCommandValidator**: Validates the update command
+- **DeleteNoteTypeCommandValidator**: Validates the delete command
+- **GetNoteTypeByIdQueryValidator**: Validates the ID query
+- **GetNoteTypeByTypeQueryValidator**: Validates the type name query
+- **GetNoteTypeByOrdinalPositionQueryValidator**: Validates the ordinal position query
+- **GetAllNoteTypesQueryValidator**: Validates the "get all" query
 
-- **NoteTypeDtoValidator**: Validates note type data
-
-### Mapping
-
-- **NoteTypeMappingProfile**: Configures AutoMapper mappings between entities and DTOs
+### Mappings
+- **NoteTypeMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a Note Type
-
+### Creating a new NoteType
 ```csharp
 var command = new CreateNoteTypeCommand
 {
     Type = "Meeting Notes",
     Description = "Notes taken during meetings with clients or team members",
     OrdinalPosition = 1,
-    CreatedBy = "user@example.com"
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
-var result = await mediator.Send(command);
+var result = await _mediator.Send(command);
 ```
 
-### Updating a Note Type
+### Retrieving all NoteTypes
+```csharp
+var query = new GetAllNoteTypesQuery();
+var noteTypes = await _mediator.Send(query);
+```
 
+### Retrieving a NoteType by ID
+```csharp
+var query = new GetNoteTypeByIdQuery { Id = noteTypeId };
+var noteType = await _mediator.Send(query);
+```
+
+### Retrieving NoteTypes by type name
+```csharp
+var query = new GetNoteTypeByTypeQuery { Type = "Meeting Notes" };
+var noteType = await _mediator.Send(query);
+```
+
+### Retrieving the default NoteType
+```csharp
+var query = new GetDefaultNoteTypeQuery();
+var defaultNoteType = await _mediator.Send(query);
+```
+
+### Updating a NoteType
 ```csharp
 var command = new UpdateNoteTypeCommand
 {
@@ -66,45 +96,40 @@ var command = new UpdateNoteTypeCommand
     Type = "Meeting Minutes",
     Description = "Detailed minutes from meetings with clients or team members",
     OrdinalPosition = 1,
-    ModifiedBy = "user@example.com"
+    ModifiedBy = currentUserId
 };
 
-var result = await mediator.Send(command);
+var result = await _mediator.Send(command);
 ```
 
-### Deleting a Note Type
-
+### Deleting a NoteType
 ```csharp
 var command = new DeleteNoteTypeCommand
 {
     Id = noteTypeId,
-    ModifiedBy = "user@example.com"
+    ModifiedBy = currentUserId
 };
 
-var result = await mediator.Send(command);
+var success = await _mediator.Send(command);
 ```
 
-### Retrieving Note Types
+## Implementation Notes
 
-```csharp
-// Get all note types
-var allNoteTypes = await mediator.Send(new GetAllNoteTypesQuery());
+### Soft Delete Pattern
+The NoteType feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
 
-// Get note type by ID
-var noteType = await mediator.Send(new GetNoteTypeByIdQuery { Id = noteTypeId });
+### Validation Rules
+- Type name is required and limited to 50 characters
+- Description is required and limited to 500 characters
+- Ordinal position must be a non-negative number
+- Type name must be unique across all note types
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
 
-// Get note types by type name
-var noteTypes = await mediator.Send(new GetNoteTypeByTypeQuery { Type = "Meeting Notes" });
+### Ordering
+Note types are ordered by their OrdinalPosition property in list views to ensure consistent display order.
 
-// Get note types ordered by ordinal position
-var orderedNoteTypes = await mediator.Send(new GetNoteTypeByOrdinalPositionQuery());
-```
-
-## Implementation Details
-
-- The feature follows the CQRS pattern using MediatR
-- Soft delete is implemented using the Active property (not IsDeleted)
-- All repository methods include CancellationToken parameters
-- Comprehensive logging is implemented throughout
-- All commands and queries include proper validation
-- Exception handling is implemented in all handlers
+### Note Associations
+Each NoteType can be associated with multiple Note entities. The feature includes functionality to retrieve the count of notes using each type.

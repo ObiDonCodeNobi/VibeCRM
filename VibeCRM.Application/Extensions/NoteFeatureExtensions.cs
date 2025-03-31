@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Note.Commands.CreateNote;
 using VibeCRM.Application.Features.Note.Commands.DeleteNote;
 using VibeCRM.Application.Features.Note.Commands.UpdateNote;
-using VibeCRM.Application.Features.Note.DTOs;
 using VibeCRM.Application.Features.Note.Mappings;
 using VibeCRM.Application.Features.Note.Queries.GetAllNotes;
 using VibeCRM.Application.Features.Note.Queries.GetNoteById;
 using VibeCRM.Application.Features.Note.Validators;
+using VibeCRM.Shared.DTOs.Note;
 
 namespace VibeCRM.Application.Extensions
 {

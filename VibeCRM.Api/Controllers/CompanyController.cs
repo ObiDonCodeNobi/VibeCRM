@@ -1,12 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Company.Commands.CreateCompany;
 using VibeCRM.Application.Features.Company.Commands.DeleteCompany;
 using VibeCRM.Application.Features.Company.Commands.UpdateCompany;
-using VibeCRM.Application.Features.Company.DTOs;
 using VibeCRM.Application.Features.Company.Queries.GetAllCompanies;
 using VibeCRM.Application.Features.Company.Queries.GetCompanyById;
+using VibeCRM.Shared.DTOs.Company;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

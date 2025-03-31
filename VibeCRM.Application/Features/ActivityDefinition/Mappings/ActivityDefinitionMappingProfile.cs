@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.ActivityDefinition.Commands.CreateActivityDefinition;
 using VibeCRM.Application.Features.ActivityDefinition.Commands.UpdateActivityDefinition;
-using VibeCRM.Application.Features.ActivityDefinition.DTOs;
+using VibeCRM.Shared.DTOs.ActivityDefinition;
 
 namespace VibeCRM.Application.Features.ActivityDefinition.Mappings
 {

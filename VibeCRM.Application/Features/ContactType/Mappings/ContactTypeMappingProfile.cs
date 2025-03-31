@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.ContactType.Commands.CreateContactType;
 using VibeCRM.Application.Features.ContactType.Commands.UpdateContactType;
-using VibeCRM.Application.Features.ContactType.DTOs;
+using VibeCRM.Shared.DTOs.ContactType;
 
 namespace VibeCRM.Application.Features.ContactType.Mappings
 {

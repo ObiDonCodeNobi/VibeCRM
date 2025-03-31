@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.CallDirection.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.CallDirection;
 
 namespace VibeCRM.Application.Features.CallDirection.Queries.GetCallDirectionsByOrdinalPosition
 {

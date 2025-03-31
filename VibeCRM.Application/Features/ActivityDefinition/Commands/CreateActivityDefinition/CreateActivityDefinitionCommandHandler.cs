@@ -2,8 +2,8 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.ActivityDefinition.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
+using VibeCRM.Shared.DTOs.ActivityDefinition;
 
 namespace VibeCRM.Application.Features.ActivityDefinition.Commands.CreateActivityDefinition
 {

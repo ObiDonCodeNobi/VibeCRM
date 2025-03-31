@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.ProductType.DTOs;
+using VibeCRM.Shared.DTOs.ProductType;
 
 namespace VibeCRM.Application.Features.ProductType.Queries.GetProductTypeByOrdinalPosition
 {

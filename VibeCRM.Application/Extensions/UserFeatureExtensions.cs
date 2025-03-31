@@ -5,7 +5,6 @@ using System.Reflection;
 using VibeCRM.Application.Features.User.Commands.CreateUser;
 using VibeCRM.Application.Features.User.Commands.DeleteUser;
 using VibeCRM.Application.Features.User.Commands.UpdateUser;
-using VibeCRM.Application.Features.User.DTOs;
 using VibeCRM.Application.Features.User.Mappings;
 using VibeCRM.Application.Features.User.Queries.GetAllUsers;
 using VibeCRM.Application.Features.User.Queries.GetUserByEmail;
@@ -14,6 +13,7 @@ using VibeCRM.Application.Features.User.Queries.GetUserByUsername;
 using VibeCRM.Application.Features.User.Queries.GetUsersByRoleId;
 using VibeCRM.Application.Features.User.Queries.GetUsersByTeamId;
 using VibeCRM.Application.Features.User.Validators;
+using VibeCRM.Shared.DTOs.User;
 
 namespace VibeCRM.Application.DependencyInjection
 {

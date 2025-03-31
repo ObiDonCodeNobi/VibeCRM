@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Company.Commands.CreateCompany;
 using VibeCRM.Application.Features.Company.Commands.UpdateCompany;
-using VibeCRM.Application.Features.Company.DTOs;
+using VibeCRM.Shared.DTOs.Company;
 
 namespace VibeCRM.Application.Features.Company.Mappings
 {

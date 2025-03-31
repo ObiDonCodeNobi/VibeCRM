@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.Call.DTOs;
+using VibeCRM.Shared.DTOs.Call;
 
 namespace VibeCRM.Application.Features.Call.Queries.GetAllCalls
 {

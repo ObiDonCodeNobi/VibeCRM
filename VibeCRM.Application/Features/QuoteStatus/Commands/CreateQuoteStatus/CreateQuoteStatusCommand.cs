@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.QuoteStatus.DTOs;
+using VibeCRM.Shared.DTOs.QuoteStatus;
 
 namespace VibeCRM.Application.Features.QuoteStatus.Commands.CreateQuoteStatus
 {

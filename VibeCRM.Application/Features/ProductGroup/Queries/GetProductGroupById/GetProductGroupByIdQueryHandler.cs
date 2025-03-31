@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.ProductGroup.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
+using VibeCRM.Shared.DTOs.ProductGroup;
 
 namespace VibeCRM.Application.Features.ProductGroup.Queries.GetProductGroupById
 {

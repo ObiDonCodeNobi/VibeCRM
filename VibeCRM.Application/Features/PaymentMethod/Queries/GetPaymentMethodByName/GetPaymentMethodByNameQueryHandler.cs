@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.PaymentMethod.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.PaymentMethod;
 
 namespace VibeCRM.Application.Features.PaymentMethod.Queries.GetPaymentMethodByName
 {

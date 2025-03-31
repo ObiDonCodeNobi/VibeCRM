@@ -1,5 +1,5 @@
 using FluentValidation;
-using VibeCRM.Application.Features.PhoneType.DTOs;
+using VibeCRM.Shared.DTOs.PhoneType;
 
 namespace VibeCRM.Application.Features.PhoneType.Validators
 {

@@ -1,15 +1,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.CallDirection.Commands.CreateCallDirection;
 using VibeCRM.Application.Features.CallDirection.Commands.DeleteCallDirection;
 using VibeCRM.Application.Features.CallDirection.Commands.UpdateCallDirection;
-using VibeCRM.Application.Features.CallDirection.DTOs;
 using VibeCRM.Application.Features.CallDirection.Queries.GetAllCallDirections;
 using VibeCRM.Application.Features.CallDirection.Queries.GetCallDirectionByDirection;
 using VibeCRM.Application.Features.CallDirection.Queries.GetCallDirectionById;
 using VibeCRM.Application.Features.CallDirection.Queries.GetCallDirectionsByOrdinalPosition;
 using VibeCRM.Application.Features.CallDirection.Queries.GetDefaultCallDirection;
+using VibeCRM.Shared.DTOs.CallDirection;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Payment.Commands.CreatePayment;
 using VibeCRM.Application.Features.Payment.Commands.UpdatePayment;
-using VibeCRM.Application.Features.Payment.DTOs;
+using VibeCRM.Shared.DTOs.Payment;
 
 namespace VibeCRM.Application.Features.Payment.Mappings
 {

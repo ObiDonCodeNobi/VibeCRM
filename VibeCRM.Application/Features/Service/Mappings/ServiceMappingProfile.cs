@@ -1,11 +1,11 @@
 using AutoMapper;
-using VibeCRM.Application.Features.InvoiceLineItem.DTOs;
-using VibeCRM.Application.Features.QuoteLineItem.DTOs;
-using VibeCRM.Application.Features.SalesOrderLineItem.DTOs;
-using VibeCRM.Application.Features.SalesOrderLineItem_Service.DTOs;
 using VibeCRM.Application.Features.Service.Commands.CreateService;
 using VibeCRM.Application.Features.Service.Commands.UpdateService;
 using VibeCRM.Application.Features.Service.DTOs;
+using VibeCRM.Shared.DTOs.InvoiceLineItem;
+using VibeCRM.Shared.DTOs.QuoteLineItem;
+using VibeCRM.Shared.DTOs.SalesOrderLineItem;
+using VibeCRM.Shared.DTOs.SalesOrderLineItem_Service;
 
 namespace VibeCRM.Application.Features.Service.Mappings
 {

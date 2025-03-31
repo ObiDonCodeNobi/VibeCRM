@@ -1,16 +1,16 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.ActivityStatus.Commands.CreateActivityStatus;
 using VibeCRM.Application.Features.ActivityStatus.Commands.DeleteActivityStatus;
 using VibeCRM.Application.Features.ActivityStatus.Commands.UpdateActivityStatus;
-using VibeCRM.Application.Features.ActivityStatus.DTOs;
 using VibeCRM.Application.Features.ActivityStatus.Queries.GetActivityStatusById;
 using VibeCRM.Application.Features.ActivityStatus.Queries.GetActivityStatusByOrdinalPosition;
 using VibeCRM.Application.Features.ActivityStatus.Queries.GetActivityStatusByStatus;
 using VibeCRM.Application.Features.ActivityStatus.Queries.GetAllActivityStatuses;
 using VibeCRM.Application.Features.ActivityStatus.Queries.GetCompletedActivityStatuses;
 using VibeCRM.Application.Features.ActivityStatus.Queries.GetDefaultActivityStatus;
+using VibeCRM.Shared.DTOs.ActivityStatus;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

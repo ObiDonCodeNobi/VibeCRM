@@ -1,10 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.SalesOrder.Commands.CreateSalesOrder;
 using VibeCRM.Application.Features.SalesOrder.Commands.DeleteSalesOrder;
 using VibeCRM.Application.Features.SalesOrder.Commands.UpdateSalesOrder;
-using VibeCRM.Application.Features.SalesOrder.DTOs;
 using VibeCRM.Application.Features.SalesOrder.Queries.GetAllSalesOrders;
 using VibeCRM.Application.Features.SalesOrder.Queries.GetSalesOrderByActivity;
 using VibeCRM.Application.Features.SalesOrder.Queries.GetSalesOrderByCompany;
@@ -12,6 +10,8 @@ using VibeCRM.Application.Features.SalesOrder.Queries.GetSalesOrderById;
 using VibeCRM.Application.Features.SalesOrder.Queries.GetSalesOrderByNumber;
 using VibeCRM.Application.Features.SalesOrder.Queries.GetSalesOrderByOrderDateRange;
 using VibeCRM.Application.Features.SalesOrder.Queries.GetSalesOrderByQuote;
+using VibeCRM.Shared.DTOs.SalesOrder;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

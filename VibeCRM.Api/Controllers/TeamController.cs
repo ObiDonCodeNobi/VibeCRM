@@ -1,14 +1,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Team.Commands.CreateTeam;
 using VibeCRM.Application.Features.Team.Commands.DeleteTeam;
 using VibeCRM.Application.Features.Team.Commands.UpdateTeam;
-using VibeCRM.Application.Features.Team.DTOs;
 using VibeCRM.Application.Features.Team.Queries.GetAllTeams;
 using VibeCRM.Application.Features.Team.Queries.GetTeamById;
 using VibeCRM.Application.Features.Team.Queries.GetTeamByName;
 using VibeCRM.Application.Features.Team.Queries.GetTeamsByUserId;
+using VibeCRM.Shared.DTOs.Team;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

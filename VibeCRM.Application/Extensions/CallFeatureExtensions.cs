@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Call.Commands.CreateCall;
 using VibeCRM.Application.Features.Call.Commands.DeleteCall;
 using VibeCRM.Application.Features.Call.Commands.UpdateCall;
-using VibeCRM.Application.Features.Call.DTOs;
 using VibeCRM.Application.Features.Call.Mappings;
 using VibeCRM.Application.Features.Call.Queries.GetAllCalls;
 using VibeCRM.Application.Features.Call.Queries.GetCallById;
 using VibeCRM.Application.Features.Call.Validators;
+using VibeCRM.Shared.DTOs.Call;
 
 namespace VibeCRM.Application.Extensions
 {

@@ -1,12 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Call.Commands.CreateCall;
 using VibeCRM.Application.Features.Call.Commands.DeleteCall;
 using VibeCRM.Application.Features.Call.Commands.UpdateCall;
-using VibeCRM.Application.Features.Call.DTOs;
 using VibeCRM.Application.Features.Call.Queries.GetAllCalls;
 using VibeCRM.Application.Features.Call.Queries.GetCallById;
+using VibeCRM.Shared.DTOs.Call;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

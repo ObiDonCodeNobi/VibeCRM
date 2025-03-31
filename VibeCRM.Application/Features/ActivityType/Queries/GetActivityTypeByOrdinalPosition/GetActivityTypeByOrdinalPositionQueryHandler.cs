@@ -1,9 +1,9 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.ActivityType.DTOs;
 using VibeCRM.Domain.Exceptions;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.ActivityType;
 
 namespace VibeCRM.Application.Features.ActivityType.Queries.GetActivityTypeByOrdinalPosition
 {

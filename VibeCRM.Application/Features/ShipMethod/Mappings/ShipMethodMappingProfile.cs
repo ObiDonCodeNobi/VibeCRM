@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.ShipMethod.Commands.CreateShipMethod;
 using VibeCRM.Application.Features.ShipMethod.Commands.UpdateShipMethod;
-using VibeCRM.Application.Features.ShipMethod.DTOs;
+using VibeCRM.Shared.DTOs.ShipMethod;
 
 namespace VibeCRM.Application.Features.ShipMethod.Mappings
 {

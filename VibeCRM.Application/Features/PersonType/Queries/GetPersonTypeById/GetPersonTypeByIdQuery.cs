@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.PersonType.DTOs;
+using VibeCRM.Shared.DTOs.PersonType;
 
 namespace VibeCRM.Application.Features.PersonType.Queries.GetPersonTypeById
 {

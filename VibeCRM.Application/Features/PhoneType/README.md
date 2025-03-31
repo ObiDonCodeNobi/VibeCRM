@@ -3,140 +3,133 @@
 ## Overview
 The PhoneType feature provides functionality for managing phone type entities in the VibeCRM application. Phone types categorize phone numbers (e.g., "Home", "Work", "Mobile", "Fax") and are used throughout the system to classify phone contact information.
 
-## Architecture
-This feature follows Clean Architecture and CQRS principles:
+## Domain Model
+The PhoneType entity is a reference entity that represents a type category for phone numbers. Each PhoneType has the following properties:
 
-- **Commands**: Handle create, update, and delete operations
-- **Queries**: Handle data retrieval operations
-- **DTOs**: Define data transfer objects for various use cases
-- **Validators**: Ensure data integrity through validation rules
-- **Mappings**: Configure AutoMapper profiles for entity-DTO conversions
+- **PhoneTypeId**: Unique identifier (UUID)
+- **Type**: Name of the phone type (e.g., "Home", "Work", "Mobile", "Fax")
+- **Description**: Detailed description of what the phone type means
+- **OrdinalPosition**: Numeric value for ordering phone types in dropdowns and lists
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **PhoneNumbers**: Collection of associated PhoneNumber entities
 
-## Directory Structure
-```
-PhoneType/
-├── Commands/
-│   ├── CreatePhoneType/
-│   │   ├── CreatePhoneTypeCommand.cs
-│   │   ├── CreatePhoneTypeCommandHandler.cs
-│   │   └── CreatePhoneTypeCommandValidator.cs
-│   ├── UpdatePhoneType/
-│   │   ├── UpdatePhoneTypeCommand.cs
-│   │   ├── UpdatePhoneTypeCommandHandler.cs
-│   │   └── UpdatePhoneTypeCommandValidator.cs
-│   └── DeletePhoneType/
-│       ├── DeletePhoneTypeCommand.cs
-│       ├── DeletePhoneTypeCommandHandler.cs
-│       └── DeletePhoneTypeCommandValidator.cs
-├── DTOs/
-│   ├── PhoneTypeDto.cs
-│   ├── PhoneTypeListDto.cs
-│   └── PhoneTypeDetailsDto.cs
-├── Mappings/
-│   └── PhoneTypeMappingProfile.cs
-├── Queries/
-│   ├── GetAllPhoneTypes/
-│   │   ├── GetAllPhoneTypesQuery.cs
-│   │   ├── GetAllPhoneTypesQueryHandler.cs
-│   │   └── GetAllPhoneTypesQueryValidator.cs
-│   ├── GetPhoneTypeById/
-│   │   ├── GetPhoneTypeByIdQuery.cs
-│   │   ├── GetPhoneTypeByIdQueryHandler.cs
-│   │   └── GetPhoneTypeByIdQueryValidator.cs
-│   ├── GetPhoneTypeByOrdinalPosition/
-│   │   ├── GetPhoneTypeByOrdinalPositionQuery.cs
-│   │   ├── GetPhoneTypeByOrdinalPositionQueryHandler.cs
-│   │   └── GetPhoneTypeByOrdinalPositionQueryValidator.cs
-│   ├── GetPhoneTypeByType/
-│   │   ├── GetPhoneTypeByTypeQuery.cs
-│   │   ├── GetPhoneTypeByTypeQueryHandler.cs
-│   │   └── GetPhoneTypeByTypeQueryValidator.cs
-│   └── GetDefaultPhoneType/
-│       ├── GetDefaultPhoneTypeQuery.cs
-│       ├── GetDefaultPhoneTypeQueryHandler.cs
-│       └── GetDefaultPhoneTypeQueryValidator.cs
-└── Validators/
-    ├── PhoneTypeDtoValidator.cs
-    ├── PhoneTypeListDtoValidator.cs
-    └── PhoneTypeDetailsDtoValidator.cs
-```
-
-## Key Components
+## Feature Components
 
 ### DTOs
-- **PhoneTypeDto**: Basic phone type information (Id, Type, Description, OrdinalPosition)
-- **PhoneTypeListDto**: List view with phone count information
-- **PhoneTypeDetailsDto**: Detailed view with audit information
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **PhoneTypeDto**: Base DTO with core properties
+- **PhoneTypeDetailsDto**: Extended DTO with audit fields and phone number count
+- **PhoneTypeListDto**: Optimized DTO for list views
 
 ### Commands
 - **CreatePhoneType**: Creates a new phone type
 - **UpdatePhoneType**: Updates an existing phone type
-- **DeletePhoneType**: Soft-deletes a phone type (sets Active = false)
+- **DeletePhoneType**: Soft-deletes a phone type by setting Active = false
 
 ### Queries
-- **GetAllPhoneTypes**: Retrieves all phone types
-- **GetPhoneTypeById**: Retrieves a specific phone type by ID
-- **GetPhoneTypeByOrdinalPosition**: Retrieves a phone type by its ordinal position
-- **GetPhoneTypeByType**: Retrieves a phone type by its type name
+- **GetAllPhoneTypes**: Retrieves all active phone types
+- **GetPhoneTypeById**: Retrieves a specific phone type by its ID
+- **GetPhoneTypeByType**: Retrieves phone types by their type name
+- **GetPhoneTypeByOrdinalPosition**: Retrieves phone types by their ordinal position
 - **GetDefaultPhoneType**: Retrieves the default phone type (lowest ordinal position)
+
+### Validators
+- **PhoneTypeDtoValidator**: Validates the base DTO
+- **PhoneTypeDetailsDtoValidator**: Validates the detailed DTO
+- **PhoneTypeListDtoValidator**: Validates the list DTO
+- **CreatePhoneTypeCommandValidator**: Validates the create command
+- **UpdatePhoneTypeCommandValidator**: Validates the update command
+- **DeletePhoneTypeCommandValidator**: Validates the delete command
+- **GetPhoneTypeByIdQueryValidator**: Validates the ID query
+- **GetPhoneTypeByTypeQueryValidator**: Validates the type name query
+- **GetPhoneTypeByOrdinalPositionQueryValidator**: Validates the ordinal position query
+- **GetDefaultPhoneTypeQueryValidator**: Validates the default query
+
+### Mappings
+- **PhoneTypeMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a Phone Type
+### Creating a new PhoneType
 ```csharp
 var command = new CreatePhoneTypeCommand
 {
     Type = "Mobile",
     Description = "Mobile phone number",
-    OrdinalPosition = 1
+    OrdinalPosition = 1,
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Updating a Phone Type
+### Retrieving all PhoneTypes
+```csharp
+var query = new GetAllPhoneTypesQuery();
+var phoneTypes = await _mediator.Send(query);
+```
+
+### Retrieving a PhoneType by ID
+```csharp
+var query = new GetPhoneTypeByIdQuery { Id = phoneTypeId };
+var phoneType = await _mediator.Send(query);
+```
+
+### Retrieving PhoneTypes by type name
+```csharp
+var query = new GetPhoneTypeByTypeQuery { Type = "Mobile" };
+var phoneType = await _mediator.Send(query);
+```
+
+### Retrieving the default PhoneType
+```csharp
+var query = new GetDefaultPhoneTypeQuery();
+var defaultPhoneType = await _mediator.Send(query);
+```
+
+### Updating a PhoneType
 ```csharp
 var command = new UpdatePhoneTypeCommand
 {
     Id = phoneTypeId,
     Type = "Work",
     Description = "Work phone number",
-    OrdinalPosition = 2
+    OrdinalPosition = 2,
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Deleting a Phone Type
+### Deleting a PhoneType
 ```csharp
 var command = new DeletePhoneTypeCommand
 {
-    Id = phoneTypeId
+    Id = phoneTypeId,
+    ModifiedBy = currentUserId
 };
 
-var result = await _mediator.Send(command);
+var success = await _mediator.Send(command);
 ```
 
-### Retrieving Phone Types
-```csharp
-// Get all phone types
-var allPhoneTypes = await _mediator.Send(new GetAllPhoneTypesQuery());
+## Implementation Notes
 
-// Get phone type by ID
-var phoneType = await _mediator.Send(new GetPhoneTypeByIdQuery { Id = phoneTypeId });
+### Soft Delete Pattern
+The PhoneType feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
 
-// Get default phone type
-var defaultPhoneType = await _mediator.Send(new GetDefaultPhoneTypeQuery());
-```
-
-## Validation
-All commands and queries include validation to ensure data integrity:
-- Type name is required and must be unique
-- Description is required
+### Validation Rules
+- Type name is required and limited to 50 characters
+- Description is required and limited to 500 characters
 - Ordinal position must be a non-negative number
-- IDs must reference existing entities
+- Type name must be unique across all phone types
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
 
-## Notes
-- Phone types use soft delete functionality (Active flag)
-- Default phone type is determined by the lowest ordinal position
-- Phone types with existing references cannot be deleted
+### Ordering
+Phone types are ordered by their OrdinalPosition property in list views to ensure consistent display order.
+
+### Phone Number Associations
+Each PhoneType can be associated with multiple PhoneNumber entities. The feature includes functionality to retrieve the count of phone numbers using each type.

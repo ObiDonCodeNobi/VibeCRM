@@ -1,8 +1,8 @@
 using AutoMapper;
 using VibeCRM.Application.Features.SalesOrder.Commands.CreateSalesOrder;
 using VibeCRM.Application.Features.SalesOrder.Commands.UpdateSalesOrder;
-using VibeCRM.Application.Features.SalesOrder.DTOs;
-using VibeCRM.Application.Features.SalesOrderLineItem.DTOs;
+using VibeCRM.Shared.DTOs.SalesOrder;
+using VibeCRM.Shared.DTOs.SalesOrderLineItem;
 
 namespace VibeCRM.Application.Features.SalesOrder.Mappings
 {

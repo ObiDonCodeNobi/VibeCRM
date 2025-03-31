@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

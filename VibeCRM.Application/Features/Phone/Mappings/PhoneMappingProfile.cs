@@ -1,8 +1,8 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Phone.Commands.CreatePhone;
 using VibeCRM.Application.Features.Phone.Commands.UpdatePhone;
-using VibeCRM.Application.Features.Phone.DTOs;
 using VibeCRM.Domain.Entities.JunctionEntities;
+using VibeCRM.Shared.DTOs.Phone;
 
 namespace VibeCRM.Application.Features.Phone.Mappings
 {

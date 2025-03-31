@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.QuoteLineItem.Commands.CreateQuoteLineItem;
 using VibeCRM.Application.Features.QuoteLineItem.Commands.DeleteQuoteLineItem;
 using VibeCRM.Application.Features.QuoteLineItem.Commands.UpdateQuoteLineItem;
-using VibeCRM.Application.Features.QuoteLineItem.DTOs;
 using VibeCRM.Application.Features.QuoteLineItem.Mappings;
 using VibeCRM.Application.Features.QuoteLineItem.Queries.GetAllQuoteLineItems;
 using VibeCRM.Application.Features.QuoteLineItem.Queries.GetQuoteLineItemById;
 using VibeCRM.Application.Features.QuoteLineItem.Validators;
+using VibeCRM.Shared.DTOs.QuoteLineItem;
 
 namespace VibeCRM.Application.Extensions
 {

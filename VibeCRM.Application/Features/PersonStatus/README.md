@@ -3,70 +3,92 @@
 ## Overview
 The PersonStatus feature provides functionality for managing person status entities in the VibeCRM system. Person statuses represent the current state of a person in the system (e.g., "Active", "Inactive", "Lead", "Customer", etc.) and are used to categorize and filter people.
 
-## Architecture
-This feature follows the Clean Architecture and CQRS (Command Query Responsibility Segregation) patterns using MediatR. It is organized into the following components:
+## Domain Model
+The PersonStatus entity is a reference entity that represents the status of a person. Each PersonStatus has the following properties:
 
-### Domain Layer
-- `PersonStatus` entity in the Domain layer defines the core business entity.
+- **PersonStatusId**: Unique identifier (UUID)
+- **Status**: Name of the person status (e.g., "Active", "Inactive", "Lead")
+- **Description**: Detailed description of what the status means
+- **OrdinalPosition**: Numeric value for ordering statuses in dropdowns and lists
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **People**: Collection of associated Person entities
 
-### Application Layer
-- **DTOs (Data Transfer Objects)**:
-  - `PersonStatusDto`: Basic DTO for transferring person status data.
-  - `PersonStatusDetailsDto`: Detailed DTO with additional information about the person status.
-  - `PersonStatusListDto`: DTO optimized for list views of person statuses.
+## Feature Components
 
-- **Commands**:
-  - `CreatePersonStatusCommand`: Command for creating a new person status.
-  - `UpdatePersonStatusCommand`: Command for updating an existing person status.
-  - `DeletePersonStatusCommand`: Command for soft deleting a person status.
+### DTOs
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **PersonStatusDto**: Base DTO with core properties
+- **PersonStatusDetailsDto**: Extended DTO with audit fields and people count
+- **PersonStatusListDto**: Optimized DTO for list views
 
-- **Command Handlers**:
-  - `CreatePersonStatusCommandHandler`: Handles the creation of person statuses.
-  - `UpdatePersonStatusCommandHandler`: Handles the updating of person statuses.
-  - `DeletePersonStatusCommandHandler`: Handles the soft deletion of person statuses.
+### Commands
+- **CreatePersonStatus**: Creates a new person status
+- **UpdatePersonStatus**: Updates an existing person status
+- **DeletePersonStatus**: Soft-deletes a person status by setting Active = false
 
-- **Queries**:
-  - `GetPersonStatusByIdQuery`: Query for retrieving a person status by its ID.
-  - `GetPersonStatusByStatusQuery`: Query for retrieving a person status by its status name.
-  - `GetAllPersonStatusesQuery`: Query for retrieving all person statuses.
-  - `GetPersonStatusByOrdinalPositionQuery`: Query for retrieving person statuses ordered by their ordinal position.
-  - `GetDefaultPersonStatusQuery`: Query for retrieving the default person status.
+### Queries
+- **GetAllPersonStatuses**: Retrieves all active person statuses
+- **GetPersonStatusById**: Retrieves a specific person status by its ID
+- **GetPersonStatusByStatus**: Retrieves person statuses by their status name
+- **GetPersonStatusByOrdinalPosition**: Retrieves person statuses by their ordinal position
+- **GetDefaultPersonStatus**: Retrieves the default person status (lowest ordinal position)
 
-- **Query Handlers**:
-  - Corresponding handlers for each query that interact with the repository to fetch data.
+### Validators
+- **PersonStatusDtoValidator**: Validates the base DTO
+- **PersonStatusDetailsDtoValidator**: Validates the detailed DTO
+- **PersonStatusListDtoValidator**: Validates the list DTO
+- **CreatePersonStatusCommandValidator**: Validates the create command
+- **UpdatePersonStatusCommandValidator**: Validates the update command
+- **DeletePersonStatusCommandValidator**: Validates the delete command
+- **GetPersonStatusByIdQueryValidator**: Validates the ID query
+- **GetPersonStatusByStatusQueryValidator**: Validates the status name query
+- **GetPersonStatusByOrdinalPositionQueryValidator**: Validates the ordinal position query
+- **GetAllPersonStatusesQueryValidator**: Validates the "get all" query
 
-- **Validators**:
-  - Validators for all DTOs, commands, and queries using FluentValidation.
-
-- **Mappings**:
-  - `PersonStatusMappingProfile`: AutoMapper profile for mapping between PersonStatus entities and DTOs.
-
-### Infrastructure Layer
-- `IPersonStatusRepository`: Interface defining the repository contract.
-- `PersonStatusRepository`: Implementation of the repository interface using Dapper ORM.
-
-## Key Features
-1. **CRUD Operations**: Create, Read, Update, and Delete (soft delete) operations for person status entities.
-2. **Ordinal Position**: Person statuses can be ordered using an ordinal position property.
-3. **Default Status**: Support for retrieving the default person status.
-4. **Soft Delete**: Implements the soft delete pattern using the `Active` property.
+### Mappings
+- **PersonStatusMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a Person Status
+### Creating a new PersonStatus
 ```csharp
 var command = new CreatePersonStatusCommand
 {
     Status = "Active",
     Description = "Person is currently active in the system",
     OrdinalPosition = 1,
-    CreatedBy = "admin"
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Updating a Person Status
+### Retrieving all PersonStatuses
+```csharp
+var query = new GetAllPersonStatusesQuery();
+var personStatuses = await _mediator.Send(query);
+```
+
+### Retrieving a PersonStatus by ID
+```csharp
+var query = new GetPersonStatusByIdQuery { Id = personStatusId };
+var personStatus = await _mediator.Send(query);
+```
+
+### Retrieving PersonStatuses by status name
+```csharp
+var query = new GetPersonStatusByStatusQuery { Status = "Active" };
+var personStatus = await _mediator.Send(query);
+```
+
+### Retrieving the default PersonStatus
+```csharp
+var query = new GetDefaultPersonStatusQuery();
+var defaultPersonStatus = await _mediator.Send(query);
+```
+
+### Updating a PersonStatus
 ```csharp
 var command = new UpdatePersonStatusCommand
 {
@@ -74,39 +96,40 @@ var command = new UpdatePersonStatusCommand
     Status = "Active Customer",
     Description = "Person is an active customer",
     OrdinalPosition = 1,
-    ModifiedBy = "admin"
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Retrieving All Person Statuses
+### Deleting a PersonStatus
 ```csharp
-var query = new GetAllPersonStatusesQuery
+var command = new DeletePersonStatusCommand
 {
-    IncludeInactive = false
+    Id = personStatusId,
+    ModifiedBy = currentUserId
 };
 
-var personStatuses = await _mediator.Send(query);
+var success = await _mediator.Send(command);
 ```
 
-### Retrieving Person Statuses by Ordinal Position
-```csharp
-var query = new GetPersonStatusByOrdinalPositionQuery();
+## Implementation Notes
 
-var orderedPersonStatuses = await _mediator.Send(query);
-```
+### Soft Delete Pattern
+The PersonStatus feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
 
-## Dependencies
-- **MediatR**: For implementing the CQRS pattern.
-- **AutoMapper**: For mapping between entities and DTOs.
-- **FluentValidation**: For validating commands, queries, and DTOs.
-- **Dapper**: ORM for data access.
-- **Microsoft.Extensions.Logging**: For logging within handlers and repositories.
+### Validation Rules
+- Status name is required and limited to 50 characters
+- Description is required and limited to 500 characters
+- Ordinal position must be a non-negative number
+- Status name must be unique across all person statuses
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
 
-## Best Practices
-1. All handlers include comprehensive error handling and logging.
-2. All public methods and classes have XML documentation.
-3. Validation is implemented for all commands, queries, and DTOs.
-4. The feature follows the soft delete pattern using the `Active` property.
-5. All repository methods include a `CancellationToken` parameter for cancellation support.
+### Ordering
+Person statuses are ordered by their OrdinalPosition property in list views to ensure consistent display order.
+
+### Person Associations
+Each PersonStatus can be associated with multiple Person entities. The feature includes functionality to retrieve the count of people using each status.

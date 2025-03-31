@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Workflow.Commands.CreateWorkflow;
 using VibeCRM.Application.Features.Workflow.Commands.UpdateWorkflow;
-using VibeCRM.Application.Features.Workflow.DTOs;
+using VibeCRM.Shared.DTOs.Workflow;
 
 namespace VibeCRM.Application.Features.Workflow.Mappings
 {

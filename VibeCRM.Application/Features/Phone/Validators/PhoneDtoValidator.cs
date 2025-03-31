@@ -1,6 +1,6 @@
 using FluentValidation;
-using VibeCRM.Application.Features.Phone.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.Phone;
 
 namespace VibeCRM.Application.Features.Phone.Validators
 {

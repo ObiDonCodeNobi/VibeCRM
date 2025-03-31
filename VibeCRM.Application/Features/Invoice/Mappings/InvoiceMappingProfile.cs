@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Invoice.Commands.CreateInvoice;
 using VibeCRM.Application.Features.Invoice.Commands.UpdateInvoice;
-using VibeCRM.Application.Features.Invoice.DTOs;
+using VibeCRM.Shared.DTOs.Invoice;
 
 namespace VibeCRM.Application.Features.Invoice.Mappings
 {

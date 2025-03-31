@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Team.Commands.CreateTeam;
 using VibeCRM.Application.Features.Team.Commands.DeleteTeam;
 using VibeCRM.Application.Features.Team.Commands.UpdateTeam;
-using VibeCRM.Application.Features.Team.DTOs;
 using VibeCRM.Application.Features.Team.Mappings;
 using VibeCRM.Application.Features.Team.Queries.GetAllTeams;
 using VibeCRM.Application.Features.Team.Queries.GetTeamById;
 using VibeCRM.Application.Features.Team.Validators;
+using VibeCRM.Shared.DTOs.Team;
 
 namespace VibeCRM.Application.Extensions
 {

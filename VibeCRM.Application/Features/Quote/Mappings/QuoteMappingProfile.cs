@@ -1,9 +1,9 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Quote.Commands.CreateQuote;
 using VibeCRM.Application.Features.Quote.Commands.UpdateQuote;
-using VibeCRM.Application.Features.Quote.DTOs;
-using VibeCRM.Application.Features.QuoteLineItem.DTOs;
-using VibeCRM.Application.Features.SalesOrder.DTOs;
+using VibeCRM.Shared.DTOs.Quote;
+using VibeCRM.Shared.DTOs.QuoteLineItem;
+using VibeCRM.Shared.DTOs.SalesOrder;
 
 namespace VibeCRM.Application.Features.Quote.Mappings
 {

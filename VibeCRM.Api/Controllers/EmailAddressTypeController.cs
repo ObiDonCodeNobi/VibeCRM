@@ -1,12 +1,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.EmailAddressType.Commands.CreateEmailAddressType;
 using VibeCRM.Application.Features.EmailAddressType.Commands.DeleteEmailAddressType;
 using VibeCRM.Application.Features.EmailAddressType.Commands.UpdateEmailAddressType;
-using VibeCRM.Application.Features.EmailAddressType.DTOs;
+using VibeCRM.Application.Features.EmailAddressType.Queries.GetAllEmailAddressTypes;
 using VibeCRM.Application.Features.EmailAddressType.Queries.GetDefaultEmailAddressType;
+using VibeCRM.Application.Features.EmailAddressType.Queries.GetEmailAddressTypeById;
 using VibeCRM.Application.Features.EmailAddressType.Queries.GetEmailAddressTypeByType;
+using VibeCRM.Application.Features.EmailAddressType.Queries.GetEmailAddressTypesByOrdinalPosition;
+using VibeCRM.Shared.DTOs.EmailAddressType;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 
@@ -98,12 +101,8 @@ public class EmailAddressTypeController : ApiControllerBase
     {
         _logger.LogInformation("Getting Email Address Type with ID: {Id}", id);
 
-        // Since there's no specific GetEmailAddressTypeByIdQuery, we'll use the GetEmailAddressTypeByTypeQuery
-        // and filter the results in the controller
-        var query = new GetEmailAddressTypeByTypeQuery(string.Empty);
-        var results = await _mediator.Send(query);
-
-        var result = results.FirstOrDefault(at => at.Id == id);
+        var query = new GetEmailAddressTypeByIdQuery(id);
+        var result = await _mediator.Send(query);
 
         if (result == null)
         {
@@ -123,9 +122,7 @@ public class EmailAddressTypeController : ApiControllerBase
     {
         _logger.LogInformation("Getting all Email Address Types");
 
-        // Since there's no specific GetAllEmailAddressTypesQuery, we'll use the GetEmailAddressTypeByTypeQuery
-        // with an empty type string to get all email address types
-        var query = new GetEmailAddressTypeByTypeQuery(string.Empty);
+        var query = new GetAllEmailAddressTypesQuery();
         var result = await _mediator.Send(query);
 
         return Ok(Success(result));
@@ -143,6 +140,23 @@ public class EmailAddressTypeController : ApiControllerBase
         _logger.LogInformation("Getting Email Address Types with Type: {Type}", type);
 
         var query = new GetEmailAddressTypeByTypeQuery(type);
+        var result = await _mediator.Send(query);
+
+        return Ok(Success(result));
+    }
+
+    /// <summary>
+    /// Gets email address types by ordinal position.
+    /// </summary>
+    /// <param name="position">The ordinal position to search for.</param>
+    /// <returns>A list of email address types with the specified ordinal position.</returns>
+    [HttpGet("byposition/{position:int}")]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<EmailAddressTypeDto>>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetByOrdinalPosition(int position)
+    {
+        _logger.LogInformation("Getting Email Address Types with Ordinal Position: {Position}", position);
+
+        var query = new GetEmailAddressTypesByOrdinalPositionQuery();
         var result = await _mediator.Send(query);
 
         return Ok(Success(result));

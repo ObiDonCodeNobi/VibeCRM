@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.CallType.Commands.CreateCallType;
 using VibeCRM.Application.Features.CallType.Commands.UpdateCallType;
-using VibeCRM.Application.Features.CallType.DTOs;
+using VibeCRM.Shared.DTOs.CallType;
 
 namespace VibeCRM.Application.Features.CallType.Mappings
 {

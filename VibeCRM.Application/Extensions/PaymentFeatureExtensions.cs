@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Payment.Commands.CreatePayment;
 using VibeCRM.Application.Features.Payment.Commands.DeletePayment;
 using VibeCRM.Application.Features.Payment.Commands.UpdatePayment;
-using VibeCRM.Application.Features.Payment.DTOs;
 using VibeCRM.Application.Features.Payment.Mappings;
 using VibeCRM.Application.Features.Payment.Queries.GetAllPayments;
 using VibeCRM.Application.Features.Payment.Queries.GetPaymentById;
 using VibeCRM.Application.Features.Payment.Validators;
+using VibeCRM.Shared.DTOs.Payment;
 
 namespace VibeCRM.Application.Extensions
 {

@@ -1,12 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Activity.Commands.CreateActivity;
 using VibeCRM.Application.Features.Activity.Commands.DeleteActivity;
 using VibeCRM.Application.Features.Activity.Commands.UpdateActivity;
-using VibeCRM.Application.Features.Activity.DTOs;
 using VibeCRM.Application.Features.Activity.Queries.GetActivityById;
 using VibeCRM.Application.Features.Activity.Queries.GetAllActivities;
+using VibeCRM.Shared.DTOs.Activity;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

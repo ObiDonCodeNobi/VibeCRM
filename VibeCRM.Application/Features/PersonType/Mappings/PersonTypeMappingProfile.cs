@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.PersonType.Commands.CreatePersonType;
 using VibeCRM.Application.Features.PersonType.Commands.UpdatePersonType;
-using VibeCRM.Application.Features.PersonType.DTOs;
+using VibeCRM.Shared.DTOs.PersonType;
 
 namespace VibeCRM.Application.Features.PersonType.Mappings
 {

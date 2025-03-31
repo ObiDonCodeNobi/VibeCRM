@@ -3,52 +3,39 @@
 ## Overview
 The Invoice feature provides functionality to manage invoices within the VibeCRM system. It follows Clean Architecture and SOLID principles, implementing the CQRS pattern with MediatR for command and query handling.
 
-## Components
+## Domain Model
+The Invoice entity is a core business entity that represents a billing document in the CRM system. Each Invoice has the following properties:
 
-### Domain
-- `Invoice`: Entity representing an invoice with properties for InvoiceId, SalesOrderId, Number, and standard audit fields.
+- **InvoiceId**: Unique identifier (UUID)
+- **Number**: Unique invoice number (e.g., "INV-2025-001")
+- **SalesOrderId**: Reference to the associated sales order
+- **Standard audit fields**: CreatedBy, CreatedDate, ModifiedBy, ModifiedDate
 
-### Data Transfer Objects (DTOs)
-- `InvoiceDto`: Base DTO with essential invoice properties.
-- `InvoiceDetailsDto`: Extended DTO with additional details for detailed views.
-- `InvoiceListDto`: Optimized DTO for list views.
+## Feature Components
+
+### DTOs
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **InvoiceDto**: Base DTO with essential invoice properties.
+- **InvoiceDetailsDto**: Extended DTO with additional details for detailed views.
+- **InvoiceListDto**: Optimized DTO for list views.
 
 ### Validators
-- `InvoiceDtoValidator`: Validates the base InvoiceDto.
-- `InvoiceDetailsDtoValidator`: Validates the InvoiceDetailsDto.
-- `InvoiceListDtoValidator`: Validates the InvoiceListDto.
+- **InvoiceDtoValidator**: Validates the base InvoiceDto.
+- **InvoiceDetailsDtoValidator**: Validates the InvoiceDetailsDto.
+- **InvoiceListDtoValidator**: Validates the InvoiceListDto.
 
 ### Commands
-- **Create Invoice**
-  - `CreateInvoiceCommand`: Command for creating a new invoice.
-  - `CreateInvoiceCommandValidator`: Validates the create command.
-  - `CreateInvoiceCommandHandler`: Handles the create command.
-
-- **Update Invoice**
-  - `UpdateInvoiceCommand`: Command for updating an existing invoice.
-  - `UpdateInvoiceCommandValidator`: Validates the update command.
-  - `UpdateInvoiceCommandHandler`: Handles the update command.
-
-- **Delete Invoice**
-  - `DeleteInvoiceCommand`: Command for soft-deleting an invoice.
-  - `DeleteInvoiceCommandValidator`: Validates the delete command.
-  - `DeleteInvoiceCommandHandler`: Handles the delete command.
+- **CreateInvoice**: Creates a new invoice.
+- **UpdateInvoice**: Updates an existing invoice.
+- **DeleteInvoice**: Soft-deletes an invoice by setting Active = false.
 
 ### Queries
-- **Get All Invoices**
-  - `GetAllInvoicesQuery`: Query for retrieving all invoices.
-  - `GetAllInvoicesQueryHandler`: Handles the get all query.
-
-- **Get Invoice By ID**
-  - `GetInvoiceByIdQuery`: Query for retrieving a specific invoice.
-  - `GetInvoiceByIdQueryHandler`: Handles the get by ID query.
-
-- **Get Invoices By Sales Order ID**
-  - `GetInvoicesBySalesOrderIdQuery`: Query for retrieving invoices by sales order ID.
-  - `GetInvoicesBySalesOrderIdQueryHandler`: Handles the get by sales order ID query.
+- **GetAllInvoices**: Retrieves all active invoices.
+- **GetInvoiceById**: Retrieves a specific invoice by its ID.
+- **GetInvoicesBySalesOrderId**: Retrieves invoices associated with a specific sales order.
 
 ### Mapping
-- `InvoiceMappingProfile`: AutoMapper profile for mapping between entities and DTOs.
+- **InvoiceMappingProfile**: AutoMapper profile for mapping between entities and DTOs.
 
 ## Usage Examples
 

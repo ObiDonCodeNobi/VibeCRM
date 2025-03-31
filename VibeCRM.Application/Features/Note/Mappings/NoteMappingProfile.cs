@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Note.Commands.CreateNote;
 using VibeCRM.Application.Features.Note.Commands.UpdateNote;
-using VibeCRM.Application.Features.Note.DTOs;
+using VibeCRM.Shared.DTOs.Note;
 
 namespace VibeCRM.Application.Features.Note.Mappings
 {

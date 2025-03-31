@@ -3,86 +3,149 @@
 ## Overview
 The Team feature provides functionality for managing teams within the VibeCRM system. Teams are groups of employees that work together on various projects and tasks. Each team has a designated team lead.
 
-## Components
+## Domain Model
+The Team entity is an organizational entity that represents a group of employees. Each Team has the following properties:
 
-### Domain Entity
-- `Team`: Represents a team in the system with properties like TeamId, TeamLeadEmployeeId, Name, and Description.
+- **TeamId**: Unique identifier (UUID)
+- **Name**: Name of the team (e.g., "Sales Team", "Development Team")
+- **Description**: Detailed description of the team's purpose and responsibilities
+- **TeamLeadEmployeeId**: Reference to the employee who leads the team
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **TeamMembers**: Collection of associated TeamMember entities linking to employees
+
+## Feature Components
 
 ### DTOs
-- `TeamDto`: Basic data transfer object for team information.
-- `TeamListDto`: DTO for listing teams, includes member count.
-- `TeamDetailsDto`: Detailed DTO that includes audit information and member count.
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **TeamDto**: Base DTO with core properties
+- **TeamDetailsDto**: Extended DTO with audit fields and member count
+- **TeamListDto**: Optimized DTO for list views with member count
 
 ### Commands
-- `CreateTeamCommand`: Creates a new team.
-- `UpdateTeamCommand`: Updates an existing team.
-- `DeleteTeamCommand`: Soft deletes a team by setting Active to false.
+- **CreateTeam**: Creates a new team
+- **UpdateTeam**: Updates an existing team
+- **DeleteTeam**: Soft-deletes a team by setting Active = false
+- **AddTeamMember**: Adds an employee to a team
+- **RemoveTeamMember**: Removes an employee from a team
 
 ### Queries
-- `GetAllTeamsQuery`: Retrieves all active teams.
-- `GetTeamByIdQuery`: Retrieves a specific team by its ID.
-- `GetTeamByNameQuery`: Retrieves a specific team by its name.
-- `GetTeamsByUserIdQuery`: Retrieves all teams that a specific user is a member of.
+- **GetAllTeams**: Retrieves all active teams
+- **GetTeamById**: Retrieves a specific team by its ID
+- **GetTeamByName**: Retrieves teams by their name
+- **GetTeamsByUserId**: Retrieves all teams that a specific user is a member of
+- **GetTeamMembers**: Retrieves all members of a specific team
 
 ### Validators
-- Validators for all DTOs and commands to ensure data integrity.
+- **TeamDtoValidator**: Validates the base DTO
+- **TeamDetailsDtoValidator**: Validates the detailed DTO
+- **TeamListDtoValidator**: Validates the list DTO
+- **CreateTeamCommandValidator**: Validates the create command
+- **UpdateTeamCommandValidator**: Validates the update command
+- **DeleteTeamCommandValidator**: Validates the delete command
+- **AddTeamMemberCommandValidator**: Validates the add member command
+- **RemoveTeamMemberCommandValidator**: Validates the remove member command
+- **GetTeamByIdQueryValidator**: Validates the ID query
+- **GetTeamByNameQueryValidator**: Validates the name query
+- **GetTeamsByUserIdQueryValidator**: Validates the user ID query
+- **GetTeamMembersQueryValidator**: Validates the team members query
 
-### Mapping Profiles
-- `TeamMappingProfile`: Maps between Team entity and DTOs.
+### Mappings
+- **TeamMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a Team
+### Creating a new Team
 ```csharp
-var createTeamCommand = new CreateTeamCommand
+var command = new CreateTeamCommand
 {
-    TeamLeadEmployeeId = Guid.Parse("00000000-0000-0000-0000-000000000000"),
     Name = "Sales Team",
-    Description = "Team responsible for sales activities"
+    Description = "Team responsible for sales activities",
+    TeamLeadEmployeeId = teamLeadId,
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
-var result = await _mediator.Send(createTeamCommand);
+var result = await _mediator.Send(command);
+```
+
+### Retrieving all Teams
+```csharp
+var query = new GetAllTeamsQuery();
+var teams = await _mediator.Send(query);
+```
+
+### Retrieving a Team by ID
+```csharp
+var query = new GetTeamByIdQuery { Id = teamId };
+var team = await _mediator.Send(query);
+```
+
+### Retrieving Teams by name
+```csharp
+var query = new GetTeamByNameQuery { Name = "Sales" };
+var teams = await _mediator.Send(query);
+```
+
+### Retrieving Teams by user ID
+```csharp
+var query = new GetTeamsByUserIdQuery { UserId = userId };
+var teams = await _mediator.Send(query);
+```
+
+### Adding a member to a Team
+```csharp
+var command = new AddTeamMemberCommand
+{
+    TeamId = teamId,
+    EmployeeId = employeeId,
+    CreatedBy = currentUserId
+};
+
+var result = await _mediator.Send(command);
 ```
 
 ### Updating a Team
 ```csharp
-var updateTeamCommand = new UpdateTeamCommand
+var command = new UpdateTeamCommand
 {
-    Id = Guid.Parse("00000000-0000-0000-0000-000000000000"),
-    TeamLeadEmployeeId = Guid.Parse("00000000-0000-0000-0000-000000000000"),
+    Id = teamId,
     Name = "Updated Sales Team",
-    Description = "Updated description for the sales team"
+    Description = "Updated description for the sales team",
+    TeamLeadEmployeeId = newTeamLeadId,
+    ModifiedBy = currentUserId
 };
 
-var result = await _mediator.Send(updateTeamCommand);
+var result = await _mediator.Send(command);
 ```
 
 ### Deleting a Team
 ```csharp
-var deleteTeamCommand = new DeleteTeamCommand
+var command = new DeleteTeamCommand
 {
-    Id = Guid.Parse("00000000-0000-0000-0000-000000000000")
+    Id = teamId,
+    ModifiedBy = currentUserId
 };
 
-var result = await _mediator.Send(deleteTeamCommand);
+var success = await _mediator.Send(command);
 ```
 
-### Retrieving Teams
-```csharp
-// Get all teams
-var allTeams = await _mediator.Send(new GetAllTeamsQuery());
+## Implementation Notes
 
-// Get team by ID
-var teamById = await _mediator.Send(new GetTeamByIdQuery { Id = Guid.Parse("00000000-0000-0000-0000-000000000000") });
+### Soft Delete Pattern
+The Team feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
 
-// Get team by name
-var teamByName = await _mediator.Send(new GetTeamByNameQuery { Name = "Sales Team" });
+### Validation Rules
+- Team name is required and limited to 100 characters
+- Description is limited to 500 characters
+- Team lead employee ID must reference a valid employee
+- Team name must be unique across all teams
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
 
-// Get teams by user ID
-var teamsByUserId = await _mediator.Send(new GetTeamsByUserIdQuery { UserId = Guid.Parse("00000000-0000-0000-0000-000000000000") });
-```
-
-## Notes
-- Teams are soft-deleted by setting the `Active` property to false.
-- All queries filter out inactive (deleted) teams.
-- The `MemberCount` property in DTOs would need to be populated by additional repository methods in a real implementation.
+### Team Membership
+- Team membership is managed through a separate TeamMember entity
+- Each employee can be a member of multiple teams
+- Each team can have multiple members
+- The TeamMember entity tracks when an employee joined a team

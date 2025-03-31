@@ -1,15 +1,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Quote.Commands.CreateQuote;
 using VibeCRM.Application.Features.Quote.Commands.DeleteQuote;
 using VibeCRM.Application.Features.Quote.Commands.UpdateQuote;
-using VibeCRM.Application.Features.Quote.DTOs;
 using VibeCRM.Application.Features.Quote.Queries.GetAllQuotes;
 using VibeCRM.Application.Features.Quote.Queries.GetQuoteById;
 using VibeCRM.Application.Features.Quote.Queries.GetQuotesByActivity;
 using VibeCRM.Application.Features.Quote.Queries.GetQuotesByCompany;
 using VibeCRM.Application.Features.Quote.Queries.GetQuotesByNumber;
+using VibeCRM.Shared.DTOs.Quote;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

@@ -3,113 +3,164 @@
 ## Overview
 The ActivityDefinition feature provides functionality for managing predefined activity templates that can be used to create new activities in the VibeCRM system. Activity definitions serve as templates that define the default properties of activities, such as type, status, assigned users/teams, and due date offsets.
 
-## Components
+## Domain Model
+The ActivityDefinition entity is a reference entity that represents a template for creating activities. Each ActivityDefinition has the following properties:
+
+- **ActivityDefinitionId**: Unique identifier (UUID)
+- **ActivityTypeId**: Reference to the type of activity this definition creates
+- **ActivityStatusId**: Reference to the default status for new activities
+- **AssignedUserId**: Reference to the default user assigned to new activities
+- **AssignedTeamId**: Reference to the default team assigned to new activities
+- **Subject**: Default subject/title for new activities
+- **Description**: Default description for new activities
+- **DueDateOffset**: Number of days after creation when the activity is due
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **ActivityType**: Navigation property to the associated ActivityType
+- **ActivityStatus**: Navigation property to the associated ActivityStatus
+- **AssignedUser**: Navigation property to the default assigned user
+- **AssignedTeam**: Navigation property to the default assigned team
+- **Activities**: Collection of associated Activity entities created from this definition
+
+## Feature Components
 
 ### DTOs
-- **ActivityDefinitionDto**: Base DTO containing essential properties for activity definition operations.
-- **ActivityDefinitionDetailsDto**: Detailed DTO with additional properties for comprehensive views.
-- **ActivityDefinitionListDto**: Simplified DTO for displaying activity definitions in lists.
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **ActivityDefinitionDto**: Base DTO with core properties
+- **ActivityDefinitionDetailsDto**: Extended DTO with audit fields and related data
+- **ActivityDefinitionListDto**: Optimized DTO for list views
 
 ### Commands
-- **CreateActivityDefinition**: Creates a new activity definition in the system.
-- **UpdateActivityDefinition**: Updates an existing activity definition.
-- **DeleteActivityDefinition**: Soft-deletes an activity definition by setting its Active property to false.
+- **CreateActivityDefinition**: Creates a new activity definition
+- **UpdateActivityDefinition**: Updates an existing activity definition
+- **DeleteActivityDefinition**: Soft-deletes an activity definition by setting Active = false
+- **CloneActivityDefinition**: Creates a new activity definition based on an existing one
 
 ### Queries
-- **GetActivityDefinitionById**: Retrieves a specific activity definition by its unique identifier.
-- **GetAllActivityDefinitions**: Retrieves all active activity definitions.
+- **GetAllActivityDefinitions**: Retrieves all active activity definitions
+- **GetActivityDefinitionById**: Retrieves a specific activity definition by its ID
+- **GetActivityDefinitionsByActivityType**: Retrieves activity definitions filtered by activity type
+- **GetActivityDefinitionsByAssignedUser**: Retrieves activity definitions assigned to a specific user
+- **GetActivityDefinitionsByAssignedTeam**: Retrieves activity definitions assigned to a specific team
 
 ### Validators
-- **ActivityDefinitionDtoValidator**: Validates the base DTO.
-- **ActivityDefinitionDetailsDtoValidator**: Validates the detailed DTO.
-- **ActivityDefinitionListDtoValidator**: Validates the list DTO.
-- **CreateActivityDefinitionCommandValidator**: Validates the create command.
-- **UpdateActivityDefinitionCommandValidator**: Validates the update command.
+- **ActivityDefinitionDtoValidator**: Validates the base DTO
+- **ActivityDefinitionDetailsDtoValidator**: Validates the detailed DTO
+- **ActivityDefinitionListDtoValidator**: Validates the list DTO
+- **CreateActivityDefinitionCommandValidator**: Validates the create command
+- **UpdateActivityDefinitionCommandValidator**: Validates the update command
+- **DeleteActivityDefinitionCommandValidator**: Validates the delete command
+- **CloneActivityDefinitionCommandValidator**: Validates the clone command
+- **GetActivityDefinitionByIdQueryValidator**: Validates the ID query
+- **GetActivityDefinitionsByActivityTypeQueryValidator**: Validates the activity type query
+- **GetActivityDefinitionsByAssignedUserQueryValidator**: Validates the assigned user query
+- **GetActivityDefinitionsByAssignedTeamQueryValidator**: Validates the assigned team query
 
-### Mapping Profiles
-- **ActivityDefinitionMappingProfile**: Defines mappings between activity definition entities and DTOs.
-
-## Repository Methods
-- **GetAllAsync**: Retrieves all active activity definitions.
-- **GetByIdAsync**: Retrieves a specific activity definition by ID.
-- **AddAsync**: Adds a new activity definition.
-- **UpdateAsync**: Updates an existing activity definition.
-- **DeleteAsync**: Soft-deletes an activity definition.
-- **GetByNameAsync**: Retrieves an activity definition by its subject/name.
-- **GetByActivityTypeAsync**: Retrieves activity definitions by activity type.
-- **GetByWorkflowIdAsync**: Retrieves activity definitions associated with a specific workflow.
-- **GetByCreatedByAsync**: Retrieves activity definitions created by a specific user.
-
-## Validation Rules
-- Activity type and status are required.
-- Subject is required and limited to 200 characters.
-- Description is optional but limited to 2000 characters.
-- Due date offset must be zero or positive.
-- Assigned user and team are required.
-- Created by and modified by user IDs are required.
+### Mappings
+- **ActivityDefinitionMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a New Activity Definition
+### Creating a new ActivityDefinition
 ```csharp
 var command = new CreateActivityDefinitionCommand
 {
-    ActivityTypeId = Guid.Parse("activity-type-id"),
-    ActivityStatusId = Guid.Parse("activity-status-id"),
-    AssignedUserId = Guid.Parse("user-id"),
-    AssignedTeamId = Guid.Parse("team-id"),
+    ActivityTypeId = activityTypeId,
+    ActivityStatusId = activityStatusId,
+    AssignedUserId = userId,
+    AssignedTeamId = teamId,
     Subject = "Follow-up Call",
     Description = "Make a follow-up call to discuss the proposal",
     DueDateOffset = 3, // Due 3 days after creation
-    CreatedBy = Guid.Parse("current-user-id"),
-    ModifiedBy = Guid.Parse("current-user-id")
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Updating an Activity Definition
+### Retrieving all ActivityDefinitions
+```csharp
+var query = new GetAllActivityDefinitionsQuery();
+var activityDefinitions = await _mediator.Send(query);
+```
+
+### Retrieving an ActivityDefinition by ID
+```csharp
+var query = new GetActivityDefinitionByIdQuery { Id = activityDefinitionId };
+var activityDefinition = await _mediator.Send(query);
+```
+
+### Retrieving ActivityDefinitions by activity type
+```csharp
+var query = new GetActivityDefinitionsByActivityTypeQuery { ActivityTypeId = activityTypeId };
+var activityDefinitions = await _mediator.Send(query);
+```
+
+### Cloning an ActivityDefinition
+```csharp
+var command = new CloneActivityDefinitionCommand
+{
+    SourceId = sourceActivityDefinitionId,
+    Subject = "Cloned Follow-up Call",
+    Description = "Cloned from original follow-up call template",
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
+};
+
+var result = await _mediator.Send(command);
+```
+
+### Updating an ActivityDefinition
 ```csharp
 var command = new UpdateActivityDefinitionCommand
 {
-    Id = Guid.Parse("activity-definition-id"),
-    ActivityTypeId = Guid.Parse("activity-type-id"),
-    ActivityStatusId = Guid.Parse("activity-status-id"),
-    AssignedUserId = Guid.Parse("user-id"),
-    AssignedTeamId = Guid.Parse("team-id"),
+    Id = activityDefinitionId,
+    ActivityTypeId = activityTypeId,
+    ActivityStatusId = activityStatusId,
+    AssignedUserId = userId,
+    AssignedTeamId = teamId,
     Subject = "Updated Follow-up Call",
-    Description = "Updated description",
+    Description = "Updated description for follow-up call",
     DueDateOffset = 5, // Now due 5 days after creation
-    ModifiedBy = Guid.Parse("current-user-id")
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Deleting an Activity Definition
+### Deleting an ActivityDefinition
 ```csharp
 var command = new DeleteActivityDefinitionCommand
 {
-    ActivityDefinitionId = Guid.Parse("activity-definition-id"),
-    ModifiedBy = Guid.Parse("current-user-id")
+    Id = activityDefinitionId,
+    ModifiedBy = currentUserId
 };
 
-var result = await _mediator.Send(command);
+var success = await _mediator.Send(command);
 ```
 
-### Retrieving an Activity Definition
-```csharp
-var query = new GetActivityDefinitionByIdQuery(Guid.Parse("activity-definition-id"));
-var result = await _mediator.Send(query);
-```
+## Implementation Notes
 
-### Retrieving All Activity Definitions
-```csharp
-var query = new GetAllActivityDefinitionsQuery();
-var result = await _mediator.Send(query);
-```
+### Soft Delete Pattern
+The ActivityDefinition feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
 
-## Notes
-- This feature implements soft delete using the `Active` property. When an activity definition is "deleted," its `Active` property is set to `false` rather than removing the record from the database.
-- All queries automatically filter out inactive (soft-deleted) activity definitions.
-- The repository implementation uses Dapper ORM for data access.
+### Validation Rules
+- Subject is required and limited to 200 characters
+- Description is optional but limited to 2000 characters
+- ActivityTypeId and ActivityStatusId must reference valid entities
+- AssignedUserId and AssignedTeamId must reference valid entities
+- DueDateOffset must be zero or positive
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
+
+### Activity Creation
+- When creating an activity from a definition, the definition's properties are used as defaults
+- The activity creation process can override any of the default values if needed
+- The relationship between the activity and its definition is maintained for reporting purposes
+
+### Workflow Integration
+- Activity definitions can be associated with workflow steps
+- When a workflow reaches a specific step, activities can be automatically created from the associated definitions
+- This enables automated task assignment and follow-up processes

@@ -1,12 +1,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.AddressType.Commands.CreateAddressType;
 using VibeCRM.Application.Features.AddressType.Commands.DeleteAddressType;
 using VibeCRM.Application.Features.AddressType.Commands.UpdateAddressType;
-using VibeCRM.Application.Features.AddressType.DTOs;
+using VibeCRM.Application.Features.AddressType.Queries.GetAddressTypeById;
+using VibeCRM.Application.Features.AddressType.Queries.GetAddressTypeByOrdinalPosition;
 using VibeCRM.Application.Features.AddressType.Queries.GetAddressTypeByType;
+using VibeCRM.Application.Features.AddressType.Queries.GetAllAddressTypes;
 using VibeCRM.Application.Features.AddressType.Queries.GetDefaultAddressType;
+using VibeCRM.Shared.DTOs.AddressType;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 
@@ -98,12 +101,10 @@ public class AddressTypeController : ApiControllerBase
     {
         _logger.LogInformation("Getting Address Type with ID: {Id}", id);
 
-        // Since there's no specific GetAddressTypeByIdQuery, we'll use the GetAddressTypeByTypeQuery
-        // and filter the results in the controller
-        var query = new GetAddressTypeByTypeQuery { Type = string.Empty };
+        var query = new GetAddressTypeByIdQuery { Id = id };
         var result = await _mediator.Send(query);
 
-        if (result == null || result.Id != id)
+        if (result == null)
         {
             return NotFoundResponse<AddressTypeDto>($"Address Type with ID {id} not found");
         }
@@ -121,9 +122,7 @@ public class AddressTypeController : ApiControllerBase
     {
         _logger.LogInformation("Getting all Address Types");
 
-        // Since there's no specific GetAllAddressTypesQuery, we'll use the GetAddressTypeByTypeQuery
-        // with an empty type string to get all address types
-        var query = new GetAddressTypeByTypeQuery { Type = string.Empty };
+        var query = new GetAllAddressTypesQuery();
         var result = await _mediator.Send(query);
 
         return Ok(Success(result));
@@ -141,6 +140,23 @@ public class AddressTypeController : ApiControllerBase
         _logger.LogInformation("Getting Address Types with Type: {Type}", type);
 
         var query = new GetAddressTypeByTypeQuery { Type = type };
+        var result = await _mediator.Send(query);
+
+        return Ok(Success(result));
+    }
+
+    /// <summary>
+    /// Gets address types by ordinal position.
+    /// </summary>
+    /// <param name="position">The ordinal position to search for.</param>
+    /// <returns>A list of address types with the specified ordinal position.</returns>
+    [HttpGet("byposition/{position:int}")]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<AddressTypeDto>>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetByOrdinalPosition(int position)
+    {
+        _logger.LogInformation("Getting Address Types with Ordinal Position: {Position}", position);
+
+        var query = new GetAddressTypeByOrdinalPositionQuery { OrdinalPosition = position };
         var result = await _mediator.Send(query);
 
         return Ok(Success(result));

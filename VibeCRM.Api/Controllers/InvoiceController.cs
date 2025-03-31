@@ -1,13 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Invoice.Commands.CreateInvoice;
 using VibeCRM.Application.Features.Invoice.Commands.DeleteInvoice;
 using VibeCRM.Application.Features.Invoice.Commands.UpdateInvoice;
-using VibeCRM.Application.Features.Invoice.DTOs;
 using VibeCRM.Application.Features.Invoice.Queries.GetAllInvoices;
 using VibeCRM.Application.Features.Invoice.Queries.GetInvoiceById;
 using VibeCRM.Application.Features.Invoice.Queries.GetInvoicesBySalesOrderId;
+using VibeCRM.Shared.DTOs.Invoice;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

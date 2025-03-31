@@ -1,5 +1,5 @@
 using FluentValidation;
-using VibeCRM.Application.Features.Invoice.DTOs;
+using VibeCRM.Shared.DTOs.Invoice;
 
 namespace VibeCRM.Application.Features.Invoice.Validators
 {

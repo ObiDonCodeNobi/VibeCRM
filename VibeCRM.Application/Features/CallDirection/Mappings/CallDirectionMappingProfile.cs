@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.CallDirection.Commands.CreateCallDirection;
 using VibeCRM.Application.Features.CallDirection.Commands.UpdateCallDirection;
-using VibeCRM.Application.Features.CallDirection.DTOs;
+using VibeCRM.Shared.DTOs.CallDirection;
 
 namespace VibeCRM.Application.Features.CallDirection.Mappings
 {

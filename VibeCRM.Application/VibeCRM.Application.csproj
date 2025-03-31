@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VibeCRM.Domain\VibeCRM.Domain.csproj" />
+    <ProjectReference Include="..\VibeCRM.Shared\VibeCRM.Shared.csproj" />
   </ItemGroup>
 
 </Project>

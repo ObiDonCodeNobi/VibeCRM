@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.AccountType.Commands.CreateAccountType;
 using VibeCRM.Application.Features.AccountType.Commands.DeleteAccountType;
 using VibeCRM.Application.Features.AccountType.Commands.UpdateAccountType;
-using VibeCRM.Application.Features.AccountType.DTOs;
 using VibeCRM.Application.Features.AccountType.Mappings;
 using VibeCRM.Application.Features.AccountType.Queries.GetAccountTypeById;
 using VibeCRM.Application.Features.AccountType.Queries.GetAllAccountTypes;
 using VibeCRM.Application.Features.AccountType.Validators;
+using VibeCRM.Shared.DTOs.AccountType;
 
 namespace VibeCRM.Application.Extensions
 {

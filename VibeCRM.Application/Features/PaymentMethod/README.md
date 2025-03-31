@@ -3,70 +3,83 @@
 ## Overview
 The PaymentMethod feature provides functionality for managing payment method entities in the VibeCRM system. Payment methods represent the various ways customers can make payments (e.g., "Credit Card", "Cash", "Check", etc.) and are used in financial transactions throughout the system.
 
-## Architecture
-This feature follows the Clean Architecture and CQRS (Command Query Responsibility Segregation) patterns using MediatR. It is organized into the following components:
+## Domain Model
+The PaymentMethod entity is a reference entity that represents a method of payment. Each PaymentMethod has the following properties:
 
-### Domain Layer
-- `PaymentMethod` entity in the Domain layer defines the core business entity.
+- **PaymentMethodId**: Unique identifier (UUID)
+- **Name**: Name of the payment method (e.g., "Credit Card", "Cash", "Check")
+- **Description**: Detailed description of the payment method
+- **OrdinalPosition**: Numeric value for ordering payment methods in dropdowns and lists
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **Payments**: Collection of associated Payment entities
 
-### Application Layer
-- **DTOs (Data Transfer Objects)**:
-  - `PaymentMethodDto`: Basic DTO for transferring payment method data.
-  - `PaymentMethodDetailsDto`: Detailed DTO with additional information about the payment method.
-  - `PaymentMethodListDto`: DTO optimized for list views of payment methods.
+## Feature Components
 
-- **Commands**:
-  - `CreatePaymentMethodCommand`: Command for creating a new payment method.
-  - `UpdatePaymentMethodCommand`: Command for updating an existing payment method.
-  - `DeletePaymentMethodCommand`: Command for soft deleting a payment method.
+### DTOs
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **PaymentMethodDto**: Base DTO with core properties
+- **PaymentMethodDetailsDto**: Extended DTO with audit fields and payment count
+- **PaymentMethodListDto**: Optimized DTO for list views
 
-- **Command Handlers**:
-  - `CreatePaymentMethodCommandHandler`: Handles the creation of payment methods.
-  - `UpdatePaymentMethodCommandHandler`: Handles the updating of payment methods.
-  - `DeletePaymentMethodCommandHandler`: Handles the soft deletion of payment methods.
+### Commands
+- **CreatePaymentMethod**: Creates a new payment method
+- **UpdatePaymentMethod**: Updates an existing payment method
+- **DeletePaymentMethod**: Soft-deletes a payment method by setting Active = false
 
-- **Queries**:
-  - `GetPaymentMethodByIdQuery`: Query for retrieving a payment method by its ID.
-  - `GetPaymentMethodByNameQuery`: Query for retrieving a payment method by its name.
-  - `GetAllPaymentMethodsQuery`: Query for retrieving all payment methods.
-  - `GetPaymentMethodByOrdinalPositionQuery`: Query for retrieving payment methods ordered by their ordinal position.
-  - `GetDefaultPaymentMethodQuery`: Query for retrieving the default payment method.
+### Queries
+- **GetAllPaymentMethods**: Retrieves all active payment methods
+- **GetPaymentMethodById**: Retrieves a specific payment method by its ID
+- **GetPaymentMethodByName**: Retrieves a specific payment method by its name
+- **GetPaymentMethodByOrdinalPosition**: Retrieves payment methods ordered by their ordinal position
+- **GetDefaultPaymentMethod**: Retrieves the default payment method
 
-- **Query Handlers**:
-  - Corresponding handlers for each query that interact with the repository to fetch data.
+### Validators
+- **PaymentMethodDtoValidator**: Validates the base DTO
+- **PaymentMethodDetailsDtoValidator**: Validates the detailed DTO
+- **PaymentMethodListDtoValidator**: Validates the list DTO
+- **GetPaymentMethodByIdQueryValidator**: Validates the ID query
+- **GetPaymentMethodByNameQueryValidator**: Validates the name query
+- **GetPaymentMethodByOrdinalPositionQueryValidator**: Validates the ordinal position query
+- **GetAllPaymentMethodsQueryValidator**: Validates the "get all" query
 
-- **Validators**:
-  - Validators for all DTOs, commands, and queries using FluentValidation.
-
-- **Mappings**:
-  - `PaymentMethodMappingProfile`: AutoMapper profile for mapping between PaymentMethod entities and DTOs.
-
-### Infrastructure Layer
-- `IPaymentMethodRepository`: Interface defining the repository contract.
-- `PaymentMethodRepository`: Implementation of the repository interface using Dapper ORM.
-
-## Key Features
-1. **CRUD Operations**: Create, Read, Update, and Delete (soft delete) operations for payment method entities.
-2. **Ordinal Position**: Payment methods can be ordered using an ordinal position property for display purposes.
-3. **Default Method**: Support for retrieving the default payment method.
-4. **Soft Delete**: Implements the soft delete pattern using the `Active` property.
+### Mappings
+- **PaymentMethodMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a Payment Method
+### Creating a new PaymentMethod
 ```csharp
 var command = new CreatePaymentMethodCommand
 {
     Name = "Credit Card",
     Description = "Payment via credit card (Visa, MasterCard, etc.)",
     OrdinalPosition = 1,
-    CreatedBy = "admin"
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Updating a Payment Method
+### Retrieving all PaymentMethods
+```csharp
+var query = new GetAllPaymentMethodsQuery();
+var paymentMethods = await _mediator.Send(query);
+```
+
+### Retrieving PaymentMethods by ordinal position
+```csharp
+var query = new GetPaymentMethodByOrdinalPositionQuery();
+var orderedPaymentMethods = await _mediator.Send(query);
+```
+
+### Retrieving default PaymentMethod
+```csharp
+var query = new GetDefaultPaymentMethodQuery();
+var defaultPaymentMethod = await _mediator.Send(query);
+```
+
+### Updating a PaymentMethod
 ```csharp
 var command = new UpdatePaymentMethodCommand
 {
@@ -74,41 +87,39 @@ var command = new UpdatePaymentMethodCommand
     Name = "Credit Card",
     Description = "Payment via credit card (Visa, MasterCard, American Express)",
     OrdinalPosition = 1,
-    ModifiedBy = "admin"
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Retrieving All Payment Methods
+### Deleting a PaymentMethod
 ```csharp
-var query = new GetAllPaymentMethodsQuery
+var command = new DeletePaymentMethodCommand
 {
-    IncludeInactive = false
+    Id = paymentMethodId,
+    ModifiedBy = currentUserId
 };
 
-var paymentMethods = await _mediator.Send(query);
+var success = await _mediator.Send(command);
 ```
 
-### Retrieving Payment Methods by Ordinal Position
-```csharp
-var query = new GetPaymentMethodByOrdinalPositionQuery();
+## Implementation Notes
 
-var orderedPaymentMethods = await _mediator.Send(query);
-```
+### Soft Delete Pattern
+The PaymentMethod feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
 
-## Dependencies
-- **MediatR**: For implementing the CQRS pattern.
-- **AutoMapper**: For mapping between entities and DTOs.
-- **FluentValidation**: For validating commands, queries, and DTOs.
-- **Dapper**: ORM for data access.
-- **Microsoft.Extensions.Logging**: For logging within handlers and repositories.
+### Validation Rules
+- Name is required and limited to 100 characters
+- Description is required and limited to 500 characters
+- Ordinal position must be a non-negative number
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
 
-## Best Practices
-1. All handlers include comprehensive error handling and logging.
-2. All public methods and classes have XML documentation.
-3. Validation is implemented for all commands, queries, and DTOs.
-4. The feature follows the soft delete pattern using the `Active` property.
-5. All repository methods include a `CancellationToken` parameter for cancellation support.
-6. SOLID principles are followed throughout the implementation.
-7. Clean Architecture principles are maintained with clear separation of concerns.
+### Ordering
+Payment methods are ordered by their OrdinalPosition property in list views to ensure consistent display order.
+
+### Payment Associations
+Each PaymentMethod can be associated with multiple Payment entities. The feature includes functionality to retrieve the count of payments using each method.

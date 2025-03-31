@@ -1,5 +1,5 @@
 using FluentValidation;
-using VibeCRM.Application.Features.SalesOrder.DTOs;
+using VibeCRM.Shared.DTOs.SalesOrder;
 
 namespace VibeCRM.Application.Features.SalesOrder.Validators
 {

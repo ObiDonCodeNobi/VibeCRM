@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.Person.DTOs;
+using VibeCRM.Shared.DTOs.Person;
 
 namespace VibeCRM.Application.Features.Person.Queries.GetAllPersons
 {

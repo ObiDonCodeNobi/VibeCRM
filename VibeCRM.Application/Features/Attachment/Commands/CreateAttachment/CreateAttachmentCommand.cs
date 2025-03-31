@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.Attachment.DTOs;
+using VibeCRM.Shared.DTOs.Attachment;
 
 namespace VibeCRM.Application.Features.Attachment.Commands.CreateAttachment
 {

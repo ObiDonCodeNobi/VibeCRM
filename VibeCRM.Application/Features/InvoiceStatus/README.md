@@ -3,98 +3,133 @@
 ## Overview
 The InvoiceStatus feature provides functionality for managing invoice statuses in the VibeCRM system. Invoice statuses represent the various states an invoice can be in throughout its lifecycle (e.g., Draft, Sent, Paid, Overdue).
 
-## Architecture
-This feature follows the Clean Architecture and CQRS pattern using MediatR:
+## Domain Model
+The InvoiceStatus entity is a reference entity that represents the status of an invoice. Each InvoiceStatus has the following properties:
 
-- **Domain Layer**: Contains the InvoiceStatus entity
-- **Application Layer**: Contains commands, queries, DTOs, validators, and mapping profiles
-- **Infrastructure Layer**: Contains the repository implementation
+- **InvoiceStatusId**: Unique identifier (UUID)
+- **Status**: Name of the invoice status (e.g., "Draft", "Sent", "Paid", "Overdue")
+- **Description**: Detailed description of what the status means
+- **OrdinalPosition**: Numeric value for ordering statuses in dropdowns and lists
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **Invoices**: Collection of associated Invoice entities
 
-## Components
-
-### Entity
-- `InvoiceStatus`: Represents an invoice status with properties such as ID, status name, description, and ordinal position.
+## Feature Components
 
 ### DTOs
-- `InvoiceStatusDto`: Basic DTO for invoice status
-- `InvoiceStatusDetailsDto`: Detailed DTO including audit information
-- `InvoiceStatusListDto`: DTO for listing invoice statuses with additional information like invoice count
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **InvoiceStatusDto**: Base DTO with core properties
+- **InvoiceStatusDetailsDto**: Extended DTO with audit fields and invoice count
+- **InvoiceStatusListDto**: Optimized DTO for list views
 
 ### Commands
-- `CreateInvoiceStatusCommand`: Creates a new invoice status
-- `UpdateInvoiceStatusCommand`: Updates an existing invoice status
-- `DeleteInvoiceStatusCommand`: Soft deletes an invoice status by setting Active = false
+- **CreateInvoiceStatus**: Creates a new invoice status
+- **UpdateInvoiceStatus**: Updates an existing invoice status
+- **DeleteInvoiceStatus**: Soft-deletes an invoice status by setting Active = false
 
 ### Queries
-- `GetAllInvoiceStatusesQuery`: Retrieves all invoice statuses
-- `GetInvoiceStatusByIdQuery`: Retrieves an invoice status by its ID
-- `GetInvoiceStatusByStatusQuery`: Retrieves an invoice status by its status name
-- `GetInvoiceStatusByOrdinalPositionQuery`: Retrieves invoice statuses ordered by ordinal position
-- `GetDefaultInvoiceStatusQuery`: Retrieves the default invoice status
+- **GetAllInvoiceStatuses**: Retrieves all active invoice statuses
+- **GetInvoiceStatusById**: Retrieves a specific invoice status by its ID
+- **GetInvoiceStatusByStatus**: Retrieves invoice statuses by their status name
+- **GetInvoiceStatusByOrdinalPosition**: Retrieves invoice statuses by their ordinal position
+- **GetDefaultInvoiceStatus**: Retrieves the default invoice status (lowest ordinal position)
 
 ### Validators
-- Validators for all DTOs and commands to ensure data integrity
+- **InvoiceStatusDtoValidator**: Validates the base DTO
+- **InvoiceStatusDetailsDtoValidator**: Validates the detailed DTO
+- **InvoiceStatusListDtoValidator**: Validates the list DTO
+- **CreateInvoiceStatusCommandValidator**: Validates the create command
+- **UpdateInvoiceStatusCommandValidator**: Validates the update command
+- **DeleteInvoiceStatusCommandValidator**: Validates the delete command
+- **GetInvoiceStatusByIdQueryValidator**: Validates the ID query
+- **GetInvoiceStatusByStatusQueryValidator**: Validates the status name query
+- **GetInvoiceStatusByOrdinalPositionQueryValidator**: Validates the ordinal position query
+- **GetAllInvoiceStatusesQueryValidator**: Validates the "get all" query
 
-### Repository
-- `IInvoiceStatusRepository`: Interface defining repository methods
-- `InvoiceStatusRepository`: Implementation of the repository using Dapper ORM
+### Mappings
+- **InvoiceStatusMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating an Invoice Status
+### Creating a new InvoiceStatus
 ```csharp
 var command = new CreateInvoiceStatusCommand
 {
     Status = "Draft",
     Description = "Invoice is in draft state",
-    OrdinalPosition = 1
+    OrdinalPosition = 1,
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Updating an Invoice Status
+### Retrieving all InvoiceStatuses
+```csharp
+var query = new GetAllInvoiceStatusesQuery();
+var invoiceStatuses = await _mediator.Send(query);
+```
+
+### Retrieving an InvoiceStatus by ID
+```csharp
+var query = new GetInvoiceStatusByIdQuery { Id = invoiceStatusId };
+var invoiceStatus = await _mediator.Send(query);
+```
+
+### Retrieving InvoiceStatuses by status name
+```csharp
+var query = new GetInvoiceStatusByStatusQuery { Status = "Draft" };
+var invoiceStatus = await _mediator.Send(query);
+```
+
+### Retrieving the default InvoiceStatus
+```csharp
+var query = new GetDefaultInvoiceStatusQuery();
+var defaultInvoiceStatus = await _mediator.Send(query);
+```
+
+### Updating an InvoiceStatus
 ```csharp
 var command = new UpdateInvoiceStatusCommand
 {
     Id = invoiceStatusId,
     Status = "Updated Draft",
     Description = "Updated description",
-    OrdinalPosition = 2
+    OrdinalPosition = 2,
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Deleting an Invoice Status
+### Deleting an InvoiceStatus
 ```csharp
 var command = new DeleteInvoiceStatusCommand
 {
-    Id = invoiceStatusId
+    Id = invoiceStatusId,
+    ModifiedBy = currentUserId
 };
 
-var result = await _mediator.Send(command);
+var success = await _mediator.Send(command);
 ```
 
-### Retrieving Invoice Statuses
-```csharp
-// Get all invoice statuses
-var allStatuses = await _mediator.Send(new GetAllInvoiceStatusesQuery());
+## Implementation Notes
 
-// Get invoice status by ID
-var statusById = await _mediator.Send(new GetInvoiceStatusByIdQuery { Id = invoiceStatusId });
+### Soft Delete Pattern
+The InvoiceStatus feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
 
-// Get invoice status by status name
-var statusByName = await _mediator.Send(new GetInvoiceStatusByStatusQuery { Status = "Draft" });
+### Validation Rules
+- Status name is required and limited to 50 characters
+- Description is required and limited to 500 characters
+- Ordinal position must be a non-negative number
+- Status name must be unique across all invoice statuses
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
 
-// Get invoice statuses ordered by ordinal position
-var orderedStatuses = await _mediator.Send(new GetInvoiceStatusByOrdinalPositionQuery());
+### Ordering
+Invoice statuses are ordered by their OrdinalPosition property in list views to ensure consistent display order.
 
-// Get default invoice status
-var defaultStatus = await _mediator.Send(new GetDefaultInvoiceStatusQuery());
-```
-
-## Notes
-- The feature implements soft delete using the `Active` property.
-- All queries filter by `Active = true` to exclude soft-deleted records.
-- The `OrdinalPosition` property allows for custom ordering of invoice statuses in UI displays.
+### Invoice Associations
+Each InvoiceStatus can be associated with multiple Invoice entities. The feature includes functionality to retrieve the count of invoices using each status.

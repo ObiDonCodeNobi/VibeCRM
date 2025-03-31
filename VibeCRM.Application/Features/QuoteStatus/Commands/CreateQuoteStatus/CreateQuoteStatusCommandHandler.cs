@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.QuoteStatus.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.QuoteStatus;
 
 namespace VibeCRM.Application.Features.QuoteStatus.Commands.CreateQuoteStatus
 {

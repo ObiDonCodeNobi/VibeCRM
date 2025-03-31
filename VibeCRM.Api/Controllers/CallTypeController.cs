@@ -1,10 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.CallType.Commands.CreateCallType;
 using VibeCRM.Application.Features.CallType.Commands.DeleteCallType;
 using VibeCRM.Application.Features.CallType.Commands.UpdateCallType;
-using VibeCRM.Application.Features.CallType.DTOs;
 using VibeCRM.Application.Features.CallType.Queries.GetAllCallTypes;
 using VibeCRM.Application.Features.CallType.Queries.GetCallTypeById;
 using VibeCRM.Application.Features.CallType.Queries.GetCallTypeByType;
@@ -12,6 +10,8 @@ using VibeCRM.Application.Features.CallType.Queries.GetCallTypesByOrdinalPositio
 using VibeCRM.Application.Features.CallType.Queries.GetDefaultCallType;
 using VibeCRM.Application.Features.CallType.Queries.GetInboundCallTypes;
 using VibeCRM.Application.Features.CallType.Queries.GetOutboundCallTypes;
+using VibeCRM.Shared.DTOs.CallType;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

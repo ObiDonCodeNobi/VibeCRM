@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Quote.Commands.CreateQuote;
 using VibeCRM.Application.Features.Quote.Commands.DeleteQuote;
 using VibeCRM.Application.Features.Quote.Commands.UpdateQuote;
-using VibeCRM.Application.Features.Quote.DTOs;
 using VibeCRM.Application.Features.Quote.Mappings;
 using VibeCRM.Application.Features.Quote.Queries.GetAllQuotes;
 using VibeCRM.Application.Features.Quote.Queries.GetQuoteById;
 using VibeCRM.Application.Features.Quote.Validators;
+using VibeCRM.Shared.DTOs.Quote;
 
 namespace VibeCRM.Application.Extensions
 {

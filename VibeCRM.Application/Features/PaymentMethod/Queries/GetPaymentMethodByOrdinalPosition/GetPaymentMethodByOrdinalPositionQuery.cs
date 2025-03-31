@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.PaymentMethod.DTOs;
+using VibeCRM.Shared.DTOs.PaymentMethod;
 
 namespace VibeCRM.Application.Features.PaymentMethod.Queries.GetPaymentMethodByOrdinalPosition
 {

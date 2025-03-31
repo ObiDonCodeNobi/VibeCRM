@@ -1,11 +1,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.AccountType.Commands.CreateAccountType;
 using VibeCRM.Application.Features.AccountType.Commands.DeleteAccountType;
 using VibeCRM.Application.Features.AccountType.Commands.UpdateAccountType;
-using VibeCRM.Application.Features.AccountType.DTOs;
+using VibeCRM.Application.Features.AccountType.Queries.GetAccountTypeById;
+using VibeCRM.Application.Features.AccountType.Queries.GetAccountTypeByOrdinalPosition;
 using VibeCRM.Application.Features.AccountType.Queries.GetAccountTypeByType;
+using VibeCRM.Application.Features.AccountType.Queries.GetAllAccountTypes;
+using VibeCRM.Shared.DTOs.AccountType;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 
@@ -97,12 +100,8 @@ public class AccountTypeController : ApiControllerBase
     {
         _logger.LogInformation("Getting Account Type with ID: {Id}", id);
 
-        // Since there's no specific GetAccountTypeByIdQuery, we'll use the GetAccountTypeByTypeQuery
-        // and filter the results in the controller
-        var query = new GetAccountTypeByTypeQuery { Type = string.Empty };
-        var results = await _mediator.Send(query);
-
-        var result = results.FirstOrDefault(at => at.Id == id);
+        var query = new GetAccountTypeByIdQuery { Id = id };
+        var result = await _mediator.Send(query);
 
         if (result == null)
         {
@@ -122,9 +121,7 @@ public class AccountTypeController : ApiControllerBase
     {
         _logger.LogInformation("Getting all Account Types");
 
-        // Since there's no specific GetAllAccountTypesQuery, we'll use the GetAccountTypeByTypeQuery
-        // with an empty type string to get all account types
-        var query = new GetAccountTypeByTypeQuery { Type = string.Empty };
+        var query = new GetAllAccountTypesQuery();
         var result = await _mediator.Send(query);
 
         return Ok(Success(result));
@@ -142,6 +139,23 @@ public class AccountTypeController : ApiControllerBase
         _logger.LogInformation("Getting Account Types with Type: {Type}", type);
 
         var query = new GetAccountTypeByTypeQuery { Type = type };
+        var result = await _mediator.Send(query);
+
+        return Ok(Success(result));
+    }
+
+    /// <summary>
+    /// Gets account types by ordinal position.
+    /// </summary>
+    /// <param name="position">The ordinal position to search for.</param>
+    /// <returns>A list of account types with the specified ordinal position.</returns>
+    [HttpGet("byposition/{position:int}")]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<AccountTypeDto>>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetByOrdinalPosition(int position)
+    {
+        _logger.LogInformation("Getting Account Types with Ordinal Position: {Position}", position);
+
+        var query = new GetAccountTypeByOrdinalPositionQuery();
         var result = await _mediator.Send(query);
 
         return Ok(Success(result));

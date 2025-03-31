@@ -4,12 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Workflow.Commands.CreateWorkflow;
 using VibeCRM.Application.Features.Workflow.Commands.DeleteWorkflow;
 using VibeCRM.Application.Features.Workflow.Commands.UpdateWorkflow;
-using VibeCRM.Application.Features.Workflow.DTOs;
 using VibeCRM.Application.Features.Workflow.Mappings;
 using VibeCRM.Application.Features.Workflow.Queries.GetAllWorkflows;
 using VibeCRM.Application.Features.Workflow.Queries.GetWorkflowById;
 using VibeCRM.Application.Features.Workflow.Queries.GetWorkflowsByWorkflowType;
 using VibeCRM.Application.Features.Workflow.Validators;
+using VibeCRM.Shared.DTOs.Workflow;
 
 namespace VibeCRM.Application.Extensions
 {

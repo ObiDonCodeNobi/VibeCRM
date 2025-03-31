@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.User.Commands.CreateUser;
 using VibeCRM.Application.Features.User.Commands.UpdateUser;
-using VibeCRM.Application.Features.User.DTOs;
+using VibeCRM.Shared.DTOs.User;
 
 namespace VibeCRM.Application.Features.User.Mappings
 {

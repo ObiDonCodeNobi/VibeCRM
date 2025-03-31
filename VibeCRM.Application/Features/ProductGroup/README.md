@@ -3,83 +3,120 @@
 ## Overview
 The ProductGroup feature provides a comprehensive implementation for managing product groups in the VibeCRM system. Product groups are hierarchical categories used to organize products, enabling efficient product management and navigation.
 
-## Architecture
-This feature follows:
-- **Onion Architecture** - Separation of concerns with domain at the center
-- **Clean Architecture** - Independence of frameworks, testability, and UI independence
-- **SOLID Principles** - Single responsibility, open-closed, Liskov substitution, interface segregation, and dependency inversion
-- **CQRS Pattern** - Separation of command and query responsibilities using MediatR
-- **Soft Delete Pattern** - Using the `Active` property to implement soft deletion
+## Domain Model
+The ProductGroup entity is a core business entity that represents a category for organizing products in the CRM system. Each ProductGroup has the following properties:
 
-## Components
+- **ProductGroupId**: Unique identifier (UUID)
+- **Name**: The name of the product group
+- **Description**: Detailed description of the product group
+- **ParentId**: Optional reference to the parent product group (for hierarchical structure)
+- **DisplayOrder**: Numeric value for ordering product groups in displays
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **Parent**: Navigation property to the parent ProductGroup (if applicable)
+- **Children**: Collection of child ProductGroup entities
+- **Products**: Collection of associated Product entities
+
+## Feature Components
 
 ### DTOs
-- **ProductGroupDto** - Base DTO containing essential product group properties
-- **ProductGroupDetailsDto** - Extended DTO with additional details and audit information
-- **ProductGroupListDto** - Specialized DTO for listing product groups in UI components
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **ProductGroupDto**: Base DTO with core properties
+- **ProductGroupDetailsDto**: Extended DTO with audit fields and related data
+- **ProductGroupListDto**: Optimized DTO for list views
 
 ### Commands
-- **CreateProductGroup** - Creates a new product group
-  - `CreateProductGroupCommand` - Command definition
-  - `CreateProductGroupCommandHandler` - Command handler
-  - `CreateProductGroupCommandValidator` - Validation rules
-
-- **UpdateProductGroup** - Updates an existing product group
-  - `UpdateProductGroupCommand` - Command definition
-  - `UpdateProductGroupCommandHandler` - Command handler
-  - `UpdateProductGroupCommandValidator` - Validation rules
-
-- **DeleteProductGroup** - Soft deletes a product group
-  - `DeleteProductGroupCommand` - Command definition
-  - `DeleteProductGroupCommandHandler` - Command handler
-  - `DeleteProductGroupCommandValidator` - Validation rules
+- **CreateProductGroup**: Creates a new product group
+- **UpdateProductGroup**: Updates an existing product group
+- **DeleteProductGroup**: Soft-deletes a product group by setting Active = false
+- **ReorderProductGroup**: Updates the display order of a product group
+- **MoveProductGroup**: Moves a product group to a different parent
 
 ### Queries
-- **GetAllProductGroups** - Retrieves all active product groups
-  - `GetAllProductGroupsQuery` - Query definition
-  - `GetAllProductGroupsQueryHandler` - Query handler
-  - `GetAllProductGroupsQueryValidator` - Validation rules
-
-- **GetProductGroupById** - Retrieves a specific product group by ID
-  - `GetProductGroupByIdQuery` - Query definition
-  - `GetProductGroupByIdQueryHandler` - Query handler
-  - `GetProductGroupByIdQueryValidator` - Validation rules
-
-- **GetProductGroupsByParentId** - Retrieves child product groups for a specific parent
-  - `GetProductGroupsByParentIdQuery` - Query definition
-  - `GetProductGroupsByParentIdQueryHandler` - Query handler
-  - `GetProductGroupsByParentIdQueryValidator` - Validation rules
-
-- **GetRootProductGroups** - Retrieves top-level product groups (those without a parent)
-  - `GetRootProductGroupsQuery` - Query definition
-  - `GetRootProductGroupsQueryHandler` - Query handler
-  - `GetRootProductGroupsQueryValidator` - Validation rules
+- **GetAllProductGroups**: Retrieves all active product groups
+- **GetProductGroupById**: Retrieves a specific product group by its ID
+- **GetProductGroupsByParentId**: Retrieves child product groups for a specific parent
+- **GetRootProductGroups**: Retrieves top-level product groups (those without a parent)
+- **GetProductGroupsWithProducts**: Retrieves product groups with their associated products
+- **GetProductGroupHierarchy**: Retrieves the complete product group hierarchy
 
 ### Validators
-- **ProductGroupDtoValidator** - Validates the base product group DTO
-- **ProductGroupDetailsDtoValidator** - Validates the detailed product group DTO
-- **ProductGroupListDtoValidator** - Validates the product group list DTO
+- **ProductGroupDtoValidator**: Validates the base DTO
+- **ProductGroupDetailsDtoValidator**: Validates the detailed DTO
+- **ProductGroupListDtoValidator**: Validates the list DTO
+- **CreateProductGroupCommandValidator**: Validates the create command
+- **UpdateProductGroupCommandValidator**: Validates the update command
+- **DeleteProductGroupCommandValidator**: Validates the delete command
+- **ReorderProductGroupCommandValidator**: Validates the reorder command
+- **MoveProductGroupCommandValidator**: Validates the move command
+- **GetProductGroupByIdQueryValidator**: Validates the ID query
+- **GetProductGroupsByParentIdQueryValidator**: Validates the parent ID query
 
 ### Mappings
-- **ProductGroupMappingProfile** - AutoMapper profile for mapping between entities and DTOs
+- **ProductGroupMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a Product Group
+### Creating a new ProductGroup
 ```csharp
 var command = new CreateProductGroupCommand
 {
     Name = "Electronics",
     Description = "Electronic products and accessories",
+    ParentId = null, // Top-level group
     DisplayOrder = 1,
-    CreatedBy = userId,
-    ModifiedBy = userId
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Updating a Product Group
+### Creating a child ProductGroup
+```csharp
+var command = new CreateProductGroupCommand
+{
+    Name = "Smartphones",
+    Description = "Mobile phones and accessories",
+    ParentId = electronicsGroupId, // Child of Electronics group
+    DisplayOrder = 1,
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
+};
+
+var result = await _mediator.Send(command);
+```
+
+### Retrieving all ProductGroups
+```csharp
+var query = new GetAllProductGroupsQuery();
+var productGroups = await _mediator.Send(query);
+```
+
+### Retrieving a ProductGroup by ID
+```csharp
+var query = new GetProductGroupByIdQuery { Id = productGroupId };
+var productGroup = await _mediator.Send(query);
+```
+
+### Retrieving child ProductGroups
+```csharp
+var query = new GetProductGroupsByParentIdQuery { ParentId = parentGroupId };
+var childGroups = await _mediator.Send(query);
+```
+
+### Moving a ProductGroup
+```csharp
+var command = new MoveProductGroupCommand
+{
+    Id = productGroupId,
+    NewParentId = newParentGroupId,
+    ModifiedBy = currentUserId
+};
+
+var result = await _mediator.Send(command);
+```
+
+### Updating a ProductGroup
 ```csharp
 var command = new UpdateProductGroupCommand
 {
@@ -87,60 +124,49 @@ var command = new UpdateProductGroupCommand
     Name = "Updated Electronics",
     Description = "Updated description for electronic products",
     DisplayOrder = 2,
-    ModifiedBy = userId
+    ModifiedBy = currentUserId
 };
 
 var result = await _mediator.Send(command);
 ```
 
-### Deleting a Product Group
+### Deleting a ProductGroup
 ```csharp
 var command = new DeleteProductGroupCommand
 {
     Id = productGroupId,
-    ModifiedBy = userId
+    ModifiedBy = currentUserId
 };
 
-var result = await _mediator.Send(command);
+var success = await _mediator.Send(command);
 ```
 
-### Retrieving Product Groups
-```csharp
-// Get all product groups
-var allGroups = await _mediator.Send(new GetAllProductGroupsQuery());
+## Implementation Notes
 
-// Get a specific product group
-var group = await _mediator.Send(new GetProductGroupByIdQuery { Id = productGroupId });
+### Soft Delete Pattern
+The ProductGroup feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
 
-// Get child product groups
-var childGroups = await _mediator.Send(new GetProductGroupsByParentIdQuery { ParentId = parentId });
-
-// Get root-level product groups
-var rootGroups = await _mediator.Send(new GetRootProductGroupsQuery());
-```
-
-## Validation Rules
-- Product group names must be unique
-- Names cannot exceed 100 characters
-- Descriptions cannot exceed 500 characters
-- Display order must be a non-negative number
-- Parent product group references must be valid
+### Validation Rules
+- Name is required and limited to 100 characters
+- Name must be unique within the same parent group
+- Description is optional but limited to 500 characters
+- DisplayOrder must be a non-negative number
+- ParentId must reference a valid product group if provided
 - A product group cannot be its own parent
+- A product group cannot be moved to one of its descendants (to prevent circular references)
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
 
-## Soft Delete Implementation
-This feature follows the VibeCRM standardized soft delete pattern:
-- All entities have an `Active` boolean property (default = true)
-- All queries filter with `WHERE Active = 1` to exclude soft-deleted records
-- The delete operation sets `Active = 0` rather than removing records
-- This allows for data recovery and maintains referential integrity
+### Hierarchical Structure
+- Product groups can be organized in a hierarchical tree structure
+- Each product group can have one parent and multiple children
+- The system supports unlimited nesting levels
+- The UI displays the hierarchy using indentation or tree controls
+- Deleting a parent product group requires handling its children (either delete, move, or prevent)
 
-## XML Documentation
-All components include comprehensive XML documentation for:
-- Classes
-- Methods
-- Properties
-- Parameters
-- Return values
-- Exceptions
-
-This ensures the code is self-documenting and provides complete information through IntelliSense.
+### Display Order
+- Product groups are ordered by their DisplayOrder property within the same parent
+- The system provides functionality to reorder product groups
+- The UI allows drag-and-drop reordering of product groups

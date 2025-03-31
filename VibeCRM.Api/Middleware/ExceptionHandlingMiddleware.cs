@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using VibeCRM.Application.Common.Exceptions;
-using VibeCRM.Application.Common.Models;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Middleware
 {

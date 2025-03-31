@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.ActivityStatus.Commands.CreateActivityStatus;
 using VibeCRM.Application.Features.ActivityStatus.Commands.UpdateActivityStatus;
-using VibeCRM.Application.Features.ActivityStatus.DTOs;
+using VibeCRM.Shared.DTOs.ActivityStatus;
 
 namespace VibeCRM.Application.Features.ActivityStatus.Mappings
 {

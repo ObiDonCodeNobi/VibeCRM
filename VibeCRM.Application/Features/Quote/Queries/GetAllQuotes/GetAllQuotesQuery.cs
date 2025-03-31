@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.Quote.DTOs;
+using VibeCRM.Shared.DTOs.Quote;
 
 namespace VibeCRM.Application.Features.Quote.Queries.GetAllQuotes
 {

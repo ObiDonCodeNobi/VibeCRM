@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.QuoteLineItem.Commands.CreateQuoteLineItem;
 using VibeCRM.Application.Features.QuoteLineItem.Commands.UpdateQuoteLineItem;
-using VibeCRM.Application.Features.QuoteLineItem.DTOs;
+using VibeCRM.Shared.DTOs.QuoteLineItem;
 
 namespace VibeCRM.Application.Features.QuoteLineItem.Mappings
 {

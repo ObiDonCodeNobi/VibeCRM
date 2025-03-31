@@ -1,6 +1,6 @@
 using VibeCRM.Application.Features.AccountType.Commands.CreateAccountType;
 using VibeCRM.Application.Features.AccountType.Commands.UpdateAccountType;
-using VibeCRM.Application.Features.AccountType.DTOs;
+using VibeCRM.Shared.DTOs.AccountType;
 
 namespace VibeCRM.Application.Features.AccountType.Mappings
 {

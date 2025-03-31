@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Company.Commands.CreateCompany;
 using VibeCRM.Application.Features.Company.Commands.DeleteCompany;
 using VibeCRM.Application.Features.Company.Commands.UpdateCompany;
-using VibeCRM.Application.Features.Company.DTOs;
 using VibeCRM.Application.Features.Company.Mappings;
 using VibeCRM.Application.Features.Company.Queries.GetAllCompanies;
 using VibeCRM.Application.Features.Company.Queries.GetCompanyById;
 using VibeCRM.Application.Features.Company.Validators;
+using VibeCRM.Shared.DTOs.Company;
 
 namespace VibeCRM.Application.Extensions
 {

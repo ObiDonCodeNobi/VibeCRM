@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.Product.DTOs;
+using VibeCRM.Shared.DTOs.Product;
 
 namespace VibeCRM.Application.Features.Product.Commands.UpdateProduct
 {

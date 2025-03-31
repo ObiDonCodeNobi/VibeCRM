@@ -1,14 +1,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Product.Commands.CreateProduct;
 using VibeCRM.Application.Features.Product.Commands.DeleteProduct;
 using VibeCRM.Application.Features.Product.Commands.UpdateProduct;
-using VibeCRM.Application.Features.Product.DTOs;
 using VibeCRM.Application.Features.Product.Queries.GetAllProducts;
 using VibeCRM.Application.Features.Product.Queries.GetProductById;
 using VibeCRM.Application.Features.Product.Queries.GetProductsByProductGroup;
 using VibeCRM.Application.Features.Product.Queries.GetProductsByProductType;
+using VibeCRM.Shared.DTOs.Product;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

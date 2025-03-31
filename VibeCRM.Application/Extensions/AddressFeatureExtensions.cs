@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Address.Commands.CreateAddress;
 using VibeCRM.Application.Features.Address.Commands.DeleteAddress;
 using VibeCRM.Application.Features.Address.Commands.UpdateAddress;
-using VibeCRM.Application.Features.Address.DTOs;
 using VibeCRM.Application.Features.Address.Mappings;
 using VibeCRM.Application.Features.Address.Queries.GetAddressById;
 using VibeCRM.Application.Features.Address.Queries.GetAllAddresses;
 using VibeCRM.Application.Features.Address.Validators;
+using VibeCRM.Shared.DTOs.Address;
 
 namespace VibeCRM.Application.Extensions
 {

@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.ContactType.DTOs;
+using VibeCRM.Shared.DTOs.ContactType;
 
 namespace VibeCRM.Application.Features.ContactType.Commands.CreateContactType
 {

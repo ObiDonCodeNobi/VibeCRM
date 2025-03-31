@@ -1,14 +1,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.NoteType.Commands.CreateNoteType;
 using VibeCRM.Application.Features.NoteType.Commands.DeleteNoteType;
 using VibeCRM.Application.Features.NoteType.Commands.UpdateNoteType;
-using VibeCRM.Application.Features.NoteType.DTOs;
 using VibeCRM.Application.Features.NoteType.Queries.GetAllNoteTypes;
 using VibeCRM.Application.Features.NoteType.Queries.GetNoteTypeById;
 using VibeCRM.Application.Features.NoteType.Queries.GetNoteTypeByOrdinalPosition;
 using VibeCRM.Application.Features.NoteType.Queries.GetNoteTypeByType;
+using VibeCRM.Shared.DTOs.NoteType;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

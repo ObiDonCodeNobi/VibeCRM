@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.State.Commands.CreateState;
 using VibeCRM.Application.Features.State.Commands.UpdateState;
-using VibeCRM.Application.Features.State.DTOs;
+using VibeCRM.Shared.DTOs.State;
 
 namespace VibeCRM.Application.Features.State.Mappings
 {

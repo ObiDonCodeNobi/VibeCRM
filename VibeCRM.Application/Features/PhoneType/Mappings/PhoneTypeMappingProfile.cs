@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.PhoneType.Commands.CreatePhoneType;
 using VibeCRM.Application.Features.PhoneType.Commands.UpdatePhoneType;
-using VibeCRM.Application.Features.PhoneType.DTOs;
+using VibeCRM.Shared.DTOs.PhoneType;
 
 namespace VibeCRM.Application.Features.PhoneType.Mappings
 {

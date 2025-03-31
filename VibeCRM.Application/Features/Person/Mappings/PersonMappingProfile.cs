@@ -1,8 +1,8 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Person.Commands.CreatePerson;
 using VibeCRM.Application.Features.Person.Commands.UpdatePerson;
-using VibeCRM.Application.Features.Person.DTOs;
 using VibeCRM.Domain.Entities.JunctionEntities;
+using VibeCRM.Shared.DTOs.Person;
 
 namespace VibeCRM.Application.Features.Person.Mappings
 {

@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.QuoteStatus.Commands.CreateQuoteStatus;
 using VibeCRM.Application.Features.QuoteStatus.Commands.UpdateQuoteStatus;
-using VibeCRM.Application.Features.QuoteStatus.DTOs;
+using VibeCRM.Shared.DTOs.QuoteStatus;
 
 namespace VibeCRM.Application.Features.QuoteStatus.Mappings
 {

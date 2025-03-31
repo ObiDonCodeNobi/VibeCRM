@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.AccountStatus.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.AccountStatus;
 
 namespace VibeCRM.Application.Features.AccountStatus.Queries.GetAllAccountStatuses
 {

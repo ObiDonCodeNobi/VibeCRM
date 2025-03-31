@@ -3,47 +3,97 @@
 ## Overview
 The Role feature provides functionality for managing roles in the VibeCRM system. Roles are used to define permissions and access control for users within the application.
 
-## Components
+## Domain Model
+The Role entity is a security entity that represents a set of permissions and access rights. Each Role has the following properties:
+
+- **RoleId**: Unique identifier (UUID)
+- **Name**: Name of the role (e.g., "Administrator", "Manager", "User")
+- **Description**: Detailed description of the role's permissions and responsibilities
+- **Active**: Boolean flag for soft delete functionality (true = active, false = deleted)
+- **UserRoles**: Collection of associated UserRole entities linking to users
+
+## Feature Components
 
 ### DTOs
-- **RoleDto**: Basic data transfer object for role information
-- **RoleDetailsDto**: Detailed DTO including audit properties
-- **RoleListDto**: DTO for listing roles
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
+- **RoleDto**: Base DTO with core properties
+- **RoleDetailsDto**: Extended DTO with audit fields and user count
+- **RoleListDto**: Optimized DTO for list views
 
 ### Commands
-- **CreateRoleCommand**: Creates a new role
-- **UpdateRoleCommand**: Updates an existing role
-- **DeleteRoleCommand**: Soft deletes a role by setting Active = false
+- **CreateRole**: Creates a new role
+- **UpdateRole**: Updates an existing role
+- **DeleteRole**: Soft-deletes a role by setting Active = false
+- **AssignRoleToUser**: Assigns a role to a user
+- **RemoveRoleFromUser**: Removes a role from a user
 
 ### Queries
-- **GetRoleByIdQuery**: Retrieves a role by its unique identifier
-- **GetAllRolesQuery**: Retrieves all active roles
-- **GetRoleByNameQuery**: Retrieves a role by its name
-- **GetRolesByUserIdQuery**: Retrieves all roles assigned to a specific user
+- **GetAllRoles**: Retrieves all active roles
+- **GetRoleById**: Retrieves a specific role by its ID
+- **GetRoleByName**: Retrieves a role by its name
+- **GetRolesByUserId**: Retrieves all roles assigned to a specific user
 
 ### Validators
-- **RoleDtoValidator**: Validates the basic role DTO
-- **RoleDetailsDtoValidator**: Validates the detailed role DTO
-- **RoleListDtoValidator**: Validates the role list DTO
-- **CreateRoleCommandValidator**: Validates the create role command
-- **UpdateRoleCommandValidator**: Validates the update role command
-- **DeleteRoleCommandValidator**: Validates the delete role command
-- **GetRoleByIdQueryValidator**: Validates the get role by ID query
-- **GetAllRolesQueryValidator**: Validates the get all roles query
-- **GetRoleByNameQueryValidator**: Validates the get role by name query
-- **GetRolesByUserIdQueryValidator**: Validates the get roles by user ID query
+- **RoleDtoValidator**: Validates the base DTO
+- **RoleDetailsDtoValidator**: Validates the detailed DTO
+- **RoleListDtoValidator**: Validates the list DTO
+- **CreateRoleCommandValidator**: Validates the create command
+- **UpdateRoleCommandValidator**: Validates the update command
+- **DeleteRoleCommandValidator**: Validates the delete command
+- **AssignRoleToUserCommandValidator**: Validates the assign role command
+- **RemoveRoleFromUserCommandValidator**: Validates the remove role command
+- **GetRoleByIdQueryValidator**: Validates the ID query
+- **GetRoleByNameQueryValidator**: Validates the name query
+- **GetRolesByUserIdQueryValidator**: Validates the user ID query
 
-### Mapping Profiles
-- **RoleMappingProfile**: Defines mappings between Role entities and DTOs
+### Mappings
+- **RoleMappingProfile**: AutoMapper profile for mapping between entities and DTOs
 
 ## Usage Examples
 
-### Creating a Role
+### Creating a new Role
 ```csharp
 var command = new CreateRoleCommand
 {
     Name = "Administrator",
     Description = "System administrator with full access",
+    CreatedBy = currentUserId,
+    ModifiedBy = currentUserId
+};
+
+var result = await _mediator.Send(command);
+```
+
+### Retrieving all Roles
+```csharp
+var query = new GetAllRolesQuery();
+var roles = await _mediator.Send(query);
+```
+
+### Retrieving a Role by ID
+```csharp
+var query = new GetRoleByIdQuery { Id = roleId };
+var role = await _mediator.Send(query);
+```
+
+### Retrieving a Role by name
+```csharp
+var query = new GetRoleByNameQuery { Name = "Administrator" };
+var role = await _mediator.Send(query);
+```
+
+### Retrieving Roles by user ID
+```csharp
+var query = new GetRolesByUserIdQuery { UserId = userId };
+var roles = await _mediator.Send(query);
+```
+
+### Assigning a Role to a User
+```csharp
+var command = new AssignRoleToUserCommand
+{
+    RoleId = roleId,
+    UserId = userId,
     CreatedBy = currentUserId
 };
 
@@ -56,7 +106,7 @@ var command = new UpdateRoleCommand
 {
     Id = roleId,
     Name = "Admin",
-    Description = "Updated description",
+    Description = "Updated description for system administrator",
     ModifiedBy = currentUserId
 };
 
@@ -71,37 +121,31 @@ var command = new DeleteRoleCommand
     ModifiedBy = currentUserId
 };
 
-var result = await _mediator.Send(command);
+var success = await _mediator.Send(command);
 ```
 
-### Retrieving a Role by ID
-```csharp
-var query = new GetRoleByIdQuery { Id = roleId };
-var result = await _mediator.Send(query);
-```
+## Implementation Notes
 
-### Retrieving All Roles
-```csharp
-var query = new GetAllRolesQuery();
-var results = await _mediator.Send(query);
-```
+### Soft Delete Pattern
+The Role feature implements the standard VibeCRM soft delete pattern:
+- Uses the `Active` property (not `IsDeleted`) for soft delete functionality
+- All queries filter by `Active = 1` to exclude soft-deleted records
+- The `DeleteAsync` method sets `Active = 0` rather than physically removing records
 
-### Retrieving a Role by Name
-```csharp
-var query = new GetRoleByNameQuery { Name = "Administrator" };
-var result = await _mediator.Send(query);
-```
+### Validation Rules
+- Role name is required and limited to 50 characters
+- Description is limited to 500 characters
+- Role name must be unique across all roles
+- Audit fields (CreatedBy, ModifiedBy) are required for commands
 
-### Retrieving Roles by User ID
-```csharp
-var query = new GetRolesByUserIdQuery { UserId = userId };
-var results = await _mediator.Send(query);
-```
+### User Role Associations
+- User-role associations are managed through a separate UserRole entity
+- Each user can have multiple roles
+- Each role can be assigned to multiple users
+- The UserRole entity tracks when a role was assigned to a user
 
-## Implementation Details
-- Uses soft delete pattern with the Active property
-- Follows CQRS pattern with MediatR
-- Implements comprehensive validation with FluentValidation
-- Uses AutoMapper for entity-DTO mapping
-- Includes detailed XML documentation for all components
-- Follows Clean Architecture and SOLID principles
+### Security Implications
+- Roles are a critical part of the application's security model
+- Role assignments determine what actions users can perform
+- The system includes predefined roles that cannot be deleted
+- Role management is typically restricted to administrators

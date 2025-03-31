@@ -4,12 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.EmailAddress.Commands.CreateEmailAddress;
 using VibeCRM.Application.Features.EmailAddress.Commands.DeleteEmailAddress;
 using VibeCRM.Application.Features.EmailAddress.Commands.UpdateEmailAddress;
-using VibeCRM.Application.Features.EmailAddress.DTOs;
 using VibeCRM.Application.Features.EmailAddress.Mappings;
 using VibeCRM.Application.Features.EmailAddress.Queries.GetAllEmailAddresses;
 using VibeCRM.Application.Features.EmailAddress.Queries.GetEmailAddressById;
 using VibeCRM.Application.Features.EmailAddress.Queries.GetEmailAddressesByType;
 using VibeCRM.Application.Features.EmailAddress.Validators;
+using VibeCRM.Shared.DTOs.EmailAddress;
 
 namespace VibeCRM.Application.Extensions
 {

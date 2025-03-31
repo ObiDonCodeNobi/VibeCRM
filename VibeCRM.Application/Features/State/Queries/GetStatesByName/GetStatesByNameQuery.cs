@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.State.DTOs;
+using VibeCRM.Shared.DTOs.State;
 
 namespace VibeCRM.Application.Features.State.Queries.GetStatesByName
 {

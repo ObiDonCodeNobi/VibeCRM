@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.AddressType.DTOs;
+using VibeCRM.Shared.DTOs.AddressType;
 
 namespace VibeCRM.Application.Features.AddressType.Queries.GetAddressTypeById
 {

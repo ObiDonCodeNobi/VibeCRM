@@ -1,14 +1,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VibeCRM.Application.Common.Models;
 using VibeCRM.Application.Features.Role.Commands.CreateRole;
 using VibeCRM.Application.Features.Role.Commands.DeleteRole;
 using VibeCRM.Application.Features.Role.Commands.UpdateRole;
-using VibeCRM.Application.Features.Role.DTOs;
 using VibeCRM.Application.Features.Role.Queries.GetAllRoles;
 using VibeCRM.Application.Features.Role.Queries.GetRoleById;
 using VibeCRM.Application.Features.Role.Queries.GetRoleByName;
 using VibeCRM.Application.Features.Role.Queries.GetRolesByUserId;
+using VibeCRM.Shared.DTOs.Role;
+using VibeCRM.Shared.Models;
 
 namespace VibeCRM.Api.Controllers;
 

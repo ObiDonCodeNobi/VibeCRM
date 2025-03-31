@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.EmailAddressType.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.EmailAddressType;
 
 namespace VibeCRM.Application.Features.EmailAddressType.Queries.GetEmailAddressTypeById
 {

@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.AccountStatus.Commands.CreateAccountStatus;
 using VibeCRM.Application.Features.AccountStatus.Commands.DeleteAccountStatus;
 using VibeCRM.Application.Features.AccountStatus.Commands.UpdateAccountStatus;
-using VibeCRM.Application.Features.AccountStatus.DTOs;
 using VibeCRM.Application.Features.AccountStatus.Mappings;
 using VibeCRM.Application.Features.AccountStatus.Queries.GetAccountStatusById;
 using VibeCRM.Application.Features.AccountStatus.Queries.GetAllAccountStatuses;
 using VibeCRM.Application.Features.AccountStatus.Validators;
+using VibeCRM.Shared.DTOs.AccountStatus;
 
 namespace VibeCRM.Application.Extensions
 {

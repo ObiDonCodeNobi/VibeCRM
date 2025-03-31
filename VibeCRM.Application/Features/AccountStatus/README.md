@@ -16,6 +16,7 @@ The AccountStatus entity is a TypeStatus entity that represents a status categor
 ## Feature Components
 
 ### DTOs
+DTOs for this feature are located in the VibeCRM.Shared project for integration with the frontend:
 - **AccountStatusDto**: Base DTO with core properties
 - **AccountStatusDetailsDto**: Extended DTO with audit fields and company count
 - **AccountStatusListDto**: Optimized DTO for list views

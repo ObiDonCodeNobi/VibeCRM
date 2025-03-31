@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.PaymentLineItem.DTOs;
+using VibeCRM.Shared.DTOs.PaymentLineItem;
 
 namespace VibeCRM.Application.Features.PaymentLineItem.Queries.GetPaymentLineItemsByInvoiceId
 {

@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Phone.Commands.CreatePhone;
 using VibeCRM.Application.Features.Phone.Commands.DeletePhone;
 using VibeCRM.Application.Features.Phone.Commands.UpdatePhone;
-using VibeCRM.Application.Features.Phone.DTOs;
 using VibeCRM.Application.Features.Phone.Mappings;
 using VibeCRM.Application.Features.Phone.Queries.GetAllPhones;
 using VibeCRM.Application.Features.Phone.Queries.GetPhoneById;
 using VibeCRM.Application.Features.Phone.Validators;
+using VibeCRM.Shared.DTOs.Phone;
 
 namespace VibeCRM.Application.Extensions
 {

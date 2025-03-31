@@ -1,5 +1,5 @@
 using MediatR;
-using VibeCRM.Application.Features.Phone.DTOs;
+using VibeCRM.Shared.DTOs.Phone;
 
 namespace VibeCRM.Application.Features.Phone.Queries.GetPhoneById
 {

@@ -1,5 +1,5 @@
 using FluentValidation;
-using VibeCRM.Application.Features.QuoteLineItem.DTOs;
+using VibeCRM.Shared.DTOs.QuoteLineItem;
 
 namespace VibeCRM.Application.Features.QuoteLineItem.Validators
 {

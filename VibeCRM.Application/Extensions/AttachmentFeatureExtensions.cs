@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Attachment.Commands.CreateAttachment;
 using VibeCRM.Application.Features.Attachment.Commands.DeleteAttachment;
 using VibeCRM.Application.Features.Attachment.Commands.UpdateAttachment;
-using VibeCRM.Application.Features.Attachment.DTOs;
 using VibeCRM.Application.Features.Attachment.Mappings;
 using VibeCRM.Application.Features.Attachment.Queries.GetAllAttachments;
 using VibeCRM.Application.Features.Attachment.Queries.GetAttachmentById;
 using VibeCRM.Application.Features.Attachment.Validators;
+using VibeCRM.Shared.DTOs.Attachment;
 
 namespace VibeCRM.Application.Extensions
 {

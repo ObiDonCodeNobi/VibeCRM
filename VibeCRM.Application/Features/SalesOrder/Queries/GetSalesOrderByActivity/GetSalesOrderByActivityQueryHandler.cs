@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.SalesOrder.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
+using VibeCRM.Shared.DTOs.SalesOrder;
 
 namespace VibeCRM.Application.Features.SalesOrder.Queries.GetSalesOrderByActivity
 {

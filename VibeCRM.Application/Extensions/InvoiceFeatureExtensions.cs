@@ -4,11 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using VibeCRM.Application.Features.Invoice.Commands.CreateInvoice;
 using VibeCRM.Application.Features.Invoice.Commands.DeleteInvoice;
 using VibeCRM.Application.Features.Invoice.Commands.UpdateInvoice;
-using VibeCRM.Application.Features.Invoice.DTOs;
 using VibeCRM.Application.Features.Invoice.Mappings;
 using VibeCRM.Application.Features.Invoice.Queries.GetAllInvoices;
 using VibeCRM.Application.Features.Invoice.Queries.GetInvoiceById;
 using VibeCRM.Application.Features.Invoice.Validators;
+using VibeCRM.Application.Features.InvoiceLineItem;
+using VibeCRM.Shared.DTOs.Invoice;
+using VibeCRM.Shared.DTOs.InvoiceLineItem;
 
 namespace VibeCRM.Application.Extensions
 {

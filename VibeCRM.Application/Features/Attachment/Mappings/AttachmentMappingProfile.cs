@@ -1,7 +1,7 @@
 using AutoMapper;
 using VibeCRM.Application.Features.Attachment.Commands.CreateAttachment;
 using VibeCRM.Application.Features.Attachment.Commands.UpdateAttachment;
-using VibeCRM.Application.Features.Attachment.DTOs;
+using VibeCRM.Shared.DTOs.Attachment;
 
 namespace VibeCRM.Application.Features.Attachment.Mappings
 {

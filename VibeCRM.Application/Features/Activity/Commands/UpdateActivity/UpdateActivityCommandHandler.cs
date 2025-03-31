@@ -2,8 +2,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using VibeCRM.Application.Common.Exceptions;
-using VibeCRM.Application.Features.Activity.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
+using VibeCRM.Shared.DTOs.Activity;
 
 namespace VibeCRM.Application.Features.Activity.Commands.UpdateActivity
 {

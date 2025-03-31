@@ -1,9 +1,9 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using VibeCRM.Application.Features.Phone.DTOs;
 using VibeCRM.Domain.Interfaces.Repositories.Business;
 using VibeCRM.Domain.Interfaces.Repositories.TypeStatus;
+using VibeCRM.Shared.DTOs.Phone;
 
 namespace VibeCRM.Application.Features.Phone.Queries.GetPhonesByPhoneType
 {
